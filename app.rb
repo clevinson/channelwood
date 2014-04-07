@@ -18,29 +18,36 @@ class Release
   property :id, Serial
   property :cat_no, String
   property :artist, String
+  property :description, Text
   property :title, String
+  property :public, Boolean
 end
 
 Release.finalize
 
-get '/release/create' do
+get '/releases' do
+  @releases = Release.all
+  erb :releases
+end
+
+get '/releases/add' do
+  erb :release_form
+end
+
+post '/releases/add' do
   release = Release.create(
     :cat_no => params[:cat_no],
     :artist => params[:artist],
-    :title => params[:title]
+    :title => params[:title],
+    :description => params[:description]
   )
-  "Created release: #{release.to_s}"
-end
-
-get '/release/:cat_no' do
-  rel = Release.first(:cat_no => params[:cat_no])
-  "Artist: #{rel.artist}, Title: #{rel.title}"
-end
-
-get '/releases' do
-  Release.all.map do |release|
-    release.title
-  end.join(", ")
+  logger.info("Created new release!")
+  logger.info("   Id: " + release.id.to_s)
+  logger.info("   Cat No: " + release.cat_no.to_s)
+  logger.info("   Artist: " + release.artist.to_s)
+  logger.info("   Title: " + release.title.to_s)
+  logger.info("   Description: " + release.description.to_s)
+  redirect '/releases'
 end
 
 
@@ -60,12 +67,6 @@ get '/physical/:cat_no' do
   erb :physical, :locals => {:cat_no => params[:cat_no] }
 end
 
-
 get '/digital/:cat_no' do
   "THIS IS THE DIGITAL PAGE 4 #{params['cat_no']}"  
-end
-  
-
-get '/buttweasel' do
-  "matt is smelly"
 end

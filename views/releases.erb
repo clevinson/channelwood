@@ -1,0 +1,45 @@
+<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+
+
+<body style='padding-left: 10px'>
+
+  <h1> ways inner pass</h1>
+
+  <p class="lead">Here's our firstest way to deal w/ the dataz. Try adding rows and stuff</p>
+
+  <table class="table table-striped" style='width: 800px;'>
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Cat No.</th>
+        <th>Artist</th>
+        <th>Title</th>
+        <th>Release Date</th>
+        <th>Links</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @releases.each do |release| %>
+        <tr>
+          <td><%= release.id %></td>
+          <td><%= release.cat_no %></td>
+          <td><%= release.artist %></td>
+          <td><%= release.title %></td>
+          <td>January 1, 1970</td>
+          <td>
+<div class="btn-group">
+  <a class="btn btn-default" href="/physical/<%= release.cat_no %>">Physical</a>
+  <a class="btn btn-default" href="/digital/<%= release.cat_no %>">Digital</a>
+</div>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <p><a class="btn btn-primary btn-lg" role="button" href="releases/add">Add Release</a></p>
+
+</body>
+
