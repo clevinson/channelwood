@@ -16,11 +16,11 @@ class Release
   include DataMapper::Resource
 
   property :id, Serial
-  property :cat_no, String
+  property :cat_no, String, :required => true
   property :artist, String
   property :description, Text
   property :title, String
-  property :public, Boolean
+  property :published, Boolean
 end
 
 Release.finalize
@@ -30,16 +30,22 @@ get '/releases' do
   erb :releases
 end
 
-get '/releases/add' do
+get '/release/new' do
   erb :release_form
 end
 
-post '/releases/add' do
+delete '/release/:id' do
+  release = Release.get(params[:id])
+  release.destroy
+end
+
+post '/release/new' do
   release = Release.create(
     :cat_no => params[:cat_no],
     :artist => params[:artist],
     :title => params[:title],
-    :description => params[:description]
+    :description => params[:description],
+    :published => (params[:published] == 'on')
   )
   logger.info("Created new release!")
   logger.info("   Id: " + release.id.to_s)
@@ -47,6 +53,7 @@ post '/releases/add' do
   logger.info("   Artist: " + release.artist.to_s)
   logger.info("   Title: " + release.title.to_s)
   logger.info("   Description: " + release.description.to_s)
+  logger.info("   Published: " + release.published.to_s)
   redirect '/releases'
 end
 
