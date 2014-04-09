@@ -1,32 +1,26 @@
 require 'sinatra'
-require 'dm-core'
-require 'dm-redis-adapter'
+require 'ohm'
 
 use Rack::Auth::Basic, "Restricted Area" do |username, password|
     username == ENV['CHANNELWOOD_USERNAME'] and password == ENV['CHANNELWOOD_PASSWORD']
 end
 
-redisUri = ENV["REDISTOGO_URL"] || 'redis://localhost:6379'
-uri = URI.parse(redisUri) 
-Redis.current = Redis.new(:host => uri.host, :port => uri.port, :password => uri.password)
+Ohm.redis = Redic.new("redis://127.0.0.1:6379")
 
-DataMapper.setup(:default, {:adapter  => "redis"})
+class Release < Ohm::Model
+  attribute :cat_no
+  attribute :artist
+  attribute :description
+  attribute :title
+  attribute :release_date
+  attribute :published
 
-class Release
-  include DataMapper::Resource
-
-  property :id, Serial
-  property :cat_no, String, :required => true
-  property :artist, String
-  property :description, Text
-  property :title, String
-  property :published, Boolean
+  unique :cat_no
+  index :cat_no
 end
 
-Release.finalize
-
 get '/releases' do
-  @releases = Release.all
+  @releases = Release.all.to_a
   erb :releases
 end
 
@@ -35,26 +29,34 @@ get '/release/new' do
 end
 
 delete '/release/:id' do
-  release = Release.get(params[:id])
-  release.destroy
+  release = Release[params[:id]]
+  release.delete
 end
 
 post '/release/new' do
-  release = Release.create(
-    :cat_no => params[:cat_no],
-    :artist => params[:artist],
-    :title => params[:title],
-    :description => params[:description],
-    :published => (params[:published] == 'on')
-  )
-  logger.info("Created new release!")
-  logger.info("   Id: " + release.id.to_s)
-  logger.info("   Cat No: " + release.cat_no.to_s)
-  logger.info("   Artist: " + release.artist.to_s)
-  logger.info("   Title: " + release.title.to_s)
-  logger.info("   Description: " + release.description.to_s)
-  logger.info("   Published: " + release.published.to_s)
-  redirect '/releases'
+  begin
+    release = Release.create(
+      :cat_no => params[:cat_no],
+      :artist => params[:artist],
+      :title => params[:title],
+      :description => params[:description],
+      :release_date => params[:release_date],
+      :published => (params[:published] == 'on')
+    )
+    logger.info("Created new release!")
+    logger.info("   Id: " + release.id.to_s)
+    logger.info("   Cat No: " + release.cat_no.to_s)
+    logger.info("   Artist: " + release.artist.to_s)
+    logger.info("   Title: " + release.title.to_s)
+    logger.info("   Description: " + release.description.to_s)
+    logger.info("   Release Date: " + release.release_date.to_s)
+    logger.info("   Published: " + release.published.to_s)
+    
+    redirect '/releases'
+  rescue Exception => e
+    logger.error(e.message)
+    redirect '/releases'
+  end
 end
 
 
@@ -71,7 +73,7 @@ get '/home' do
 end
 
 get '/physical/:cat_no' do
-  erb :physical, :locals => {:cat_no => params[:cat_no] }
+  erb :physical, :locals => { :release => Release.with(:cat_no, params[:cat_no]) }
 end
 
 get '/digital/:cat_no' do
