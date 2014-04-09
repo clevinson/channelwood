@@ -1,9 +1,18 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    hiredis (0.5.1)
+    msgpack (0.5.8)
+    nido (0.0.1)
+    ohm (2.0.0)
+      msgpack
+      nido
+      redic
     rack (1.5.2)
     rack-protection (1.5.2)
       rack
+    redic (1.1.0)
+      hiredis
     sinatra (1.4.4)
       rack (~> 1.4)
       rack-protection (~> 1.4)
@@ -14,4 +23,5 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  ohm
   sinatra

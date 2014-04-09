@@ -1,0 +1,67 @@
+<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+<script src="https://code.jquery.com/jquery-2.1.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.10.4/jquery-ui.min.js"></script>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+
+<script>
+
+  function deleteRelease(releaseId) {
+    if (confirm("Really delete??")) {
+      $.post('/release/' + releaseId, {_method: 'delete'}, function(result_data) {
+        location.reload();
+      }).error(function(){
+        console.log("Error trying to DELETE");
+      });
+    } else {
+      return false;
+    }
+  }
+
+</script>
+
+
+<body style='padding-left: 10px'>
+
+  <h1> ways inner pass</h1>
+
+  <p class="lead">Here's our firstest way to deal w/ the dataz. Try adding rows and stuff</p>
+
+  <table class="table table-striped" style='width: 800px;'>
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Cat No.</th>
+        <th>Artist</th>
+        <th>Title</th>
+        <th>Release Date</th>
+        <th>Links</th>
+        <th>Published</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @releases.each do |release| %>
+        <tr>
+          <td><%= release.id %></td>
+          <td><%= release.cat_no %></td>
+          <td><%= release.artist %></td>
+          <td><%= release.title %></td>
+          <td><%= release.release_date %></td>
+          <td>
+            <div class="btn-group">
+              <a class="btn btn-default btn-xs" href="/physical/<%= release.cat_no %>">Physical</a>
+              <a class="btn btn-default btn-xs" href="/digital/<%= release.cat_no %>">Digital</a>
+            </div>
+          </td>
+          <td><%= release.published %></td>
+          <td>
+            <button class="btn btn-danger btn-xs" onClick='deleteRelease(<%= release.id %>)'>Delete</button>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <p><a class="btn btn-primary btn-lg" role="button" href="release/new">Add Release</a></p>
+
+</body>
+
