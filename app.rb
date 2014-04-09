@@ -5,7 +5,13 @@ use Rack::Auth::Basic, "Restricted Area" do |username, password|
     username == ENV['CHANNELWOOD_USERNAME'] and password == ENV['CHANNELWOOD_PASSWORD']
 end
 
-Ohm.redis = Redic.new("redis://127.0.0.1:6379")
+if ENV.has_key?('REDISCLOUD_URL')
+  redis_url = ENV['REDISCLOUD_URL']
+else
+  redis_url = "redis://127.0.0.1:6379"
+end
+
+Ohm.redis = Redic.new(ENV['REDISCLOUD_URL'] || "redis://127.0.0.1:6379")
 
 class Release < Ohm::Model
   attribute :cat_no
