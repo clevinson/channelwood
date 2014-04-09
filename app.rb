@@ -47,7 +47,7 @@ post '/release/new' do
       :title => params[:title],
       :description => params[:description],
       :release_date => params[:release_date],
-      :published => (params[:published] == 'on')
+      :published => (params[:published] == 'on' ? "Published" : "Draft")
     )
     logger.info("Created new release!")
     logger.info("   Id: " + release.id.to_s)
