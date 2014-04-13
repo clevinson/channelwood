@@ -1,5 +1,58 @@
+/*
+
+  TYPOGRAPHY
+
+  */
+
 body {
-  font-family:monospace;
-  font-size:large;
-  text-align:center;
+  font-family: 'Lucida Console', Monaco, monospace;
+  font-size: 1em;
+  text-transform: lowercase;
+}
+h2 { /* 24px / 26px + 16px / 16px */
+  font-size: 1.5em;
+  line-height: 1.08333333333em;
+  margin: 0.66666666666em 0;
+}
+p { /* 16px / 22px + 12px / 12px */
+  font-size: 1em;
+  line-height: 1.375em;
+  margin: 1em 0;
+}
+time {
+  display: block;
+}
+a, a:link, a:visited, a:active {
+  text-decoration: none;
+  text-transform: uppercase;
+  color: #000;
+  -webkit-transition: all 800ms ease-out 200ms;
+  -moz-transition: all 800ms ease-out 200ms;
+  -o-transition: all 800ms ease-out 200ms;
+  transition: all 800ms ease-out 200ms;
+}
+a:active {
+  text-transform: lowercase;
+}
+a:hover {
+  text-transform: lowercase;
+  color: #fff;
+   -webkit-transition: all 300ms ease-out 1ms;
+  -moz-transition: all 300ms ease-out 1ms;
+  -o-transition: all 300ms ease-out 1ms;
+  transition: all 300ms ease-out 1ms;
+}
+
+/*
+  
+  PAGE
+  SPECIFIC
+
+  */
+
+.info > h2:first-child {
+  margin-top: 0;
+}
+.info > p:last-child {
+  margin-bottom: 0;
 }

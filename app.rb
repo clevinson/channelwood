@@ -85,3 +85,7 @@ end
 get '/digital/:cat_no' do
   "THIS IS THE DIGITAL PAGE 4 #{params['cat_no']}"  
 end
+
+get '/about' do
+  "Hello World"
+end

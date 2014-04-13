@@ -1,0 +1,157 @@
+@mixin vendor-prefix($name, $argument) {
+  -webkit-#{$name}: #{$argument};
+  -ms-#{$name}: #{$argument};
+  -moz-#{$name}: #{$argument};
+  -o-#{$name}: #{$argument};
+  #{$name}: #{$argument};
+}
+
+$space-vertical: 60px;
+$width-main: 600px;
+$width-gutter: $width-main*.1;
+$width-logo-footer: $width-gutter;
+$height-image: 250px;
+$height-footer: $width-logo-footer + $space-vertical*1.5;
+
+/*
+	
+	GLOBAL
+	FUN
+
+	*/
+
+.clear-float {
+	&:after {
+		content: "";
+		display: table;
+		clear: both;
+	}
+}
+
+/*
+
+	THE
+	LIST
+
+	*/
+
+#the-list {
+	width: $width-main;
+	margin: 0 auto;
+	list-style-type: none;
+	padding: 0 0 $height-footer;
+	@extend .clear-float;
+}
+#the-list li {
+	height: $height-image;
+	margin: $space-vertical 0;
+	@extend .clear-float;
+	&:after {
+  	display: inline-block;
+  	height: 100%;
+  	vertical-align: middle;
+	}
+	.art, .info {
+		width: $width-main/2 - $width-gutter/2;
+	}
+	.art {
+		height: 100%;
+	}
+	.info {
+		display: inline-block;
+		vertical-align: middle;
+	}
+}
+#the-list li:nth-of-type(even) {
+	.art {
+		float: right;
+	}
+	text-align: left;
+	.info {
+		display: inline-block;
+		text-align: right;
+	}
+}
+#the-list li:nth-of-type(odd) {
+	.art {
+		float: left;
+	}
+	text-align: right;
+	.info {
+		display: inline-block;
+		text-align: left;
+	}
+}
+
+/*
+
+	THE
+	NAV
+
+	*/
+
+footer nav {
+	width: 100%;
+	margin: $space-vertical 0 0;
+	background-color: #fff;
+  position: fixed;
+  left: 0px;
+  bottom: 0px;
+}
+footer nav ul {
+	width: $width-main;
+	padding: 0;
+	margin: 0 auto;
+}
+footer nav ul li {
+	display: inline-block;
+	vertical-align: middle;
+	margin: 0 0 $space-vertical*1.5;
+	&#logo, &#logo canvas {
+		width: $width-logo-footer;
+		height: $width-logo-footer;
+		background-color: #fff;
+	}
+	&.flank {
+		width: $width-main/2 - $width-logo-footer/2;
+		&.right {
+			text-align: right;
+			a {
+				display: inline-block;
+				margin-left: 5.5%;
+			}
+		}
+	}
+}
+
+/*
+
+	PHYSICAL
+	STUFF
+
+	*/
+
+.info.drag {
+	@include vendor-prefix(box-sizing, border-box);
+	$width: $width-main/2 - $width-gutter/2;
+	width: $width;
+	padding: $width-gutter/2;
+	background-color: #fff;
+	position: absolute;
+	left: $space-vertical;
+	top: $space-vertical;
+}
+
+#back-images {
+	width: 100%;
+	position: fixed;
+	top: 0;
+	bottom: $height-footer;
+	overflow: scroll;
+	img {
+		width: 100%;
+		height: auto;
+		display: block;
+	}
+}
+
