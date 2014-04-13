@@ -1,0 +1,44 @@
+<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+<script src="https://code.jquery.com/jquery-2.1.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.10.4/jquery-ui.min.js"></script>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+
+
+<body style='padding: 25px'>
+
+  <h1> ways inner pass</h1>
+
+  <p class="lead">Edit a release:</p>
+
+  <form role="form" style="width:600px" action="/release/<%= release.cat_no %>" method="post">
+    <input type="hidden" name="_method" value="PUT">
+    <div class="form-group">
+      <label>Catalog Number</label>
+      <input type="text" class="form-control" name="cat_no" value=<%= release.cat_no %>>
+    </div>
+    <div class="form-group">
+      <label>Artist</label>
+      <input type="text" class="form-control" name="artist" value=<%= release.artist %>>
+    </div>
+    <div class="form-group">
+      <label>Title</label>
+      <input type="text" class="form-control" name="title" value=<%= release.title %>>
+    </div>
+    <div class="form-group">
+      <label>Description</label>
+      <textarea class="form-control" name="description" rows="5"><%= h release.description %></textarea>
+    </div>
+    <div class="form-group">
+      <label>Release Date</label>
+      <input name="release_date"  class="form-control" type="date" value=<%= release.release_date %> style="width: 175px">
+    </div>
+    <div class="checkbox">
+      <label>
+        <input type="checkbox" name="published" value=<%= release.published %> > Published
+      </label>
+    </div>
+    <button type="submit" class="btn btn-default">Submit</button>
+  </form>
+
+</body>
+

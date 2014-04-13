@@ -26,10 +26,9 @@
 
   <p class="lead">Here's our firstest way to deal w/ the dataz. Try adding rows and stuff</p>
 
-  <table class="table table-striped" style='width: 800px;'>
+  <table class="table table-striped" style='width: 1200px;'>
     <thead>
       <tr>
-        <th>Id</th>
         <th>Cat No.</th>
         <th>Artist</th>
         <th>Title</th>
@@ -41,7 +40,6 @@
     <tbody>
       <% @releases.each do |release| %>
         <tr>
-          <td><%= release.id %></td>
           <td><%= release.cat_no %></td>
           <td><%= release.artist %></td>
           <td><%= release.title %></td>
@@ -54,6 +52,7 @@
           </td>
           <td><%= release.published %></td>
           <td>
+            <a class="btn btn-info btn-xs" href='/release/<%= release.cat_no %>/edit'>Edit</a>
             <button class="btn btn-danger btn-xs" onClick='deleteRelease(<%= release.id %>)'>Delete</button>
           </td>
         </tr>

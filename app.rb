@@ -25,14 +25,40 @@ class Release < Ohm::Model
   index :cat_no
 end
 
+helpers do 
+  def get_release(cat_no)
+    Release.with(:cat_no, cat_no)
+  end
+
+  def h(text)
+    Rack::Utils.escape_html(text)
+  end
+end
+
 get '/releases' do
   @releases = Release.all.to_a
   erb :releases
 end
 
 get '/release/new' do
-  erb :release_form
+  erb :release_new
 end
+
+get '/release/:cat_no/edit' do
+  erb :release_edit, :locals => { :release => get_release(params[:cat_no]) }
+end
+
+put '/release/:cat_no' do
+  release = get_release(params[:cat_no])
+  release.artist = params[:artist]
+  release.title = params[:title]
+  release.description = params[:description]
+  release.release_date = params[:release_date]
+  release.cat_no = params[:cat_no]
+  release.save
+  redirect('/releases')
+end
+
 
 delete '/release/:id' do
   release = Release[params[:id]]
@@ -79,7 +105,7 @@ get '/home' do
 end
 
 get '/physical/:cat_no' do
-  erb :physical, :locals => { :release => Release.with(:cat_no, params[:cat_no]) }
+  erb :physical, :locals => { :release => get_release(params[:cat_no]) }
 end
 
 get '/digital/:cat_no' do
