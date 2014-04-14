@@ -11,7 +11,7 @@ $width-main: 600px;
 $width-gutter: $width-main*.1;
 $width-logo-footer: $width-gutter;
 $height-image: 250px;
-$height-footer: $width-logo-footer + $space-vertical*1.5;
+$height-footer: $width-logo-footer + $space-vertical;
 
 /*
 	
@@ -106,7 +106,8 @@ footer nav ul {
 footer nav ul li {
 	display: inline-block;
 	vertical-align: middle;
-	margin: 0 0 $space-vertical*1.5;
+	margin: 0 0 $space-vertical/2;
+	padding: $space-vertical/2 0 0;
 	&#logo, &#logo canvas {
 		width: $width-logo-footer;
 		height: $width-logo-footer;
@@ -133,7 +134,7 @@ footer nav ul li {
 
 .info.drag {
 	@include vendor-prefix(box-sizing, border-box);
-	$width: $width-main/2 - $width-gutter/2;
+	$width: $width-main - $width-gutter;
 	width: $width;
 	padding: $width-gutter/2;
 	background-color: #fff;
@@ -146,7 +147,8 @@ footer nav ul li {
 	width: 100%;
 	position: fixed;
 	top: 0;
-	bottom: $height-footer;
+	bottom: 0;
+	// bottom: $height-footer;
 	overflow: scroll;
 	img {
 		width: 100%;

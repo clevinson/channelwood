@@ -23,7 +23,11 @@
   <script src="//code.jquery.com/ui/1.10.4/jquery-ui.min.js"></script>
   <script>
     $(function() {
-      $( ".drag" ).draggable();
+      $('.drag').draggable();
+      $('#back-images').click(function() {
+        $('.info').fadeToggle(300);
+        $('footer').fadeToggle(300);
+      });
     });
   </script>
 
@@ -60,7 +64,7 @@
     <h2 class="release"><%= release.title %></h2>
     <time><%= release.release_date %></time>
     <p><%= release.cat_no %></p>
-    <p><pre><%= release.description %></pre></p>
+    <pre><%= release.description %></pre>
   </div>
 
   <footer id='footer'>

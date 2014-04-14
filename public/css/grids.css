@@ -19,7 +19,7 @@
   width: 600px;
   margin: 0 auto;
   list-style-type: none;
-  padding: 0 0 150px; }
+  padding: 0 0 120px; }
 
 #the-list li {
   height: 250px;
@@ -74,7 +74,8 @@ footer nav ul {
 footer nav ul li {
   display: inline-block;
   vertical-align: middle;
-  margin: 0 0 90px; }
+  margin: 0 0 30px;
+  padding: 30px 0 0; }
   footer nav ul li#logo, footer nav ul li#logo canvas {
     width: 60px;
     height: 60px;
@@ -99,7 +100,7 @@ footer nav ul li {
   -moz-box-sizing: border-box;
   -o-box-sizing: border-box;
   box-sizing: border-box;
-  width: 270px;
+  width: 540px;
   padding: 30px;
   background-color: #fff;
   position: absolute;
@@ -110,7 +111,7 @@ footer nav ul li {
   width: 100%;
   position: fixed;
   top: 0;
-  bottom: 150px;
+  bottom: 0;
   overflow: scroll; }
   #back-images img {
     width: 100%;

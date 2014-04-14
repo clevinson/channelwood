@@ -113,5 +113,5 @@ get '/digital/:cat_no' do
 end
 
 get '/about' do
-  "Hello World"
+  erb :about
 end
