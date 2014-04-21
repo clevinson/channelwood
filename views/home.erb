@@ -1,94 +1,40 @@
-<!DOCTYPE HTML>
+<ul id='the-list'>
+  <li>
+    <div class='art'>
+      <img src='http://www.fillmurray.com/270/250' alt='art'>
+    </div>
+    <div class='info'>
+      <h2 class='artist'>dreampeter</h2>
+      <h2 class='title'>ambien lp</h2>
+      <p>wip-001
+      <time>june 1, 2014</time>
+      <a href='/digital/WIP-001'>digital</a> / <a href='/physical/WIP-001'>physical</a></p>
+    </div>
+  </li>
+  <li>
+    <div class='art'>
+      <img src='http://www.fillmurray.com/270/250' alt='art'>
+    </div>
+    <div class='info'>
+      <h2 class='artist'>kohwi</h2>
+      <h2 class='title'>hidden tape<br>forest cape</h2>
+      <p>wip-002
+      <time>july 12, 2014</time>
+      <a href='/digital/WIP-002'>digital</a> / <a href='/physical/WIP-002'>physical</a></p>
+    </div>
+  </li>
+  <li>
+    <div class='art'>
+      <img src='http://www.fillmurray.com/270/250' alt='art'>
+    </div>
+    <div class='info'>
+      <h2 class='artist'>pascäal</h2>
+      <h2 class='title'>butt science</h2>
+      <p>wip-003
+      <time>august 4, 2014</time>
+      <a href='/digital/WIP-003'>digital</a> / <a href='/digital/WIP-003'>physical</a></p>
+    </div>
+  </li>
+</ul>
 
-<html lang='en-us' dir='ltr'>
-
-<head>
-
-  <meta charset='utf-8'>
-
-  <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
-  
-  <title>w&nbsp;a&nbsp;y&nbsp;s&nbsp;&nbsp;i&nbsp;n&nbsp;n&nbsp;e&nbsp;r&nbsp;&nbsp;p&nbsp;a&nbsp;s&nbsp;s</title>
-  <link rel="shortcut icon" href="/ico/favicon.ico"/>
-
-  <link rel="stylesheet" href="//yui.yahooapis.com/pure/0.4.2/base-min.css"> <!-- Normalize! A slick css reset -->
-  <link rel="stylesheet" href="/css/grids.css" type="text/css"/> <!-- Custom grid framework skriit -->
-  <link rel="stylesheet" href="/css/main.css" type="text/css"/> <!-- main css-->
-
-  <!-- Please don't add 'maximum-scale=1' here. It's bad for accessibility. -->
-  <meta name='viewport' content='width=device-width, initial-scale=1'>
-
-  <!-- Load paperscript from a public cdn -->
-  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/paper.js/0.9.12/paper-full.min.js"></script>
-  <script type="text/paperscript" canvas="footer-logo">
-    // DA CIRCULATOR
-    var shape = new Shape.Circle(new Point(30, 18), 13);
-    shape.fillColor = 'black';
-    // DA PLANE OF BUTTS
-    var path = new Path();
-    // Give the stroke a color
-    path.fillColor = 'black';
-    var start = new Point(0, 52);
-    // Move to start and draw a line from there
-    path.moveTo(start);
-    path.lineTo(start + [ 10, -12 ]);
-    path.lineTo(start + [ 50, -12 ]);
-    path.lineTo(start + [ 60, 0 ]);
-  </script>
-
-</head>
-
-<body>
-
-  <ul id='the-list'>
-    <li>
-      <div class='art'>
-        <img src='http://www.fillmurray.com/270/250' alt='art'>
-      </div>
-      <div class='info'>
-        <h2 class='artist'>dreampeter</h2>
-        <h2 class='title'>ambien lp</h2>
-        <p>wip-001
-        <time>june 1, 2014</time>
-        <a href='/digital/WIP-001'>digital</a> / <a href='/physical/WIP-001'>physical</a></p>
-      </div>
-    </li>
-    <li>
-      <div class='art'>
-        <img src='http://www.fillmurray.com/270/250' alt='art'>
-      </div>
-      <div class='info'>
-        <h2 class='artist'>kohwi</h2>
-        <h2 class='title'>hidden tape<br>forest cape</h2>
-        <p>wip-002
-        <time>july 12, 2014</time>
-        <a href='/digital/WIP-002'>digital</a> / <a href='/physical/WIP-002'>physical</a></p>
-      </div>
-    </li>
-    <li>
-      <div class='art'>
-        <img src='http://www.fillmurray.com/270/250' alt='art'>
-      </div>
-      <div class='info'>
-        <h2 class='artist'>pascäal</h2>
-        <h2 class='title'>butt science</h2>
-        <p>wip-003
-        <time>august 4, 2014</time>
-        <a href='/digital/WIP-003'>digital</a> / <a href='/digital/WIP-003'>physical</a></p>
-      </div>
-    </li>
-  </ul>
-
-  <footer id='footer'>
-    <nav>
-      <ul>
-        <li class='flank'><a href='/cart'>cart (3)</a>
-        <li id='logo'><a href='/home'><canvas id='footer-logo'></canvas></a>
-        <li class='flank right'><a href='/about'>about</a><a href='https://twitter.com/waysinnerpass'>twitter</a><a href='https://soundcloud.com/waysinnerpass'>soundcloud</a>
-      </ul>
-    </nav>
-  </footer>
-
-</body>
-
-</html>
+<%= erb :footer %>

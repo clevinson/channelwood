@@ -5,12 +5,6 @@ use Rack::Auth::Basic, "Restricted Area" do |username, password|
     username == ENV['CHANNELWOOD_USERNAME'] and password == ENV['CHANNELWOOD_PASSWORD']
 end
 
-if ENV.has_key?('REDISCLOUD_URL')
-  redis_url = ENV['REDISCLOUD_URL']
-else
-  redis_url = "redis://127.0.0.1:6379"
-end
-
 Ohm.redis = Redic.new(ENV['REDISCLOUD_URL'] || "redis://127.0.0.1:6379")
 
 class Release < Ohm::Model
@@ -25,7 +19,7 @@ class Release < Ohm::Model
   index :cat_no
 end
 
-helpers do 
+helpers do
   def get_release(cat_no)
     Release.with(:cat_no, cat_no)
   end
@@ -37,15 +31,17 @@ end
 
 get '/releases' do
   @releases = Release.all.to_a
-  erb :releases
+  erb :releases, :layout => :admin_layout
 end
 
 get '/release/new' do
-  erb :release_new
+  erb :release_new, :layout => :admin_layout
 end
 
 get '/release/:cat_no/edit' do
-  erb :release_edit, :locals => { :release => get_release(params[:cat_no]) }
+  erb :admin_layout do
+    erb :release_edit, :locals => { :release => get_release(params[:cat_no]) }
+  end
 end
 
 put '/release/:cat_no' do
@@ -83,7 +79,7 @@ post '/release/new' do
     logger.info("   Description: " + release.description.to_s)
     logger.info("   Release Date: " + release.release_date.to_s)
     logger.info("   Published: " + release.published.to_s)
-    
+
     redirect '/releases'
   rescue Exception => e
     logger.error(e.message)
@@ -105,11 +101,12 @@ get '/home' do
 end
 
 get '/physical/:cat_no' do
-  erb :physical, :locals => { :release => get_release(params[:cat_no]) }
+  erb :physical,
+      :locals => { :release => get_release(params[:cat_no]) }
 end
 
 get '/digital/:cat_no' do
-  "THIS IS THE DIGITAL PAGE 4 #{params['cat_no']}"  
+  "THIS IS THE DIGITAL PAGE 4 #{params['cat_no']}" + (erb :footer)
 end
 
 get '/about' do

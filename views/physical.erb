@@ -1,82 +1,15 @@
-<!DOCTYPE HTML>
+<div id="back-images">
+  <img src="//upload.wikimedia.org/wikipedia/commons/e/e2/Sex_statue_in_temple.jpeg">
+  <img src="//farm1.staticflickr.com/217/458966029_3670c6ecf3_o.jpg">
+  <img src="//upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Sex_statue_in_Thirumayam_temple.jpeg/1280px-Sex_statue_in_Thirumayam_temple.jpeg">
+</div>
 
-<html lang='en-us' dir='ltr'>
+<div class="info drag">
+  <h2 class="artist"><%= release.artist %></h2>
+  <h2 class="release"><%= release.title %></h2>
+  <time><%= release.release_date %></time>
+  <p><%= release.cat_no %></p>
+  <pre><%= release.description %></pre>
+</div>
 
-<head>
-
-  <meta charset='utf-8'>
-
-  <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
-  
-  <title>w&nbsp;a&nbsp;y&nbsp;s&nbsp;&nbsp;i&nbsp;n&nbsp;n&nbsp;e&nbsp;r&nbsp;&nbsp;p&nbsp;a&nbsp;s&nbsp;s</title>
-  <link rel="shortcut icon" href="/ico/favicon.ico"/>
-
-  <link rel="stylesheet" href="//yui.yahooapis.com/pure/0.4.2/base-min.css"> <!-- Normalize! A slick css reset -->
-  <link rel="stylesheet" href="/css/grids.css" type="text/css"/> <!-- Custom grid framework skriit -->
-  <link rel="stylesheet" href="/css/main.css" type="text/css"/> <!-- main css-->
-
-  <!-- Please don't add 'maximum-scale=1' here. It's bad for accessibility. -->
-  <meta name='viewport' content='width=device-width, initial-scale=1'>
-
-  <!-- Load jQuery + ui from public cdn -->
-  <script src="//code.jquery.com/jquery-2.1.0.min.js"></script>
-  <script src="//code.jquery.com/ui/1.10.4/jquery-ui.min.js"></script>
-  <script>
-    $(function() {
-      $('.drag').draggable();
-      $('#back-images').click(function() {
-        $('.info').fadeToggle(300);
-        $('footer').fadeToggle(300);
-      });
-    });
-  </script>
-
-  <!-- Load paperscript from a public cdn -->
-  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/paper.js/0.9.12/paper-full.min.js"></script>
-  <script type="text/paperscript" canvas="footer-logo">
-    // DA CIRCULATOR
-    var shape = new Shape.Circle(new Point(30, 18), 13);
-    shape.fillColor = 'black';
-    // DA PLANE OF BUTTS
-    var path = new Path();
-    // Give the stroke a color
-    path.fillColor = 'black';
-    var start = new Point(0, 52);
-    // Move to start and draw a line from there
-    path.moveTo(start);
-    path.lineTo(start + [ 10, -12 ]);
-    path.lineTo(start + [ 50, -12 ]);
-    path.lineTo(start + [ 60, 0 ]);
-  </script>
-
-</head>
-
-<body>
-
-  <div id="back-images">
-    <img src="//upload.wikimedia.org/wikipedia/commons/e/e2/Sex_statue_in_temple.jpeg">
-    <img src="//farm1.staticflickr.com/217/458966029_3670c6ecf3_o.jpg">
-    <img src="//upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Sex_statue_in_Thirumayam_temple.jpeg/1280px-Sex_statue_in_Thirumayam_temple.jpeg">
-  </div>
-
-  <div class="info drag">
-    <h2 class="artist"><%= release.artist %></h2>
-    <h2 class="release"><%= release.title %></h2>
-    <time><%= release.release_date %></time>
-    <p><%= release.cat_no %></p>
-    <pre><%= release.description %></pre>
-  </div>
-
-  <footer id='footer'>
-    <nav>
-      <ul>
-        <li class='flank'><a href='/cart'>cart (3)</a>
-        <li id='logo'><a href='/home'><canvas id='footer-logo'></canvas></a>
-        <li class='flank right'><a href='/about'>about</a><a href='https://twitter.com/waysinnerpass'>twitter</a><a href='https://soundcloud.com/waysinnerpass'>soundcloud</a>
-      </ul>
-    </nav>
-  </footer>
-
-</body>
-
-</html>
+<%= erb :footer %>

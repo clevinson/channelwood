@@ -1,0 +1,26 @@
+<footer id='footer'>
+
+  <script type="text/paperscript" canvas="footer-logo">
+    // DA CIRCULATOR
+    var shape = new Shape.Circle(new Point(30, 18), 13);
+    shape.fillColor = 'black';
+    // DA PLANE OF BUTTS
+    var path = new Path();
+    // Give the stroke a color
+    path.fillColor = 'black';
+    var start = new Point(0, 52);
+    // Move to start and draw a line from there
+    path.moveTo(start);
+    path.lineTo(start + [ 10, -12 ]);
+    path.lineTo(start + [ 50, -12 ]);
+    path.lineTo(start + [ 60, 0 ]);
+  </script>
+
+  <nav>
+    <ul>
+      <li class='flank'><a href='/cart'>cart (3)</a>
+      <li id='logo'><a href='/home'><canvas id='footer-logo'></canvas></a>
+      <li class='flank right'><a href='/about'>about</a><a href='https://twitter.com/waysinnerpass'>twitter</a><a href='https://soundcloud.com/waysinnerpass'>soundcloud</a>
+    </ul>
+  </nav>
+</footer>
