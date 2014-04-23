@@ -1,23 +1,14 @@
 require 'sinatra'
 require 'ohm'
+require './channelwood-models'
+
+DUMMY_ART_ID = 4
 
 use Rack::Auth::Basic, "Restricted Area" do |username, password|
     username == ENV['CHANNELWOOD_USERNAME'] and password == ENV['CHANNELWOOD_PASSWORD']
 end
 
 Ohm.redis = Redic.new(ENV['REDISCLOUD_URL'] || "redis://127.0.0.1:6379")
-
-class Release < Ohm::Model
-  attribute :cat_no
-  attribute :artist
-  attribute :description
-  attribute :title
-  attribute :release_date
-  attribute :published
-
-  unique :cat_no
-  index :cat_no
-end
 
 helpers do
   def get_release(cat_no)
@@ -39,8 +30,10 @@ get '/release/new' do
 end
 
 get '/release/:cat_no/edit' do
+  release = get_release(params[:cat_no])
+  cover_art = release.cover_art || CoverArt[DUMMY_ART_ID]
   erb :admin_layout do
-    erb :release_edit, :locals => { :release => get_release(params[:cat_no]) }
+    erb :release_edit, :locals => { :release => get_release(params[:cat_no]), :cover_art => cover_art}
   end
 end
 
@@ -62,6 +55,7 @@ delete '/release/:id' do
 end
 
 post '/release/new' do
+  logger.info("Found params: #{params}")
   begin
     release = Release.create(
       :cat_no => params[:cat_no],
@@ -71,6 +65,20 @@ post '/release/new' do
       :release_date => params[:release_date],
       :published => (params[:published] == 'on' ? "Published" : "Draft")
     )
+
+    release.cover_art = CoverArt.create(:url => params[:cover_art]) unless params[:cover_art].empty?
+    release.save
+
+    image_urls = params[:images].reject { |url| url.empty? }
+
+    image_urls.each_with_index do |url, idx|
+      Image.create(
+        :release => release,
+        :url => url,
+        :rank => idx
+      )
+    end
+
     logger.info("Created new release!")
     logger.info("   Id: " + release.id.to_s)
     logger.info("   Cat No: " + release.cat_no.to_s)
