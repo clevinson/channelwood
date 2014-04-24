@@ -1,7 +1,7 @@
 <div id="back-images">
-  <img src="//upload.wikimedia.org/wikipedia/commons/e/e2/Sex_statue_in_temple.jpeg">
-  <img src="//farm1.staticflickr.com/217/458966029_3670c6ecf3_o.jpg">
-  <img src="//upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Sex_statue_in_Thirumayam_temple.jpeg/1280px-Sex_statue_in_Thirumayam_temple.jpeg">
+  <% background_images.each do |image| %>
+    <img src="<%= image.url %>">
+  <% end %>
 </div>
 
 <div class="info drag">

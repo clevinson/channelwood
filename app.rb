@@ -115,8 +115,11 @@ get '/home' do
 end
 
 get '/physical/:cat_no' do
+  release = get_release(params[:cat_no])
+  background_images = release.images.sort_by(:rank)
+
   erb :physical,
-      :locals => { :release => get_release(params[:cat_no]) }
+      :locals => { :release => release, :background_images => background_images }
 end
 
 get '/digital/:cat_no' do
