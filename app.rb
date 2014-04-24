@@ -1,3 +1,4 @@
+require 'compass'
 require 'sinatra'
 require 'ohm'
 require './channelwood-models'
@@ -6,6 +7,11 @@ DUMMY_ART_ID = 4
 
 use Rack::Auth::Basic, "Restricted Area" do |username, password|
     username == ENV['CHANNELWOOD_USERNAME'] and password == ENV['CHANNELWOOD_PASSWORD']
+end
+
+get '/css/:name.css' do
+    content_type 'text/css', :charset => 'utf-8'
+    scss :"stylesheets/#{params[:name]}"
 end
 
 Ohm.redis = Redic.new(ENV['REDISCLOUD_URL'] || "redis://127.0.0.1:6379")
