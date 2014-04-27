@@ -1,23 +1,16 @@
 class Release < Ohm::Model
+  include Ohm::DataTypes
+
   attribute :cat_no
   attribute :artist
   attribute :description
   attribute :title
   attribute :release_date
   attribute :published
-  reference :cover_art, :CoverArt
-  collection :images, :Image
+  attribute :cover_art
+  attribute :images, Type::Array
 
   unique :cat_no
   index :cat_no
-end
 
-class Image < Ohm::Model
-  reference :release, :Release
-  attribute :rank
-  attribute :url
-end
-
-class CoverArt < Ohm::Model
-  attribute :url
 end

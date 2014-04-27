@@ -1,9 +1,9 @@
+require 'aws-sdk'
 require 'compass'
 require 'sinatra'
 require 'ohm'
+require 'ohm/contrib'
 require './channelwood-models'
-
-DUMMY_ART_ID = 4
 
 use Rack::Auth::Basic, "Restricted Area" do |username, password|
     username == ENV['CHANNELWOOD_USERNAME'] and password == ENV['CHANNELWOOD_PASSWORD']
@@ -13,6 +13,8 @@ get '/css/:name.css' do
     content_type 'text/css', :charset => 'utf-8'
     scss :"stylesheets/#{params[:name]}"
 end
+
+$s3 = AWS::S3.new
 
 Ohm.redis = Redic.new(ENV['REDISCLOUD_URL'] || "redis://127.0.0.1:6379")
 
@@ -24,6 +26,14 @@ helpers do
   def h(text)
     Rack::Utils.escape_html(text)
   end
+
+  def s3_images
+    $s3.buckets['wip-static'].objects.with_prefix('release-artwork/').select do |object|
+      object.key[-1] != '/'
+    end.collect do |object|
+      object.public_url
+    end
+  end
 end
 
 get '/releases' do
@@ -32,14 +42,13 @@ get '/releases' do
 end
 
 get '/release/new' do
-  erb :release_new, :layout => :admin_layout
+  erb :release_new, :layout => :admin_layout, :locals => { :images => s3_images }
 end
 
 get '/release/:cat_no/edit' do
   release = get_release(params[:cat_no])
-  cover_art = release.cover_art || CoverArt[DUMMY_ART_ID]
   erb :admin_layout do
-    erb :release_edit, :locals => { :release => get_release(params[:cat_no]), :cover_art => cover_art}
+    erb :release_edit, :locals => { :release => get_release(params[:cat_no]), :images => s3_images}
   end
 end
 
@@ -48,8 +57,10 @@ put '/release/:cat_no' do
   release.artist = params[:artist]
   release.title = params[:title]
   release.description = params[:description]
+  release.cover_art = params[:cover_art]
+  release.images = params[:images] || []
   release.release_date = params[:release_date]
-  release.cat_no = params[:cat_no]
+  release.published = (params[:published] == 'on' ? "Published" : "Draft")
   release.save
   redirect('/releases')
 end
@@ -68,22 +79,11 @@ post '/release/new' do
       :artist => params[:artist],
       :title => params[:title],
       :description => params[:description],
+      :cover_art => params[:cover_art],
+      :images => params[:images] || [],
       :release_date => params[:release_date],
       :published => (params[:published] == 'on' ? "Published" : "Draft")
     )
-
-    release.cover_art = CoverArt.create(:url => params[:cover_art]) unless params[:cover_art].empty?
-    release.save
-
-    image_urls = params[:images].reject { |url| url.empty? }
-
-    image_urls.each_with_index do |url, idx|
-      Image.create(
-        :release => release,
-        :url => url,
-        :rank => idx
-      )
-    end
 
     logger.info("Created new release!")
     logger.info("   Id: " + release.id.to_s)

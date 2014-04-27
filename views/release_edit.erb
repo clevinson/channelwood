@@ -2,7 +2,6 @@
 
   <h1> ways inner pass</h1>
 
-  <img width=300 height=200 align="right" src="<%= cover_art.url %>" alt="No Cover Art">
   <p class="lead"><b><%= release.cat_no %></b> (edit)</p>
 
   <form role="form" style="width:600px" action="/release/<%= release.cat_no %>" method="post">
@@ -20,6 +19,22 @@
       <textarea class="form-control" name="description" rows="5"><%= h release.description %></textarea>
     </div>
     <div class="form-group">
+      <label>Cover Art</label>
+      <button type='button' class="btn btn-default btn-xs" data-toggle="modal" data-target="#cover-art-modal">
+        Choose Image
+      </button>
+      <input type="hidden" class="form-control" name="cover_art" id="cover-art-input" value=''>
+      <div id="cover-art-display" class='well'></div>
+    </div>
+    <div class="form-group" id="back-images-input">
+      <label>Background Images</label>
+      <button type='button' class="btn btn-default btn-xs" data-toggle="modal" data-target="#back-images-modal">
+        Select Background Images
+      </button>
+      <ul class='well'>
+      </ul>
+    </div>
+    <div class="form-group">
       <label>Release Date</label>
       <input name="release_date"  class="form-control" type="date" value=<%= release.release_date %> style="width: 175px">
     </div>
@@ -32,4 +47,24 @@
   </form>
 
 </div>
+
+<%= erb :cover_art_modal, :locals => {:images => images} %>
+<%= erb :back_images_modal, :locals => {:images => images} %>
+
+<script>
+
+
+$(function (){
+  $('#cover-art-modal').find('img[src="<%= release.cover_art %>"]').parent().addClass('selected');
+  setCoverArt();
+
+  <% release.images.each do |image_url| %>
+    $('#back-images-modal').find('img[src="<%= image_url %>"]').parent().addClass('selected');
+  <% end %>
+
+  setBackImages();
+});
+
+
+</script>
 
