@@ -15,7 +15,6 @@ get '/css/:name.css' do
 end
 
 $s3 = AWS::S3.new
-
 Ohm.redis = Redic.new(ENV['REDISCLOUD_URL'] || "redis://127.0.0.1:6379")
 
 helpers do
@@ -116,7 +115,7 @@ end
 
 get '/physical/:cat_no' do
   release = get_release(params[:cat_no])
-  background_images = release.images.sort_by(:rank)
+  background_images = release.images
 
   erb :physical,
       :locals => { :release => release, :background_images => background_images }
