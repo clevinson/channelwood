@@ -2,14 +2,10 @@
 
   <h1> ways inner pass</h1>
 
-  <p class="lead">Edit a release:</p>
+  <p class="lead"><b><%= release.cat_no %></b> (edit)</p>
 
   <form role="form" style="width:600px" action="/release/<%= release.cat_no %>" method="post">
     <input type="hidden" name="_method" value="PUT">
-    <div class="form-group">
-      <label>Catalog Number</label>
-      <input type="text" class="form-control" name="cat_no" value=<%= release.cat_no %>>
-    </div>
     <div class="form-group">
       <label>Artist</label>
       <input type="text" class="form-control" name="artist" value=<%= release.artist %>>
@@ -23,6 +19,22 @@
       <textarea class="form-control" name="description" rows="5"><%= h release.description %></textarea>
     </div>
     <div class="form-group">
+      <label>Cover Art</label>
+      <button type='button' class="btn btn-default btn-xs" data-toggle="modal" data-target="#cover-art-modal">
+        Choose Image
+      </button>
+      <input type="hidden" class="form-control" name="cover_art" id="cover-art-input" value=''>
+      <div id="cover-art-display" class='well'></div>
+    </div>
+    <div class="form-group" id="back-images-input">
+      <label>Background Images</label>
+      <button type='button' class="btn btn-default btn-xs" data-toggle="modal" data-target="#back-images-modal">
+        Select Background Images
+      </button>
+      <ul class='well'>
+      </ul>
+    </div>
+    <div class="form-group">
       <label>Release Date</label>
       <input name="release_date"  class="form-control" type="date" value=<%= release.release_date %> style="width: 175px">
     </div>
@@ -31,8 +43,28 @@
         <input type="checkbox" name="published" value=<%= release.published %> > Published
       </label>
     </div>
-    <button type="submit" class="btn btn-default">Submit</button>
+    <button type="submit" class="btn btn-default">Save</button>
   </form>
 
 </div>
+
+<%= erb :cover_art_modal, :locals => {:images => images} %>
+<%= erb :back_images_modal, :locals => {:images => images} %>
+
+<script>
+
+
+$(function (){
+  $('#cover-art-modal').find('img[src="<%= release.cover_art %>"]').parent().addClass('selected');
+  setCoverArt();
+
+  <% release.images.each do |image_url| %>
+    $('#back-images-modal').find('img[src="<%= image_url %>"]').parent().addClass('selected');
+  <% end %>
+
+  setBackImages();
+});
+
+
+</script>
 

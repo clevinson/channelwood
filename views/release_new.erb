@@ -22,6 +22,22 @@
       <textarea class="form-control" name="description" placeholder="It's a rllyrllyrlly great record" rows="5"></textarea>
     </div>
     <div class="form-group">
+      <label>Cover Art</label>
+      <button type='button' class="btn btn-default btn-xs" data-toggle="modal" data-target="#cover-art-modal">
+        Choose Image
+      </button>
+      <input type="hidden" class="form-control" name="cover_art" id="cover-art-input" value=''>
+      <div id="cover-art-display" class='well'></div>
+    </div>
+    <div class="form-group" id="back-images-input">
+      <label>Background Images</label>
+      <button type='button' class="btn btn-default btn-xs" data-toggle="modal" data-target="#back-images-modal">
+        Select Background Images
+      </button>
+      <ul class='well'>
+      </ul>
+    </div>
+    <div class="form-group">
       <label>Release Date</label>
       <input name="release_date"  class="form-control" type="date" style="width: 175px">
     </div>
@@ -32,6 +48,7 @@
     </div>
     <button type="submit" class="btn btn-default">Submit</button>
   </form>
-
 </div>
 
+<%= erb :cover_art_modal, :locals => {:images => images} %>
+<%= erb :back_images_modal, :locals => {:images => images} %>
