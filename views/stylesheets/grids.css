@@ -32,6 +32,8 @@
     width: 270px; }
   #the-list li .art {
     height: 100%; }
+    #the-list li .art img {
+      width: 100%; }
   #the-list li .info {
     display: inline-block;
     vertical-align: middle; }
@@ -117,3 +119,35 @@ footer nav ul li {
     width: 100%;
     height: auto;
     display: block; }
+
+/*
+
+	RESPONSIVE
+	DESIGN
+	LOL
+
+	*/
+@media (max-width: 720px) {
+  #the-list {
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -o-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 0 60px 90px; }
+
+  #the-list li:nth-of-type(n) {
+    text-align: left; }
+    #the-list li:nth-of-type(n) .art {
+      float: left;
+      width: 100%;
+      height: auto; }
+    #the-list li:nth-of-type(n) .info {
+      float: left;
+      width: 100%;
+      vertical-align: top;
+      margin: 30px 0 60px; }
+
+  footer nav ul {
+    width: 100%; } }

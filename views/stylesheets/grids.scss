@@ -56,6 +56,9 @@ $height-footer: $width-logo-footer + $space-vertical;
 	}
 	.art {
 		height: 100%;
+		img { // 'img' for now, will be 'canvas'
+			width: 100%;
+		}
 	}
 	.info {
 		display: inline-block;
@@ -148,7 +151,6 @@ footer nav ul li {
 	position: fixed;
 	top: 0;
 	bottom: 0;
-	// bottom: $height-footer;
 	overflow: scroll;
 	img {
 		width: 100%;
@@ -157,3 +159,41 @@ footer nav ul li {
 	}
 }
 
+/*
+
+	RESPONSIVE
+	DESIGN
+	LOL
+
+	*/
+
+@media (max-width: $width-main+$width-gutter*2) {
+	//
+	//	THE LIST RESPONSIVENESS
+	//
+	#the-list {
+		@include vendor-prefix(box-sizing, border-box);
+		width: 100%;
+		padding: 0 $width-gutter $height-footer;
+	}
+  #the-list li:nth-of-type(n) {
+		.art {
+			float: left;
+			width: 100%;
+			height: auto;
+		}
+		text-align: left;
+		.info {
+			float: left;
+			width: 100%;
+			vertical-align: top;
+			margin: $space-vertical 0 $space-vertical*2;
+		}
+	}
+	//
+	//	FOOTER RESPONSIVENESS
+	//
+	footer nav ul {
+		width: 100%; // *needs work lol
+	}
+}
