@@ -6,11 +6,11 @@
   #{$name}: #{$argument};
 }
 
-$space-vertical: 50px;
-$width-main: 1000px;
+$space-vertical: 60px;
+$width-main: 1200px;
 $width-gutter: $width-main*.1;
 $width-logo-footer: $width-gutter;
-$height-image: 450px;
+$height-image: $width-main*.45;
 $height-footer: $width-logo-footer;
 
 /*
@@ -41,6 +41,7 @@ $height-footer: $width-logo-footer;
 	list-style-type: none;
 	padding: 0 0 $height-footer;
 	@extend .clear-float;
+	@include vendor-prefix(box-sizing, border-box);
 }
 #the-list li {
 	height: $height-image;
@@ -52,7 +53,8 @@ $height-footer: $width-logo-footer;
   	vertical-align: middle;
 	}
 	.art, .info {
-		width: $width-main/2 - $width-gutter/2;
+		//width: $width-main/2 - $width-gutter/2;
+		width: 45%;
 	}
 	.art {
 		height: 100%;
@@ -105,6 +107,7 @@ footer nav ul {
 	width: $width-main;
 	padding: 0;
 	margin: 0 auto;
+	@include vendor-prefix(box-sizing, border-box);
 }
 footer nav ul li {
 	display: inline-block;
@@ -117,12 +120,12 @@ footer nav ul li {
 		background-color: #fff;
 	}
 	&.flank {
-		width: $width-main/2 - $width-logo-footer/2;
+		width: 45%;
 		&.right {
 			text-align: right;
 			a {
 				display: inline-block;
-				margin-left: 2.5%;
+				margin-left: 5.5%;
 			}
 		}
 	}
@@ -135,15 +138,23 @@ footer nav ul li {
 
 	*/
 
-.info.drag {
+.textbox {
 	@include vendor-prefix(box-sizing, border-box);
-	$width: $width-main - $width-gutter;
+	$width: $width-main/2 - $width-gutter;
 	width: $width;
-	padding: $width-gutter/2;
+	padding: $width-gutter/4;
 	background-color: #fff;
 	position: absolute;
 	left: $space-vertical;
 	top: $space-vertical;
+	&.collapsed { /* this is probably temporary */
+		position: relative;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 50%;
+		width: 100%;
+	}
 }
 
 #back-images {
@@ -166,15 +177,28 @@ footer nav ul li {
 	LOL
 
 	*/
-
-@media (max-width: $width-main+$width-gutter*2) {
-	//
-	//	THE LIST RESPONSIVENESS
-	//
+@media (max-width: $width-main) {
 	#the-list {
-		@include vendor-prefix(box-sizing, border-box);
+		width: $width-main/2+$width-gutter;
+		li, li .art {
+			height: ($width-main/2+$width-gutter)*.45;
+		}
+	}
+	footer nav ul {
+		width: $width-main/2+$width-gutter;
+		padding: 0;
+		margin: 0 auto;
+		li#logo, li#logo canvas {
+			width: ($width-main/2+$width-gutter)*0.1;
+			height: ($width-main/2+$width-gutter)*0.1;
+		}
+	}
+}
+
+@media (max-width: ($width-main+$width-gutter*2)/2) {
+	#the-list {
 		width: 100%;
-		padding: 0 $width-gutter $height-footer;
+		padding: 0 $width-gutter/2 $height-footer/2;
 	}
   #the-list li:nth-of-type(n) {
 		.art {
@@ -194,6 +218,10 @@ footer nav ul li {
 	//	FOOTER RESPONSIVENESS
 	//
 	footer nav ul {
-		width: 100%; // *needs work lol
+		width: 100%;
+		padding: 0 $width-gutter/2;
+		li#logo {
+			width: 10%; /* this is still broken */
+		}
 	}
 }

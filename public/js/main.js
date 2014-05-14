@@ -7,13 +7,29 @@
   *used mostly by physical release pages
 
 */
+var $viewWidth;
+var $textboxWidth;
 $(function() {
   $('.drag').draggable();
   $('#back-images').click(function() {
     $('.info').fadeToggle(300);
     $('footer').fadeToggle(300);
   });
+  $textboxWidth = $('.textbox').width();
+  $viewWidth = $(window).width();
+  $(window).on('resize', function(){
+    $viewWidth = $(window).width();
+    checkTextBoxVisibility();
+  });
+  checkTextBoxVisibility();
 });
+function checkTextBoxVisibility() {
+  if ($viewWidth < $textboxWidth) {
+    $('.textbox').addClass('collapsed');
+  } else {
+    $('.textbox').removeClass('collapsed');
+  }
+}
 
 /*
 
