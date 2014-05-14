@@ -1,19 +1,23 @@
 <footer id='footer'>
-
+  <!-- let's replace this with a masked svg -->
   <script type="text/paperscript" canvas="footer-logo">
+    var unit = $('#footer-logo').height();
+    $(window).on('resize', function(){
+      unit = $('#footer-logo').height();
+    });
     // DA CIRCULATOR
-    var shape = new Shape.Circle(new Point(30, 18), 13);
+    var shape = new Shape.Circle(new Point(unit*.5, unit*.32), unit*.21);
     shape.fillColor = 'black';
     // DA PLANE OF BUTTS
     var path = new Path();
     // Give the stroke a color
     path.fillColor = 'black';
-    var start = new Point(0, 52);
+    var start = new Point(unit*.0221, unit*.8875);
     // Move to start and draw a line from there
     path.moveTo(start);
-    path.lineTo(start + [ 10, -12 ]);
-    path.lineTo(start + [ 50, -12 ]);
-    path.lineTo(start + [ 60, 0 ]);
+    path.lineTo(start + [ unit*.1677, unit*-0.20 ]);
+    path.lineTo(start + [ unit*.7882, unit*-0.20 ]);
+    path.lineTo(start + [ unit*.9559, 0 ]);
   </script>
 
   <nav>

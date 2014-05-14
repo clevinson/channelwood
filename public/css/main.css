@@ -13,7 +13,6 @@
     font-weight: normal;
     font-style: normal;
 }
-
 body {
   font-family: 'ocr_bregular', Monaco, monospace;
   font-size: 1em;
@@ -36,18 +35,19 @@ a, a:link, a:visited, a:active {
   text-decoration: none;
   text-transform: uppercase;
   color: #000;
-  -webkit-transition: all 800ms ease-out 200ms;
-  -moz-transition: all 800ms ease-out 200ms;
-  -o-transition: all 800ms ease-out 200ms;
-  transition: all 800ms ease-out 200ms;
+  -webkit-transition: all .5s linear 1ms;
+  -ms-transition: all .5s linear 1ms;
+  -moz-transition: all .5s linear 1ms;
+  -o-transition: all .5s linear 1ms;
+  transition: all .5s linear 1ms;
 }
 a:hover {
   color: #fff;
-  -webkit-transition: all 300ms ease-out 1ms;
-  -ms-transition: all 300ms ease-out 1ms;
-  -moz-transition: all 300ms ease-out 1ms;
-  -o-transition: all 300ms ease-out 1ms;
-  transition: all 300ms ease-out 1ms;
+  -webkit-transition: all 5s linear 1ms;
+  -ms-transition: all 5s linear 1ms;
+  -moz-transition: all 5s linear 1ms;
+  -o-transition: all 5s linear 1ms;
+  transition: all 5s linear 1ms;
 }
 
 /*

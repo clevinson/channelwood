@@ -6,12 +6,12 @@
   #{$name}: #{$argument};
 }
 
-$space-vertical: 30px;
-$width-main: 600px;
+$space-vertical: 50px;
+$width-main: 1000px;
 $width-gutter: $width-main*.1;
 $width-logo-footer: $width-gutter;
-$height-image: 250px;
-$height-footer: $width-logo-footer + $space-vertical;
+$height-image: 450px;
+$height-footer: $width-logo-footer;
 
 /*
 
@@ -109,8 +109,8 @@ footer nav ul {
 footer nav ul li {
 	display: inline-block;
 	vertical-align: middle;
-	margin: 0 0 $space-vertical/4;
-	padding: $space-vertical/4 0 0;
+	margin: 0;
+	padding: 0;
 	&#logo, &#logo canvas {
 		width: $width-logo-footer;
 		height: $width-logo-footer;
@@ -122,7 +122,7 @@ footer nav ul li {
 			text-align: right;
 			a {
 				display: inline-block;
-				margin-left: 5.5%;
+				margin-left: 2.5%;
 			}
 		}
 	}
