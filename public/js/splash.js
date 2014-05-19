@@ -1,8 +1,8 @@
 // Please note: dragging and dropping images only works for
 // certain browsers when serving this script online:
 
-var segLength = 12;
-var numLines = 100;
+var segLength = 10;
+var numLines = 150;
 var lineDepth = 10;
 var raster = null;
 var lines = new Array(numLines)
@@ -21,7 +21,7 @@ function onFrame(event) {
     //var line = lines[Math.floor(Math.random()*numLines)];
     for(var i=0; i < shapeSegments.length; i++){
       var seg = shapeSegments[i];
-      seg.point.y = seg.point.y + 1*(Math.random() - 0.5);
+      seg.point.y = seg.point.y + 0.3*(Math.random() - 0.5);
     }
   }
 }
@@ -39,20 +39,21 @@ function drawRect() {
     for(var i=0; i < raster.bounds.width/segLength; i++) {
       var x = raster.bounds.x + i*segLength;
 
-      position = new Point(x,y);
+      var position = new Point(x,y);
       if(raster.bounds.contains(position)){
-        var color = raster.getAverageColor(position);
+        color = raster.getAverageColor(position);
+      }else{
+        color = 1;
       }
-      var offset = color ? (1 - color.gray) * lineDepth : 0;
+      var offset = (1 - color.gray) * lineDepth;
       lines[j].add(new Point(x,y + offset));
-      if(color && (color.gray < 0.4)){
+      if(color && (color.gray < 0.6)){
         shapeSegments.push(lines[j].lastSegment);
       }
     }
     lines[j].smooth();
   }
-  console.log(shapeSegments);
-
+  console.log(view.bounds);
 }
 
 
