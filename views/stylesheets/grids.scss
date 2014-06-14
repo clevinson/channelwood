@@ -51,6 +51,7 @@ $height-footer: $width-logo-footer;
   	display: inline-block;
   	height: 100%;
   	vertical-align: middle;
+  	margin-left: -0.6em;
 	}
 	.art, .info {
 		//width: $width-main/2 - $width-gutter/2;
@@ -219,7 +220,10 @@ $textbox-width: $width-main/2 - $width-gutter;
 @media (max-width: ($width-main+$width-gutter*2)/2) {
 	#the-list {
 		width: 100%;
-		padding: 0 $width-gutter/4 $height-footer/4;
+		padding: 0 $width-gutter/8 $height-footer/8;
+		li {
+			margin: $width-gutter/8 0;
+		}
 	}
   #the-list li:nth-of-type(n) {
 		.art {
@@ -232,7 +236,7 @@ $textbox-width: $width-main/2 - $width-gutter;
 			float: left;
 			width: 100%;
 			vertical-align: top;
-			margin: $space-vertical 0 $space-vertical*2;
+			margin: $space-vertical/2 0 $space-vertical*1.5;
 		}
 	}
 	//
@@ -240,7 +244,7 @@ $textbox-width: $width-main/2 - $width-gutter;
 	//
 	footer nav ul {
 		width: 100%;
-		padding: 0 $width-gutter/4;
+		padding: 0 $width-gutter/8;
 		li.flank {
 			width: 40%;
 		}
