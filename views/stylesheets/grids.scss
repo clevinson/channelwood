@@ -147,11 +147,10 @@ footer nav ul li {
 	STUFF
 
 	*/
-
+$textbox-width: $width-main/2 - $width-gutter;
 .textbox {
 	@include vendor-prefix(box-sizing, border-box);
-	$width: $width-main/2 - $width-gutter;
-	width: $width;
+	width: $textbox-width;
 	padding: $width-gutter/4;
 	background-color: #fff;
 	position: absolute;
@@ -173,9 +172,22 @@ footer nav ul li {
 	top: 0;
 	bottom: 0;
 	overflow: scroll;
+	z-index: -1;
 	img {
 		width: 100%;
 		height: auto;
+		display: block;
+	}
+}
+
+@media (max-width: $textbox-width) {
+	.textbox {
+		position: static !important;
+		width: 100%;
+	}
+	#back-images {
+		width: 100%;
+		position: static;
 		display: block;
 	}
 }

@@ -1,15 +1,15 @@
-<div id="back-images">
-  <% background_images.each do |image_url| %>
-    <img src="<%= image_url %>">
-  <% end %>
-</div>
-
 <div class="info drag textbox">
   <h2 class="artist"><%= release.artist %></h2>
   <h2 class="release"><%= release.title %></h2>
   <time><%= release.release_date %></time>
   <p><%= release.cat_no %></p>
   <pre><%= release.description %></pre>
+</div>
+
+<div id="back-images">
+  <% background_images.each do |image_url| %>
+    <img src="<%= image_url %>">
+  <% end %>
 </div>
 
 <%= erb :footer %>

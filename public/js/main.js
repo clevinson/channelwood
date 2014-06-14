@@ -25,9 +25,9 @@ $(function() {
 });
 function checkTextBoxVisibility() {
   if ($viewWidth < $textboxWidth) {
-    $('.textbox').addClass('collapsed');
+    $('.textbox').draggable('disable');
   } else {
-    $('.textbox').removeClass('collapsed');
+    $('.textbox').draggable('enable');
   }
 }
 
