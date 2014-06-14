@@ -181,18 +181,6 @@ $textbox-width: $width-main/2 - $width-gutter;
 	}
 }
 
-@media (max-width: $textbox-width) {
-	.textbox {
-		position: static !important;
-		width: 100%;
-	}
-	#back-images {
-		width: 100%;
-		position: static;
-		display: block;
-	}
-}
-
 /*
 
 	RESPONSIVE
@@ -216,7 +204,6 @@ $textbox-width: $width-main/2 - $width-gutter;
 		}
 	}
 }
-
 @media (max-width: ($width-main+$width-gutter*2)/2) {
 	#the-list {
 		width: 100%;
@@ -254,5 +241,20 @@ $textbox-width: $width-main/2 - $width-gutter;
 		li.flank.right a {
 			display: block;
 		}
+	}
+}
+//
+// PHYSICAL RESPONSIVENESS
+//
+@media (max-width: $textbox-width) {
+	.textbox {
+		position: static !important;
+		width: 100%;
+		padding: $width-gutter/8;
+	}
+	#back-images {
+		width: 100%;
+		position: static;
+		display: block;
 	}
 }
