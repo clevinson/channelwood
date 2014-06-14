@@ -9,7 +9,7 @@
 $space-vertical: 60px;
 $width-main: 1200px;
 $width-gutter: $width-main*.1;
-$width-logo-footer: $width-gutter;
+$width-logo-footer: $width-gutter/2;
 $height-image: $width-main*.45;
 $height-footer: $width-logo-footer;
 
@@ -114,10 +114,20 @@ footer nav ul li {
 	vertical-align: middle;
 	margin: 0;
 	padding: 0;
-	&#logo, &#logo canvas {
-		width: $width-logo-footer;
+	&#logo {
+		width: $width-gutter;
 		height: $width-logo-footer;
 		background-color: #fff;
+		a {
+			display: block;
+			width: $width-logo-footer;
+			margin: 0 auto;
+		}
+		canvas {
+			width: $width-logo-footer;
+			height: $width-logo-footer;
+			background-color: #fff;
+		}
 	}
 	&.flank {
 		width: 45%;
@@ -188,9 +198,8 @@ footer nav ul li {
 		width: $width-main/2+$width-gutter;
 		padding: 0;
 		margin: 0 auto;
-		li#logo, li#logo canvas {
-			width: ($width-main/2+$width-gutter)*0.1;
-			height: ($width-main/2+$width-gutter)*0.1;
+		li#logo {
+			width: ($width-main/2+$width-gutter)*.1;
 		}
 	}
 }
@@ -198,7 +207,7 @@ footer nav ul li {
 @media (max-width: ($width-main+$width-gutter*2)/2) {
 	#the-list {
 		width: 100%;
-		padding: 0 $width-gutter/2 $height-footer/2;
+		padding: 0 $width-gutter/4 $height-footer/4;
 	}
   #the-list li:nth-of-type(n) {
 		.art {
@@ -219,9 +228,15 @@ footer nav ul li {
 	//
 	footer nav ul {
 		width: 100%;
-		padding: 0 $width-gutter/2;
+		padding: 0 $width-gutter/4;
+		li.flank {
+			width: 40%;
+		}
 		li#logo {
-			width: 10%; /* this is still broken */
+			width: 20%;
+		}
+		li.flank.right a {
+			display: block;
 		}
 	}
 }
