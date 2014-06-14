@@ -257,4 +257,20 @@ $textbox-width: $width-main/2 - $width-gutter;
 		position: static;
 		display: block;
 	}
+	//
+	// FOOTER RESPONSIVENESS (for tiny viewports)
+	//
+	footer nav ul li {
+		&.flank {
+			padding: $width-gutter/16 0;
+		}
+		&#logo {
+			$width-logo-footer-mini: $width-logo-footer*3/4;
+			height: $width-logo-footer-mini;
+			a, canvas {
+				width: $width-logo-footer-mini;
+				height: $width-logo-footer-mini;
+			}
+		}
+	}
 }
