@@ -49,6 +49,9 @@ a:hover {
   -o-transition: all 5s linear 1ms;
   transition: all 5s linear 1ms;
 }
+a:hover, a:active {
+  text-decoration: underline;
+}
 
 /*
   
