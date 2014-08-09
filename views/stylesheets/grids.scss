@@ -118,7 +118,6 @@ footer nav ul li {
 	&#logo {
 		width: $width-gutter;
 		height: $width-logo-footer;
-		background-color: #fff;
 		a {
 			display: block;
 			width: $width-logo-footer;
@@ -127,7 +126,6 @@ footer nav ul li {
 		canvas {
 			width: $width-logo-footer;
 			height: $width-logo-footer;
-			background-color: #fff;
 		}
 	}
 	&.flank {

@@ -103,21 +103,22 @@
 		path.smooth();
 	}
 
-	function onKeyDown(event) {
+	/*function onKeyDown(event) {
 		if (event.key == 'space') {
 			path.fullySelected = !path.fullySelected;
 			path.fillColor = path.fullySelected ? null : 'black';
 		}
-	}
+	}*/
 </script>
 
-<canvas id='back-sketch' resize></canvas>
+<canvas id='back-sketch' resize style="transform:rotate(180deg);
+-ms-transform:rotate(180deg); /* IE 9 */
+-webkit-transform:rotate(180deg);"></canvas>
 
-<div class="info drag">
-  <h2 class="title">about</h2>
-  <p>we rule.</p>
-  <p>what's our mission statement again?</p>
-  <p>(for a good time, try hitting space)</p>
-</div>
+<style type="text/css">
+	footer nav {
+		background-color: transparent;
+	}
+</style>
 
 <%= erb :footer %>
