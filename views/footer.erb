@@ -22,7 +22,13 @@
 
   <nav>
     <ul>
-      <li class='flank'><a href='/cart'>cart (3)</a>
+      <li class='flank'>
+        <form target="paypal" action="https://www.paypal.com/cgi-bin/webscr" method="post">
+          <input type="hidden" name="business" value="waysinnerpass@gmail.com">
+          <input type="hidden" name="cmd" value="_cart">
+          <input type="hidden" name="display" value="1">
+          <input type="submit" name="submit" border="0" value="VIEW CART">
+        </form>
       <li id='logo'><a href='/home'><canvas id='footer-logo'></canvas></a>
       <li class='flank right'><a href='/about'>about</a><a href='https://twitter.com/waysinnerpass'>twitter</a><a href='https://soundcloud.com/waysinnerpass'>soundcloud</a>
     </ul>

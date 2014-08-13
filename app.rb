@@ -100,12 +100,7 @@ post '/release/new' do
   end
 end
 
-
 get '/' do
-  erb :index
-end
-
-get '/splash' do
   erb :splash
 end
 
