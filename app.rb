@@ -101,7 +101,9 @@ post '/release/new' do
 end
 
 get '/' do
-  erb :splash
+  splash_js = (params['js'] || "splash") + ".js"
+  erb :splash,
+      :locals => { :splash_js => splash_js}
 end
 
 get '/home' do
