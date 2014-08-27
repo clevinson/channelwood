@@ -49,7 +49,7 @@ function runShape(t) {
   if(raster){
     for(var i=0; i < shapeSegments.length; i++){
       var seg = shapeSegments[i];
-      seg.segment.point.y = seg.zeroY + foo(t/80)*(seg.maxY - seg.zeroY);
+      seg.segment.point.y = seg.zeroY + foo(t/((50 + i/20)))*(seg.maxY - seg.zeroY);
     }
   }
 }
