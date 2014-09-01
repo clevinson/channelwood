@@ -13,13 +13,14 @@
     font-weight: normal;
     font-style: normal;
 }
-body {
+body, pre {
   font-family: 'ocr_bregular', Monaco, monospace;
   font-size: 1em;
   text-transform: lowercase;
 }
 h2 { /* 24px / 26px + 16px / 16px */
   font-size: 1.5em;
+  font-weight: normal;
   line-height: 1.08333333333em;
   margin: 0.66666666666em 0;
 }
@@ -41,7 +42,7 @@ a, a:link, a:visited, a:active {
   -o-transition: all .5s linear 1ms;
   transition: all .5s linear 1ms;
 }
-a:hover {
+a:hover, input[type="submit"]:hover {
   color: #fff;
   -webkit-transition: all 5s linear 1ms;
   -ms-transition: all 5s linear 1ms;
@@ -67,13 +68,30 @@ a:not(.button):hover, a:not(.button):active {
   margin-bottom: 0;
 }
 
+form[target="paypal"] {
+  display: inline-block;
+}
+.info form {
+  width: -webkit-calc(50% - .5em);
+  width: calc(50% - .5em);
+  position: relative;
+  left: -webkit-calc(50% + 0.5em);
+  left: calc(50% + 0.5em);
+  top: -webkit-calc(-3em - 2px);
+  top: calc(-3em - 2px);
+  margin-bottom: -2em;
+}
+.textbox { /* paypal hack */
+  padding-bottom: 0;
+}
+
 /*
   
   BUTTONS
 
   */
 
-.button {
+.button, input[type="submit"] { /*  input[type="submit"] for paypal buttons  */
   display: inline-block;
   -webkit-box-sizing: border-box;
   -ms-box-sizing: border-box;
@@ -89,7 +107,12 @@ a:not(.button):hover, a:not(.button):active {
   height: auto;
   background-color: #fff;
 }
-.button:last-of-type {
+input[type="submit"] { /*  input[type="submit"] for paypal buttons  */
+  font-family: 'ocr_bregular', Monaco, monospace;
+  font-size: 1em;
+  width: 100%;
+}
+.button:last-of-type, input[type="submit"]:last-of-type { /*  input[type="submit"] for paypal buttons  */
   margin: 0;
 }
 
