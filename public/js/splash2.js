@@ -30,7 +30,7 @@ function tick() {
 function offsetShape() {
     for(var i=0; i < shapeSegments.length; i++){
       var seg = shapeSegments[i].segment;
-      shapeSegments[i].maxY = seg.point.y + 1.5*(Math.random() - 0.5);
+      shapeSegments[i].maxY = seg.point.y + 2*(Math.random() - 0.5);
       shapeSegments[i].zeroY = seg.point.y;
 
       seg.point.y = shapeSegments[i].maxY;
@@ -49,7 +49,7 @@ function runShape(t) {
   if(raster){
     for(var i=0; i < shapeSegments.length; i++){
       var seg = shapeSegments[i];
-      seg.segment.point.y = seg.zeroY + foo(t/((50 + i/20)))*(seg.maxY - seg.zeroY);
+      seg.segment.point.y = seg.zeroY + foo(t*((i%2)+1)/((10+i/50)))*(seg.maxY - seg.zeroY);
     }
   }
 }
