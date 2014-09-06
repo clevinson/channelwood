@@ -2,7 +2,7 @@
 	// Code ported to Paper.js from http://the389.com/9/1/
 	// with permission.
 
-	var Tri = Base.extend({
+var Tri = Base.extend({
   initialize: function(x, y, dd, i, j) {
     this.position = new Point(x, y);
     this.radius = unit;
@@ -118,6 +118,13 @@ function onMouseMove(event) {
 }
 function onMouseDown(event) {
   aliveTriangles = [];
+}
+function onResize(event) {
+  aliveTriangles = [];
+  triangles = [];
+  xtriangles = Math.ceil(view.size.width/(unit*radiusToWidth))+2;
+  ytriangles = Math.ceil(view.size.height/(unit*radiusToHeight))+1;
+  buildGrid(xtriangles, ytriangles, unit);
 }
 </script>
 
