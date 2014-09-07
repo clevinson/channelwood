@@ -8,11 +8,11 @@
     <input type="hidden" name="_method" value="PUT">
     <div class="form-group">
       <label>Artist</label>
-      <input type="text" class="form-control" name="artist" value=<%= release.artist %>>
+      <input type="text" class="form-control" name="artist" value="<%= release.artist %>">
     </div>
     <div class="form-group">
       <label>Title</label>
-      <input type="text" class="form-control" name="title" value=<%= release.title %>>
+      <input type="text" class="form-control" name="title" value="<%= release.title %>">
     </div>
     <div class="form-group">
       <label>Description</label>
@@ -45,7 +45,6 @@
     </div>
     <button type="submit" class="btn btn-default">Save</button>
   </form>
-
 </div>
 
 <%= erb :cover_art_modal, :locals => {:images => images} %>
@@ -58,11 +57,7 @@ $(function (){
   $('#cover-art-modal').find('img[src="<%= release.cover_art %>"]').parent().addClass('selected');
   setCoverArt();
 
-  <% release.images.each do |image_url| %>
-    $('#back-images-modal').find('img[src="<%= image_url %>"]').parent().addClass('selected');
-  <% end %>
-
-  setBackImages();
+  initBackImages(<%= release.images %>);
 });
 
 

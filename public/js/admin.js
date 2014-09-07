@@ -17,6 +17,10 @@ function setCoverArt() {
   $('#cover-art-display').html(cover_art.clone());
 }
 
+function initCoverArt() {
+
+}
+
 function setBackImages() {
   $('#back-images-input ul').empty()
   back_images = $('#back-images-modal .selected img');
@@ -25,5 +29,14 @@ function setBackImages() {
     image_elt = $(this).clone();
     $('#back-images-input ul').append($('<li>').append(input_elt).append(image_elt));
   });
+  $('#back-images-input ul').css('min-height', $('#back-images-input ul').height());
+}
+
+function initBackImages(image_urls) {
+  for(var i in image_urls){
+    input_elt = $('<input type="hidden" class="form-control" name="images[]">').attr('value',image_urls[i]);
+    image_elt = $('<img src="' + image_urls[i] + '"">');
+    $('#back-images-input ul').append($('<li>').append(input_elt).append(image_elt));
+  }
   $('#back-images-input ul').css('min-height', $('#back-images-input ul').height());
 }

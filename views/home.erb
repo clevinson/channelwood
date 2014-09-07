@@ -1,28 +1,18 @@
 <ul id='the-list'>
-  <li>
-    <div class='art'>
-      <img src='http://www.fillmurray.com/450/450' alt='art'>
-    </div>
-    <div class='info'>
-      <h2 class='artist'>dreampeter</h2>
-      <h2 class='title'>ambien lp</h2>
-      <p>wip-001
-      <time>june 1, 2014</time>
-      <a href='/digital/WIP-001'>digital</a> / <a href='/physical/WIP-001'>physical</a></p>
-    </div>
-  </li>
-  <li>
-    <div class='art'>
-      <img src='http://www.fillmurray.com/450/450' alt='art'>
-    </div>
-    <div class='info'>
-      <h2 class='artist'>kohwi</h2>
-      <h2 class='title'>hidden tape<br>forest cape</h2>
-      <p>wip-002
-      <time>july 12, 2014</time>
-      <a href='/digital/WIP-002'>digital</a> / <a href='/physical/WIP-002'>physical</a></p>
-    </div>
-  </li>
+  <% @releases.each do |release| %>
+    <li>
+      <div class='art'>
+        <img src='<%= release.cover_art %>' alt='art'>
+      </div>
+      <div class='info'>
+        <h2 class='artist'><%= release.artist %></h2>
+        <h2 class='title'><%= release.title %></h2>
+        <p><%= release.cat_no %>
+        <time><%= release.release_date %></time>
+        <a href="/digital/<%= release.cat_no %>">digital</a> / <a href="/physical/<%= release.cat_no %>">physical</a></p>
+      </div>
+    </li>
+  <% end %>
   <!--<li>
     <div class='art'>
       <img src='http://www.fillmurray.com/270/250' alt='art'>

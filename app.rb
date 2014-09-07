@@ -101,12 +101,11 @@ post '/release/new' do
 end
 
 get '/' do
-  splash_js = (params['js'] || "splash") + ".js"
-  erb :splash,
-      :locals => { :splash_js => splash_js}
+  erb :splash
 end
 
 get '/home' do
+  @releases = Release.all.to_a
   erb :home
 end
 

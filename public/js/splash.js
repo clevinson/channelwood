@@ -1,11 +1,18 @@
 var segLength = 15;
-var numLines = 175;
-var lineDepth = 6;
+var numLines = 150;
+var lineDepth = 200;
 var raster = null;
 var lines = new Array(numLines)
 var shapeSegments = []
 var wing_length = 20;
 var wingSegments = []
+var time = 0;
+
+var pathSettings = {
+  strokeColor: '#555',
+  closed: false,
+  strokeWidth: 1.5
+}
 
 // As the web is asynchronous, we need to wait for the raster to
 // load before we can perform any operation on its pixels.
@@ -13,36 +20,60 @@ new Raster('img/wip-logo.png').on('load', function() {
   raster = this;
   this.remove();
   drawRect();
+  offsetShape();
 });
 
-function onFrame(event) {
+function tick() {
+  time += 1;
+}
+
+function offsetShape() {
+    for(var i=0; i < shapeSegments.length; i++){
+      var seg = shapeSegments[i].segment;
+      shapeSegments[i].maxY = seg.point.y + 2*(Math.random() - 0.5);
+      shapeSegments[i].zeroY = seg.point.y;
+
+      seg.point.y = shapeSegments[i].maxY;
+    }
+}
+
+function foo(x) {
+  if(x < 2*Math.PI) {
+    return -1*Math.cos(x) + 1;
+  } else {
+    return 0;
+  }
+}
+
+function runShape(t) {
   if(raster){
-    //var line = lines[Math.floor(Math.random()*numLines)];
     for(var i=0; i < shapeSegments.length; i++){
       var seg = shapeSegments[i];
-      seg.point.y = seg.point.y + 0.3*(Math.random() - 0.5);
+      seg.segment.point.y = seg.zeroY + foo(t*((i%2)+1)/((10+i/50)))*(seg.maxY - seg.zeroY);
     }
   }
-  jellyWings()
+}
+
+
+function onFrame(event) {
+  tick();
+  runShape(time);
+  jellyWings();
 }
 
 function jellyWings(){
   for(var i=0; i < wingSegments.length; i++){
     var seg = wingSegments[i];
-    seg.point.x = seg.point.x + 0.7*(Math.random() - 0.5);
+    seg.point.x = seg.point.x + 0.5*(Math.random() - 0.5);
   }
 }
 
 function drawRect() {
   raster.fitBounds(view.bounds);
-  raster.scale(0.85);
+  raster.scale(0.9);
 
   for(var j=0; j < numLines; j++) {
-    lines[j] = new Path({
-      strokeColor: '#555',
-      closed: false,
-      strokeWidth: 1.5
-    });
+    lines[j] = new Path(pathSettings);
 
     var y_final;
     var y_init;
@@ -57,10 +88,11 @@ function drawRect() {
       }else{
         color = 1;
       }
-      var offset = (1 - color.gray) * lineDepth;
+      var offset = 0;//(1 - color.gray) * lineDepth;
       lines[j].add(new Point(x, y + offset));
       if(color && (color.gray < 0.6)){
-        shapeSegments.push(lines[j].lastSegment);
+        shapeSegments.push({segment: lines[j].lastSegment});
+        //shapeMaxes.push(color.gray);
       }
       if(i == 0){
         y_init = y + offset;
@@ -79,6 +111,9 @@ function drawRect() {
 
     lines[j].smooth();
   }
-  console.log(wingSegments);
 
 }
+
+$('#back-sketch').click(function() {
+  location.href='/home';
+});
