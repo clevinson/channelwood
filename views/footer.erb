@@ -1,25 +1,4 @@
 <footer id='footer'>
-  <!-- let's replace this with a masked svg -->
-  <script type="text/paperscript" canvas="footer-logo">
-    var unit = $('#footer-logo').height();
-    $(window).on('resize', function(){
-      unit = $('#footer-logo').height();
-    });
-    // DA CIRCULATOR
-    var shape = new Shape.Circle(new Point(unit*.5, unit*.32), unit*.21);
-    shape.fillColor = 'black';
-    // DA PLANE OF BUTTS
-    var path = new Path();
-    // Give the stroke a color
-    path.fillColor = 'black';
-    var start = new Point(unit*.0221, unit*.8875);
-    // Move to start and draw a line from there
-    path.moveTo(start);
-    path.lineTo(start + [ unit*.1677, unit*-0.20 ]);
-    path.lineTo(start + [ unit*.7882, unit*-0.20 ]);
-    path.lineTo(start + [ unit*.9559, 0 ]);
-  </script>
-
   <nav>
     <ul>
       <li class='flank'>
@@ -29,7 +8,7 @@
           <input type="hidden" name="display" value="1">
           <input type="submit" name="submit" border="0" value="VIEW CART">
         </form> -->
-      <li id='logo'><a href='/home'><canvas id='footer-logo'></canvas></a>
+      <li id='logo'><a href='/home'><img src='/img/waysinnerpass-logo.svg' alt="WIP"></canvas></a>
       <li class='flank right'><a href='/about'>about</a><a href='https://twitter.com/waysinnerpass'>twitter</a><a href='https://soundcloud.com/waysinnerpass'>soundcloud</a>
     </ul>
   </nav>
