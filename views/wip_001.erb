@@ -23,7 +23,7 @@
   source.mediaElement.addEventListener('loadedmetadata', function() {
     startTime = (Date.now() % 3388372) / 1000;
     source.mediaElement.currentTime = startTime;
-    source.mediaElement.play();
+    //source.mediaElement.play();
     //gainNode.gain.linearRampToValueAtTime(1.0, context.currentTime + 5);
   });
 $(function() {
@@ -33,33 +33,32 @@ $(function() {
   bgd2.opacity(0.5);
 
 
-
-
   $('#drawing').mousemove(function(e) {
-    multz = 10.0
-    trans_x = multz*(0.5 - e.pageX/window.innerWidth);
-    trans_y = multz*(0.5 - e.pageY/window.innerHeight);
-
-    bgd1.translate(trans_x, trans_y);
-    bgd2.translate(-trans_x, -trans_y);
-
 
   });
 
 });
 
 
+var time,
+    theta;
+function drawz() {
+    requestAnimationFrame(drawz);
+    var now = new Date().getTime(),
+        dt = now - (time || now);
+    time = now;
 
+    theta = dt/2 + (theta || 0);
 
-Filters = {};
-Filters.getPixels = function(img) {
-  var c = this.getCanvas(img.width, img.height);
-  var ctx = c.getContext('2d');
-  ctx.drawImage(img);
-  return ctx.getImageData(0,0,c.width,c.height);
-};
+    r = 2.3 + 2.2*Math.sin(theta/300);
 
+    trans_x = r*Math.sin(theta);
+    trans_y = r*Math.cos(theta);
 
+    bgd1.translate(trans_x, trans_y);
+    bgd2.translate(-trans_x, -trans_y);
+}
+requestAnimationFrame(drawz);
 </script>
 
 <div id="drawing">
