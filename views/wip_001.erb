@@ -23,16 +23,26 @@
   source.mediaElement.addEventListener('loadedmetadata', function() {
     startTime = (Date.now() % 3388372) / 1000;
     source.mediaElement.currentTime = startTime;
-    source.mediaElement.play();
+    //source.mediaElement.play();
     //gainNode.gain.linearRampToValueAtTime(1.0, context.currentTime + 5);
   });
 $(function() {
   draw = SVG('drawing').size(window.innerWidth, window.innerHeight);
-  bgd1 = draw.image('/img/wip-001-digital_1.jpg');
-  bgd2 = draw.image('/img/wip-001-digital_1.jpg');
+  bgd1 = draw.image('https://s3.amazonaws.com/wip-static/digital-artwork/WIP-001/WIP001-digital-background.png');
+  bgd2 = draw.image('https://s3.amazonaws.com/wip-static/digital-artwork/WIP-001/WIP001-digital-background.png');
   bgd2.opacity(0.5);
 
 
+  var squiggles = Array();
+  for (var i = 0; i < 7; i++) {
+    squiggles[i] = draw.image('https://s3.amazonaws.com/wip-static/digital-artwork/WIP-001/WIP001-digital-squiggle.svg');
+    squiggles[i].size(350, 80);
+    var squigMargin = squiggles[i].height()*3/4;
+    var squigx = window.innerWidth-squiggles[i].width()-squigMargin/2;
+    var squigy =  window.innerHeight-squiggles[i].height()-(squigMargin*(i+1));
+    squiggles[i].attr({ x: squigx, y: squigy });
+    squiggles[i].attr({ fill: '#000' });
+  }
 
 
   $('#drawing').mousemove(function(e) {
