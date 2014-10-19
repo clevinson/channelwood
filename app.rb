@@ -145,7 +145,12 @@ class Channelwood < Sinatra::Base
 
   get '/digital/:cat_no' do
     protected!
-    "THIS IS THE DIGITAL PAGE 4 #{params['cat_no']}" + (erb :footer)
+    if params['cat_no'] == 'WIP-001'
+      erb :wip_001, :locals => { :sc_client_id => ENV['SC_CLIENT_ID'] }
+
+    else
+      "THIS IS THE DIGITAL PAGE 4 #{params['cat_no']}" + (erb :footer)
+    end
   end
 
   get '/about' do

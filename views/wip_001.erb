@@ -1,0 +1,27 @@
+<script type='text/javascript'>
+  window.AudioContext = window.AudioContext || window.webkitAudioContext;
+
+  var context = new AudioContext(),
+      audio = new Audio(),
+      source,
+      gain,
+      url = 'http://api.soundcloud.com/tracks/165664593/stream?secret_token=s-Q5i1q' +
+            '&client_id=' + '<%= sc_client_id %>';
+
+  audio.src = url;
+  source = context.createMediaElementSource(audio);
+  gainNode = context.createGain();
+  gainNode.gain.value = 1.0;
+
+  source.connect(gainNode);
+  gainNode.connect(context.destination);
+
+  source.loop = true;
+  source.mediaElement.addEventListener('loadedmetadata', function() {
+    startTime = (Date.now() % 3388372) / 1000;
+    source.mediaElement.currentTime = startTime;
+    source.mediaElement.play();
+    //gainNode.gain.linearRampToValueAtTime(1.0, context.currentTime + 5);
+  });
+
+</script>
