@@ -1,3 +1,6 @@
+<script src="/js/svg.js"></script>
+<script src="/js/svg.filter.min.js"></script>
+
 <script type='text/javascript'>
   window.AudioContext = window.AudioContext || window.webkitAudioContext;
 
@@ -23,5 +26,41 @@
     source.mediaElement.play();
     //gainNode.gain.linearRampToValueAtTime(1.0, context.currentTime + 5);
   });
+$(function() {
+  draw = SVG('drawing').size(window.innerWidth, window.innerHeight);
+  bgd1 = draw.image('/img/wip-001-digital_1.jpg');
+  bgd2 = draw.image('/img/wip-001-digital_1.jpg');
+  bgd2.opacity(0.5);
+
+
+
+
+  $('#drawing').mousemove(function(e) {
+    multz = 10.0
+    trans_x = multz*(0.5 - e.pageX/window.innerWidth);
+    trans_y = multz*(0.5 - e.pageY/window.innerHeight);
+
+    bgd1.translate(trans_x, trans_y);
+    bgd2.translate(-trans_x, -trans_y);
+
+
+  });
+
+});
+
+
+
+
+Filters = {};
+Filters.getPixels = function(img) {
+  var c = this.getCanvas(img.width, img.height);
+  var ctx = c.getContext('2d');
+  ctx.drawImage(img);
+  return ctx.getImageData(0,0,c.width,c.height);
+};
+
 
 </script>
+
+<div id="drawing">
+</div>
