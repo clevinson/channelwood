@@ -1,5 +1,14 @@
 <script src="/js/svg.js"></script>
 <script src="/js/svg.filter.min.js"></script>
+<style>
+  img {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+  }
+</style>
 
 <script type='text/javascript'>
   window.AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -28,14 +37,16 @@
   });
 $(function() {
   draw = SVG('drawing').size(window.innerWidth, window.innerHeight);
-  bgd1 = draw.image('https://s3.amazonaws.com/wip-static/digital-artwork/WIP-001/WIP001-digital-background.png');
-  bgd2 = draw.image('https://s3.amazonaws.com/wip-static/digital-artwork/WIP-001/WIP001-digital-background.png');
-  bgd2.opacity(0.5);
+  bgd1 = $('<img>', {src: 'https://s3.amazonaws.com/wip-static/digital-artwork/WIP-001/WIP001-digital-background.png'}).css('z-index', -2);;
+  bgd2 = $('<img>', {src: 'https://s3.amazonaws.com/wip-static/digital-artwork/WIP-001/WIP001-digital-background.png'}).css('z-index', -1);;
+  $('#drawing').append(bgd1);
+  $('#drawing').append(bgd2);
+  bgd2.css('opacity',0.6);
 
 
   var squiggles = Array();
   for (var i = 0; i < 7; i++) {
-    squiggles[i] = draw.image('https://s3.amazonaws.com/wip-static/digital-artwork/WIP-001/WIP001-digital-squiggle.svg');
+    squiggles[i] = draw.image('http://s3.amazonaws.com/wip-static/digital-artwork/WIP-001/WIP001-digital-squiggle.svg');
     squiggles[i].size(350, 80);
     var squigMargin = squiggles[i].height()*3/4;
     var squigx = window.innerWidth-squiggles[i].width()-squigMargin/2;
@@ -46,12 +57,11 @@ $(function() {
 
 
   $('#drawing').mousemove(function(e) {
-    multz = 10.0
+    multz = 20.0
     trans_x = multz*(0.5 - e.pageX/window.innerWidth);
     trans_y = multz*(0.5 - e.pageY/window.innerHeight);
-
-    bgd1.translate(trans_x, trans_y);
-    bgd2.translate(-trans_x, -trans_y);
+    bgd1.css('webkitTransform', 'translate3d(' + trans_x + 'px,' + trans_y + 'px,0px)');
+    bgd2.css('webkitTransform', 'translate3d(' + -trans_x + 'px,' + -trans_y + 'px,0px)');
 
 
   });
