@@ -78,9 +78,10 @@ function drawz() {
     hz1 = 90*Math.sin(10*t);
     hz2 = 90*Math.sin(-10*t);
 
-    factor = 15;
-    s1 = 0.2+(factor+Math.sin(2*Math.PI*t/25))/factor;
-    s2 = 0.2+(factor+Math.sin(2*Math.PI*t/33))/factor;
+    bigz = 1.5 + 1*Math.sin(2*Math.PI*t/150);
+    factor = 30;
+    s1 = bigz+(factor+Math.sin(2*Math.PI*t/25))/factor;
+    s2 = bigz+(factor+Math.sin(2*Math.PI*t/33))/factor;
 
     trans_x = r*Math.sin(t);
     trans_y = r*Math.cos(t);
