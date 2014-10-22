@@ -1,5 +1,14 @@
 <script src="/js/svg.js"></script>
 <script src="/js/svg.filter.min.js"></script>
+<style>
+  img {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+  }
+</style>
 
 <script type='text/javascript'>
   window.AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -28,35 +37,58 @@
   });
 $(function() {
   draw = SVG('drawing').size(window.innerWidth, window.innerHeight);
-  bgd1 = draw.image('/img/wip-001-digital_1.jpg');
-  bgd2 = draw.image('/img/wip-001-digital_1.jpg');
-  bgd2.opacity(0.5);
+  bgd1 = $('<img>', {src: 'https://s3.amazonaws.com/wip-static/digital-artwork/WIP-001/WIP001-digital-background.png'}).css('z-index', -2);;
+  bgd2 = $('<img>', {src: 'https://s3.amazonaws.com/wip-static/digital-artwork/WIP-001/WIP001-digital-background.png'}).css('z-index', -1);;
+  $('#drawing').append(bgd1);
+  $('#drawing').append(bgd2);
+  bgd2.css('opacity',0.6);
+  bgd1.css('opacity',0.6);
 
 
-  $('#drawing').mousemove(function(e) {
+  var squiggles = Array();
+  for (var i = 0; i < 7; i++) {
+    squiggles[i] = draw.image('http://s3.amazonaws.com/wip-static/digital-artwork/WIP-001/WIP001-digital-squiggle.svg');
+    squiggles[i].size(350, 80);
+    var squigMargin = squiggles[i].height()*3/4;
+    var squigx = window.innerWidth-squiggles[i].width()-squigMargin/2;
+    var squigy =  window.innerHeight-squiggles[i].height()-(squigMargin*(i+1));
+    squiggles[i].attr({ x: squigx, y: squigy });
+    squiggles[i].attr({ fill: '#000' });
+  }
 
-  });
 
 });
 
 
 var time,
-    theta;
+    t;
+    hz1i = 100 + Math.random(50);
+    hz2i = 100 + Math.random(50);
+
 function drawz() {
     requestAnimationFrame(drawz);
     var now = new Date().getTime(),
         dt = now - (time || now);
     time = now;
 
-    theta = dt/2 + (theta || 0);
+    t = dt/1000 + (t || 0);
 
-    r = 2.3 + 2.2*Math.sin(theta/300);
+    r = 5 + 2*Math.sin(2*Math.PI*t/6);
 
-    trans_x = r*Math.sin(theta);
-    trans_y = r*Math.cos(theta);
+    hz1 = 90*Math.sin(10*t);
+    hz2 = 90*Math.sin(-10*t);
 
-    bgd1.translate(trans_x, trans_y);
-    bgd2.translate(-trans_x, -trans_y);
+    factor = 15;
+    s1 = 0.2+(factor+Math.sin(2*Math.PI*t/25))/factor;
+    s2 = 0.2+(factor+Math.sin(2*Math.PI*t/33))/factor;
+
+    trans_x = r*Math.sin(t);
+    trans_y = r*Math.cos(t);
+
+    bgd1.css('webkitTransform', 'translate3d(' + trans_x + 'px,' + trans_y + 'px,0px) scale(' + s1 + ')');
+    bgd2.css('webkitTransform', 'translate3d(' + -trans_x + 'px,' + -trans_y + 'px,0px) scale(' + s2 + ')');
+    //bgd2.css('webkitTransform', 'scale(' + r + ')');
+
 }
 requestAnimationFrame(drawz);
 </script>
