@@ -73,18 +73,18 @@ function drawz() {
 
     t = dt/1000 + (t || 0);
 
-    r = 5 + 2*Math.sin(2*Math.PI*t/6);
+    r = 10 + 2*Math.sin(2*Math.PI*t/6);
 
     hz1 = 90*Math.sin(10*t);
     hz2 = 90*Math.sin(-10*t);
 
-    bigz = 1.5 + 1*Math.sin(2*Math.PI*t/150);
-    factor = 30;
-    s1 = bigz+(factor+Math.sin(2*Math.PI*t/25))/factor;
-    s2 = bigz+(factor+Math.sin(2*Math.PI*t/33))/factor;
+    bigz = 2.3 - 7*Math.sin(2*Math.PI*t/300);
+    factor = 50;
+    s1 = bigz+(factor+Math.sin(2*Math.PI*t/7))/factor;
+    s2 = bigz+(factor+Math.sin(2*Math.PI*t/10))/factor;
 
-    trans_x = r*Math.sin(t);
-    trans_y = r*Math.cos(t);
+    trans_x = r*Math.sin(t/2);
+    trans_y = r*Math.cos(t/2);
 
     bgd1.css('webkitTransform', 'translate3d(' + trans_x + 'px,' + trans_y + 'px,0px) scale(' + s1 + ')');
     bgd2.css('webkitTransform', 'translate3d(' + -trans_x + 'px,' + -trans_y + 'px,0px) scale(' + s2 + ')');
