@@ -23,7 +23,7 @@
   audio.src = url;
   source = context.createMediaElementSource(audio);
   gainNode = context.createGain();
-  gainNode.gain.value = 1.0;
+  gainNode.gain.value = 0;
 
   source.connect(gainNode);
   gainNode.connect(context.destination);
@@ -41,20 +41,19 @@ $(function() {
   bgd2 = $('<img>', {src: 'https://s3.amazonaws.com/wip-static/digital-artwork/WIP-001/WIP001-digital-background.png'}).css('z-index', -1);;
   $('#drawing').append(bgd1);
   $('#drawing').append(bgd2);
-  bgd2.css('opacity',0.6);
-  bgd1.css('opacity',0.6);
+  bgd2.css('opacity',0).fadeTo(10000,0.6);
+  bgd1.css('opacity',0).fadeTo(10000,0.6);
 
-
-  var squiggles = Array();
-  for (var i = 0; i < 7; i++) {
-    squiggles[i] = draw.image('http://s3.amazonaws.com/wip-static/digital-artwork/WIP-001/WIP001-digital-squiggle.svg');
-    squiggles[i].size(350, 80);
-    var squigMargin = squiggles[i].height()*3/4;
-    var squigx = window.innerWidth-squiggles[i].width()-squigMargin/2;
-    var squigy =  window.innerHeight-squiggles[i].height()-(squigMargin*(i+1));
-    squiggles[i].attr({ x: squigx, y: squigy });
-    squiggles[i].attr({ fill: '#000' });
-  }
+  //var squiggles = Array();
+  //for (var i = 0; i < 7; i++) {
+  //  squiggles[i] = draw.image('http://s3.amazonaws.com/wip-static/digital-artwork/WIP-001/WIP001-digital-squiggle.svg');
+  //  squiggles[i].size(350, 80);
+  //  var squigMargin = squiggles[i].height()*3/4;
+  //  var squigx = window.innerWidth-squiggles[i].width()-squigMargin/2;
+  //  var squigy =  window.innerHeight-squiggles[i].height()-(squigMargin*(i+1));
+  //  squiggles[i].attr({ x: squigx, y: squigy });
+  //  squiggles[i].attr({ fill: '#000' });
+  //}
 
 
 });
@@ -73,21 +72,33 @@ function drawz() {
 
     t = dt/1000 + (t || 0);
 
-    r = 10 + 2*Math.sin(2*Math.PI*t/6);
+    //gainNode.gain.value = Math.min(1, Math.max(0,(t/10 - 0.2)));
+
 
     hz1 = 90*Math.sin(10*t);
     hz2 = 90*Math.sin(-10*t);
 
-    bigz = 2.3 - 7*Math.sin(2*Math.PI*t/300);
-    factor = 50;
-    s1 = bigz+(factor+Math.sin(2*Math.PI*t/7))/factor;
-    s2 = bigz+(factor+Math.sin(2*Math.PI*t/10))/factor;
+    bigscale = 0.8 - 0.4*Math.cos(2*Math.PI*t/200);
+    factor = 30;
+    s1 = bigscale+(factor+Math.sin(2*Math.PI*t/12))/factor;
+    s2 = bigscale+(factor+Math.cos(2*Math.PI*t/9))/factor;
 
-    trans_x = r*Math.sin(t/2);
-    trans_y = r*Math.cos(t/2);
+    r = 1.6 - 1.5*Math.cos(2*Math.PI*t/15);
 
-    bgd1.css('webkitTransform', 'translate3d(' + trans_x + 'px,' + trans_y + 'px,0px) scale(' + s1 + ')');
-    bgd2.css('webkitTransform', 'translate3d(' + -trans_x + 'px,' + -trans_y + 'px,0px) scale(' + s2 + ')');
+    spinrate = (100 - 90*Math.cos(2*Math.PI*t/1000))/100;
+    spin_x = r*Math.sin(2*Math.PI*t*spinrate);
+    spin_y = r*Math.cos(2*Math.PI*t*spinrate);
+
+    bigspin = 900;
+    bigspinrate = 7*Math.PI/5 - 2*Math.PI*t/300;
+    ax = bigspin*Math.sin(bigspinrate) + spin_x;
+    ay = bigspin*Math.cos(bigspinrate) + spin_y;
+    bx = bigspin*Math.sin(bigspinrate) - spin_x;
+    by = bigspin*Math.cos(bigspinrate) - spin_y;
+
+
+    bgd1.css('webkitTransform', 'translate3d(' + ax + 'px,' + ay + 'px,0px) scale(' + s1 + ')');
+    bgd2.css('webkitTransform', 'translate3d(' + bx + 'px,' + by + 'px,0px) scale(' + s2 + ')');
     //bgd2.css('webkitTransform', 'scale(' + r + ')');
 
 }
