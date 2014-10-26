@@ -44,14 +44,17 @@ $(function() {
   $('body').css('overflow','hidden');
 
   for (var i = 0; i < 2; i++) {
-    bgd[i] = $('<img>', {src: 'https://s3.amazonaws.com/wip-static/digital-artwork/WIP-001/WIP001-digital-background-2.png'});
+    bgd[i] = $('<img>', {
+      src: 'https://s3.amazonaws.com/wip-static/digital-artwork/WIP-001/WIP001-digital-background-2.png',
+      style: 'opacity: 0; z-index: ' + -i
+    });
     $('#drawing').append(bgd[i]);
     bgd[i].load(function() {
-      $(this).css({'opacity':0.6, 'z-index': -i});
 
       center_x = window.innerWidth/2 - $(this).width()/2 ;
       center_y = window.innerHeight/2 - $(this).height()/2;
-      $(this).css('webkitTransform', 'translate3d(' + sx + 'px,' + sy + 'px,0px)');
+      $(this).css('webkitTransform', 'translate3d(' + center_x + 'px,' + center_y + 'px,0px)');
+      $(this).fadeTo(10000,0.6);
     });
   }
 
