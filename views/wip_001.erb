@@ -15,6 +15,9 @@
 
   var context = new AudioContext(),
       audio = new Audio(),
+      bgd = new Array(),
+      center_x,
+      center_y,
       source,
       gain,
       url = 'http://api.soundcloud.com/tracks/165664593/stream?secret_token=s-Q5i1q' +
@@ -23,7 +26,7 @@
   audio.src = url;
   source = context.createMediaElementSource(audio);
   gainNode = context.createGain();
-  gainNode.gain.value = 0;
+  gainNode.gain.value = 1;
 
   source.connect(gainNode);
   gainNode.connect(context.destination);
@@ -37,12 +40,23 @@
   });
 $(function() {
   draw = SVG('drawing').size(window.innerWidth, window.innerHeight);
-  bgd1 = $('<img>', {src: 'https://s3.amazonaws.com/wip-static/digital-artwork/WIP-001/WIP001-digital-background.png'}).css('z-index', -2);;
-  bgd2 = $('<img>', {src: 'https://s3.amazonaws.com/wip-static/digital-artwork/WIP-001/WIP001-digital-background.png'}).css('z-index', -1);;
-  $('#drawing').append(bgd1);
-  $('#drawing').append(bgd2);
-  bgd2.css('opacity',0).fadeTo(10000,0.6);
-  bgd1.css('opacity',0).fadeTo(10000,0.6);
+
+  $('body').css('overflow','hidden');
+
+  for (var i = 0; i < 2; i++) {
+    bgd[i] = $('<img>', {src: 'https://s3.amazonaws.com/wip-static/digital-artwork/WIP-001/WIP001-digital-background-2.png'});
+    $('#drawing').append(bgd[i]);
+    bgd[i].load(function() {
+      $(this).css({'opacity':0.6, 'z-index': -i});
+
+      center_x = window.innerWidth/2 - $(this).width()/2 ;
+      center_y = window.innerHeight/2 - $(this).height()/2;
+      $(this).css('webkitTransform', 'translate3d(' + sx + 'px,' + sy + 'px,0px)');
+    });
+  }
+
+
+
 
   //var squiggles = Array();
   //for (var i = 0; i < 7; i++) {
@@ -72,13 +86,11 @@ function drawz() {
 
     t = dt/1000 + (t || 0);
 
-    //gainNode.gain.value = Math.min(1, Math.max(0,(t/10 - 0.2)));
-
 
     hz1 = 90*Math.sin(10*t);
     hz2 = 90*Math.sin(-10*t);
 
-    bigscale = 0.8 - 0.4*Math.cos(2*Math.PI*t/200);
+    bigscale = 0.5 - 0.3*Math.cos(2*Math.PI*t/200);
     factor = 30;
     s1 = bigscale+(factor+Math.sin(2*Math.PI*t/12))/factor;
     s2 = bigscale+(factor+Math.cos(2*Math.PI*t/9))/factor;
@@ -89,17 +101,16 @@ function drawz() {
     spin_x = r*Math.sin(2*Math.PI*t*spinrate);
     spin_y = r*Math.cos(2*Math.PI*t*spinrate);
 
-    bigspin = 400;
-    bigspinrate = 7*Math.PI/5 - 2*Math.PI*t/300;
-    ax = bigspin*Math.sin(bigspinrate) + spin_x;
-    ay = bigspin*Math.cos(bigspinrate) + spin_y;
-    bx = bigspin*Math.sin(bigspinrate) - spin_x;
-    by = bigspin*Math.cos(bigspinrate) - spin_y;
+    bigspin = 300;
+    bigspinrate = Math.PI/2 + 2*Math.PI*t/300;
+    ax = bigspin*Math.sin(bigspinrate) + spin_x + center_x;
+    ay = bigspin*Math.cos(bigspinrate) + spin_y + center_y;
+    bx = bigspin*Math.sin(bigspinrate) - spin_x + center_x;
+    by = bigspin*Math.cos(bigspinrate) - spin_y + center_y;
 
 
-    bgd1.css('webkitTransform', 'translate3d(' + ax + 'px,' + ay + 'px,0px) scale(' + s1 + ')');
-    bgd2.css('webkitTransform', 'translate3d(' + bx + 'px,' + by + 'px,0px) scale(' + s2 + ')');
-    //bgd2.css('webkitTransform', 'scale(' + r + ')');
+    bgd[0].css('webkitTransform', 'translate3d(' + ax + 'px,' + ay + 'px,0px) scale(' + s1 + ')');
+    bgd[1].css('webkitTransform', 'translate3d(' + bx + 'px,' + by + 'px,0px) scale(' + s2 + ')');
 
 }
 requestAnimationFrame(drawz);
