@@ -8,8 +8,15 @@
     bottom: 0;
     top: 0;
   }
+  object {
+    fill: black;
+  }
 </style>
-
+<!--<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+   viewBox="0 0 792 152" enable-background="new 0 0 792 152" xml:space="preserve"><path fill="#F05346" d="M213.1,152C121.6,152,60,123,0,90l61.5-28.5c59,32.5,98.6,48.5,151.6,48.5s93.1-16.5,152.1-48.5
+        C425.2,29,486.8,0,578.8,0c91.6,0,153.1,29,213.1,62l-61,28c-75.5-40.5-110.6-48-152.1-48c-53,0-93.1,16.5-152.1,48.5
+        C366.7,123,305.2,152,213.1,152z"/></svg>-->
+ 
 <script type='text/javascript'>
   window.AudioContext = window.AudioContext || window.webkitAudioContext;
 
@@ -43,6 +50,18 @@ $(function() {
 
   $('body').css('overflow','hidden');
 
+  var squiggles = Array();
+  for (var i = 0; i < 7; i++) {
+    squiggles[i] = draw.path('M213.1,152C121.6,152,60,123,0,90l61.5-28.5c59,32.5,98.6,48.5,151.6,48.5s93.1-16.5,152.1-48.5 C425.2,29,486.8,0,578.8,0c91.6,0,153.1,29,213.1,62l-61,28c-75.5-40.5-110.6-48-152.1-48c-53,0-93.1,16.5-152.1,48.5 C366.7,123,305.2,152,213.1,152z');
+    squiggles[i].size(400, 100);
+    var squigMargin = squiggles[i].height()*3/4;
+    var squigx = window.innerWidth-squiggles[i].width()-squigMargin/2;
+    var squigy =  window.innerHeight-squiggles[i].height()-(squigMargin*(i+1));
+    squiggles[i].move(squigx, squigy);
+    squiggles[i].attr({ fill: '#fff' });
+  }
+  // TO DO: make the squiggle tht correspons with track number invisible
+
   for (var i = 0; i < 2; i++) {
     bgd[i] = $('<img>', {
       src: 'https://s3.amazonaws.com/wip-static/digital-artwork/WIP-001/WIP001-digital-background-2.png',
@@ -57,20 +76,6 @@ $(function() {
       $(this).fadeTo(10000,0.6);
     });
   }
-
-
-
-
-  //var squiggles = Array();
-  //for (var i = 0; i < 7; i++) {
-  //  squiggles[i] = draw.image('http://s3.amazonaws.com/wip-static/digital-artwork/WIP-001/WIP001-digital-squiggle.svg');
-  //  squiggles[i].size(350, 80);
-  //  var squigMargin = squiggles[i].height()*3/4;
-  //  var squigx = window.innerWidth-squiggles[i].width()-squigMargin/2;
-  //  var squigy =  window.innerHeight-squiggles[i].height()-(squigMargin*(i+1));
-  //  squiggles[i].attr({ x: squigx, y: squigy });
-  //  squiggles[i].attr({ fill: '#000' });
-  //}
 
 
 });
