@@ -1,5 +1,5 @@
-<script src="/js/svg.js"></script>
-<script src="/js/svg.filter.min.js"></script>
+<script src="/js/lib/svg.js"></script>
+<script src="/js/lib/svg.filter.min.js"></script>
 <style>
   img {
     position: absolute;
@@ -16,7 +16,7 @@
    viewBox="0 0 792 152" enable-background="new 0 0 792 152" xml:space="preserve"><path fill="#F05346" d="M213.1,152C121.6,152,60,123,0,90l61.5-28.5c59,32.5,98.6,48.5,151.6,48.5s93.1-16.5,152.1-48.5
         C425.2,29,486.8,0,578.8,0c91.6,0,153.1,29,213.1,62l-61,28c-75.5-40.5-110.6-48-152.1-48c-53,0-93.1,16.5-152.1,48.5
         C366.7,123,305.2,152,213.1,152z"/></svg>-->
- 
+
 <script type='text/javascript'>
   window.AudioContext = window.AudioContext || window.webkitAudioContext;
 
@@ -28,7 +28,9 @@
       source,
       gain,
       url = 'http://api.soundcloud.com/tracks/165664593/stream?secret_token=s-Q5i1q' +
-            '&client_id=' + '<%= sc_client_id %>';
+            '&client_id=' + '<%= sc_client_id %>',
+      squiggles = Array(),
+      releaseDuration = 3388372;
 
   audio.src = url;
   source = context.createMediaElementSource(audio);
@@ -40,7 +42,7 @@
 
   source.loop = true;
   source.mediaElement.addEventListener('loadedmetadata', function() {
-    startTime = (Date.now() % 3388372) / 1000;
+    startTime = (Date.now() % releaseDuration) / 1000;
     source.mediaElement.currentTime = startTime;
     source.mediaElement.play();
     //gainNode.gain.linearRampToValueAtTime(1.0, context.currentTime + 5);
@@ -50,22 +52,26 @@ $(function() {
 
   $('body').css('overflow','hidden');
 
-  var squiggles = Array();
   for (var i = 0; i < 7; i++) {
     squiggles[i] = draw.path('M213.1,152C121.6,152,60,123,0,90l61.5-28.5c59,32.5,98.6,48.5,151.6,48.5s93.1-16.5,152.1-48.5 C425.2,29,486.8,0,578.8,0c91.6,0,153.1,29,213.1,62l-61,28c-75.5-40.5-110.6-48-152.1-48c-53,0-93.1,16.5-152.1,48.5 C366.7,123,305.2,152,213.1,152z');
-    squiggles[i].size(400, 100);
+    squiggles[i].size(800, 110);
     var squigMargin = squiggles[i].height()*3/4;
-    var squigx = window.innerWidth-squiggles[i].width()-squigMargin/2;
-    var squigy =  window.innerHeight-squiggles[i].height()-(squigMargin*(i+1));
+    var squigx = window.innerWidth-3*squiggles[i].width()/6;
+    var squigy =  window.innerHeight-squiggles[i].height()-(squigMargin*i)-20;
     squiggles[i].move(squigx, squigy);
     squiggles[i].attr({ fill: '#fff' });
+
+    var time = (Date.now() % releaseDuration)
+    if((time * i < releaseDuration) && (time * (i+1) > releaseDuration)){
+      squiggles[i].opacity(0);
+    }
   }
   // TO DO: make the squiggle tht correspons with track number invisible
 
   for (var i = 0; i < 2; i++) {
     bgd[i] = $('<img>', {
       src: 'https://s3.amazonaws.com/wip-static/digital-artwork/WIP-001/WIP001-digital-background-2.png',
-      style: 'opacity: 0; z-index: ' + -i
+      style: 'opacity: 0; z-index: ' + -(i + 1)
     });
     $('#drawing').append(bgd[i]);
     bgd[i].load(function() {
