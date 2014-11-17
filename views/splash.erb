@@ -1,2 +1,21 @@
-<script type="text/paperscript" src="js/splash.js" canvas="back-sketch"></script>
-<canvas id='back-sketch' hidpi="on" resize></canvas>
+<style type="text/css">
+  #wip {
+    width: 400px;
+    height: 274px;
+    position: fixed;
+    top: calc(50% - 137px);
+    left: calc(50% - 200px);
+    opacity: 0;
+    transition: opacity 5s;
+  }
+</style>
+
+<a href="/home">
+  <img src="//s3.amazonaws.com/wip-static/WIP-logo.png" alt="W  I  P" id="wip">
+</a>
+
+<script type="text/javascript">
+  setTimeout(function() {
+    $('#wip').css('opacity', '1');
+  }, 0);
+</script>
