@@ -6,9 +6,9 @@
   #{$name}: #{$argument};
 }
 
-$space-vertical: 60px;
-$width-main: 1200px;
-$width-gutter: $width-main*.1;
+$space-vertical: 40px;
+$width-main: 800px;
+$width-gutter: $width-main*.15;
 $width-logo-footer: $width-gutter/2;
 $height-image: $width-main*.45;
 $height-footer: $width-logo-footer;
@@ -129,7 +129,7 @@ footer nav ul li {
 		}
 	}
 	&.flank {
-		width: 45%;
+		width: calc(50% - 60px); // 50% - $width-logo-footer
 		&.right {
 			text-align: right;
 			a {
@@ -150,7 +150,7 @@ $textbox-width: $width-main/2 - $width-gutter;
 .textbox {
 	@include vendor-prefix(box-sizing, border-box);
 	width: $textbox-width;
-	padding: $width-gutter/4;
+	padding: $width-gutter/8;
 	background-color: #fff;
 	position: absolute;
 	left: $space-vertical;
