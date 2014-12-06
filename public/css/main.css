@@ -55,7 +55,7 @@ a:not(.button):hover, a:not(.button):active {
 }
 
 /*
-  
+
   PAGE
   SPECIFIC
 
@@ -94,7 +94,7 @@ form[target="paypal"] {
 }
 
 /*
-  
+
   BUTTONS
 
   */
@@ -128,9 +128,11 @@ input[type="submit"] { /*  input[type="submit"] for paypal buttons  */
   border-color: #fff;
 }
 
+.admin-status {
+  background-color: yellow;
+  display: inline-block;
+}
 
-
-
-
-
-
+.release-item.draft {
+  display: none;
+}

@@ -1,6 +1,6 @@
 <ul id='the-list'>
   <% @releases.each do |release| %>
-    <li>
+    <li class='release-item <%= release.published == 'Draft' ? 'draft' : '' %>'>
       <div class='art'>
         <img src='<%= release.cover_art %>' alt='art'>
       </div>

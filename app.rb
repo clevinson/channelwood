@@ -81,7 +81,7 @@ class Channelwood < Sinatra::Base
     release.cover_art = params[:cover_art]
     release.images = params[:images] || []
     release.release_date = params[:release_date]
-    release.published = (params[:published] == 'on' ? "Published" : "Draft")
+    release.published = (params[:published] == 'Published' ? "Published" : "Draft")
     release.save
     redirect('/admin')
   end
@@ -131,6 +131,11 @@ class Channelwood < Sinatra::Base
   get '/home' do
     protected!
     @releases = Release.all.to_a
+    if !authorized?
+      @releases = @releases.select do |release|
+        release.published == 'Published'
+      end
+    end
     erb :home
   end
 
@@ -147,7 +152,6 @@ class Channelwood < Sinatra::Base
     protected!
     if params['cat_no'] == 'WIP-001'
       erb :wip_001, :locals => { :sc_client_id => ENV['SC_CLIENT_ID'] }
-
     else
       "THIS IS THE DIGITAL PAGE 4 #{params['cat_no']}" + (erb :footer)
     end
