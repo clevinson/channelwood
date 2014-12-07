@@ -1,8 +1,21 @@
+<script>
+  $('#footer').ready(function() {
+    $('.admin-status a').click(function(e) {
+      $.ajax({
+        url      : window.location.href,
+        type     : 'GET',
+        username : 'logout',
+        password : ''
+      });
+    });
+  });
+</script>
+
 <footer id='footer'>
   <nav>
     <ul>
 
-      <li class='flank'><%= authorized? ? "<p class='admin-status'>logged-in as admin</p>" : '' %>
+      <li class='flank'><%= authorized? ? "<p class='admin-status'>logged-in as admin - <a href='/'>log out</a></p>" : '' %>
         <!-- <form target="paypal" action="https://www.paypal.com/cgi-bin/webscr" method="post">
           <input type="hidden" name="business" value="waysinnerpass@gmail.com">
           <input type="hidden" name="cmd" value="_cart">
