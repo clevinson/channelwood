@@ -127,6 +127,7 @@ input[type="submit"] { /*  input[type="submit"] for paypal buttons  */
   font-family: 'ocr_bregular', Monaco, monospace;
   font-size: 1em;
   width: 100%;
+  border-radius: 0;
 }
 .button:last-of-type, input[type="submit"]:last-of-type { /*  input[type="submit"] for paypal buttons  */
   margin: 0;
