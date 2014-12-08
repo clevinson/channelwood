@@ -47,6 +47,7 @@ $(function() {
     $viewHeight = $(window).height() - $('#footer nav').height();
     checkListMargin();
   });
+  $viewWidth = $(window).width()
   $viewHeight = $(window).height() - $('#footer nav').height();
   $listHeight = $('#the-list').height();
   checkListMargin();
@@ -56,7 +57,7 @@ $(function() {
 //    • if the window is shorter than the list, do not center
 function checkListMargin() {
   var topMargin = $viewHeight/2 - $listHeight/2;
-  if ($viewHeight > $listHeight) {
+  if ($viewHeight > $listHeight && $viewWidth > 520px) {
     $('#the-list').css('margin-top', topMargin);
   } else {
     $('#the-list').css('margin-top', '0px');
