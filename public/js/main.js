@@ -57,7 +57,7 @@ $(function() {
 //    • if the window is shorter than the list, do not center
 function checkListMargin() {
   var topMargin = $viewHeight/2 - $listHeight/2;
-  if ($viewHeight > $listHeight && $viewWidth > 520px) {
+  if ($viewHeight > $listHeight && $viewWidth > 520) {
     $('#the-list').css('margin-top', topMargin);
   } else {
     $('#the-list').css('margin-top', '0px');

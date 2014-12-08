@@ -244,7 +244,7 @@ $textbox-width: $width-main/2 - $width-gutter;
 //
 // PHYSICAL RESPONSIVENESS
 //
-@media (max-width: $textbox-width) {
+@media (max-width: $textbox-width*2) {
 	.textbox {
 		position: static !important;
 		width: 100%;

@@ -81,6 +81,14 @@ form[target="paypal"] {
   top: calc(-3em - 2px);
   margin-bottom: -2em;
 }
+.column-two ul {
+  padding: 0;
+  list-style-type: none;
+  margin: 2em 0;
+}
+.column-two ul li:first-child {
+  margin-bottom: 1em;
+}
 .column-two {
   display: inline-block;
   vertical-align: top;
