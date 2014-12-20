@@ -128,6 +128,19 @@ function drawz() {
 
 }
 requestAnimationFrame(drawz);
+
+// 37 = left, 38 = up, 39 = right, 40 = down
+var keyCode = [];
+$(window).keydown(function(e) {
+    var key = e.which;
+    keyCode.push(key);
+    if (keyCode.length > 4) {
+      keyCode.splice(0, 1);
+    }
+    if (keyCode[0] == 38 && keyCode[1] == 39 && keyCode[2] == 40 && keyCode[3] == 37) {
+      window.location.href = 'https://s3.amazonaws.com/wip-static/releases/%5BWIP001%5D+Dreampeter+-+Snakes+Eating+Snakes.zip';
+    }
+});
 </script>
 
 <div id="drawing">
