@@ -131,15 +131,40 @@ requestAnimationFrame(drawz);
 
 // 37 = left, 38 = up, 39 = right, 40 = down
 var keyCode = [];
+var threetwenty = false;
+var flac = false;
 $(window).keydown(function(e) {
     var key = e.which;
+    if (key == 51) {
+      threetwenty = true;
+    }
+    if (key == 70) {
+      flac = true;
+    }
     keyCode.push(key);
     if (keyCode.length > 4) {
       keyCode.splice(0, 1);
     }
     if (keyCode[0] == 38 && keyCode[1] == 39 && keyCode[2] == 40 && keyCode[3] == 37) {
-      window.location.href = 'https://s3.amazonaws.com/wip-static/releases/%5BWIP001%5D+Dreampeter+-+Snakes+Eating+Snakes.zip';
+      if (threetwenty) {
+        window.location.href = 'https://s3.amazonaws.com/wip-static/releases/WIP001-DREAMPETER-SNAKESEATINGSNAKES-MP3320.zip';
+      } else if (flac) {
+        window.location.href = 'https://s3.amazonaws.com/wip-static/releases/WIP001-DREAMPETER-SNAKESEATINGSNAKES-FLAC.zip';
+      } else {
+        window.location.href = 'https://s3.amazonaws.com/wip-static/releases/WIP001-DREAMPETER-SNAKESEATINGSNAKES-MP3V0.zip';
+      }
+      threetwenty = false;
+      flac = false;
     }
+});
+$(window).keyup(function(e) {
+  var key = e.which;
+  if (key == 51) { // 51 = key "3"
+    threetwenty = false;
+  }
+  if (key == 70) { // 70 = key "F"
+    flac = false;
+  }
 });
 </script>
 
