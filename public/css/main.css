@@ -97,8 +97,12 @@ form[target="paypal"] {
 .column-two:first-of-type {
   margin-right: 10%;
 }
-.textbox { /* paypal hack */
-  padding-bottom: 0;
+.textbox {
+  padding-bottom: 0; /* paypal hack */
+  cursor: move;
+}
+#back-images {
+  cursor: pointer;
 }
 
 /*
