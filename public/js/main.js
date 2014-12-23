@@ -1,26 +1,5 @@
 /*
 
-  SWITCHING
-  HOMEPAGE
-  IMAGES
-
-*/
-$(function() {
-  $(".art img")
-    .mouseover(function() { 
-      var src = $(this).attr('src').replace(/\.gif/, '') + "-rotation.gif";
-      $(this).attr("src", src);
-    })
-    .mouseout(function() {
-      var src = $(this).attr("src").replace("-rotation.gif", ".gif");
-      $(this).attr("src", src);
-    });
-});
-
-
-
-/*
-
   DRAGGING
   &
   FADING

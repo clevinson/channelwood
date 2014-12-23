@@ -60,9 +60,21 @@ $height-footer: $width-logo-footer;
 	.art {
 		height: 100%;
 		img { // 'img' for now, will be 'canvas'
-			width: 100%;
+			//width: 100%;
 		}
 	}
+	.art.hover {
+		margin-left: -$height-image;
+		opacity: 0;
+    -webkit-transition: opacity 0.7s ease-in-out;
+    -moz-transition: opacity 0.7s ease-in-out;
+    -ms-transition: opacity 0.7s ease-in-out;
+    -o-transition: opacity 0.7s ease-in-out;
+    transition: opacity 0.7s ease-in-out;
+	}
+  .art.hover:hover {
+    opacity: 1;
+  }
 	.info {
 		display: inline-block;
 		vertical-align: middle;

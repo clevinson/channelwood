@@ -8,6 +8,7 @@ class Release < Ohm::Model
   attribute :release_date
   attribute :published
   attribute :cover_art
+  attribute :hover_art
   attribute :release_type
   attribute :images, Type::Array
 

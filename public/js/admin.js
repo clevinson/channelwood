@@ -5,6 +5,10 @@ $(function() {
     $(this).addClass("selected").siblings().removeClass("selected");
   });
 
+    $("#hover-art-modal li").click(function() {
+    $(this).addClass("selected").siblings().removeClass("selected");
+  });
+
   $("#back-images-modal li").click(function() {
     $(this).toggleClass("selected");
   });
@@ -15,6 +19,13 @@ function setCoverArt() {
 
   $('#cover-art-input').attr('value', cover_art.attr('src'));
   $('#cover-art-display').html(cover_art.clone());
+}
+
+function setHoverArt() {
+  hover_art = $('#hover-art-modal .selected img');
+
+  $('#hover-art-input').attr('value', hover_art.attr('src'));
+  $('#hover-art-display').html(hover_art.clone());
 }
 
 function initCoverArt() {

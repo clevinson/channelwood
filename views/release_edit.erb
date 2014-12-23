@@ -15,6 +15,10 @@
       <input type="text" class="form-control" name="title" value="<%= release.title %>">
     </div>
     <div class="form-group">
+      <label>Release Type</label>
+      <input type="text" class="form-control" name="release_type" value="<%= release.release_type %>">
+    </div>
+    <div class="form-group">
       <label>Description</label>
       <textarea class="form-control" name="description" rows="5"><%= h release.description %></textarea>
     </div>
@@ -25,6 +29,14 @@
       </button>
       <input type="hidden" class="form-control" name="cover_art" id="cover-art-input" value=''>
       <div id="cover-art-display" class='well'></div>
+    </div>
+    <div class="form-group">
+      <label>Hover Art</label>
+      <button type='button' class="btn btn-default btn-xs" data-toggle="modal" data-target="#hover-art-modal">
+        Choose Image
+      </button>
+      <input type="hidden" class="form-control" name="hover_art" id="hover-art-input" value=''>
+      <div id="hover-art-display" class='well'></div>
     </div>
     <div class="form-group" id="back-images-input">
       <label>Background Images</label>
@@ -47,8 +59,7 @@
   </form>
 </div>
 
-<%= erb :cover_art_modal, :locals => {:images => images} %>
-<%= erb :back_images_modal, :locals => {:images => images} %>
+<%= erb :modals, :locals => {:images => images} %>
 
 <script>
 
@@ -56,6 +67,9 @@
 $(function (){
   $('#cover-art-modal').find('img[src="<%= release.cover_art %>"]').parent().addClass('selected');
   setCoverArt();
+
+  $('#hover-art-modal').find('img[src="<%= release.hover_art %>"]').parent().addClass('selected');
+  setHoverArt();
 
   initBackImages(<%= release.images %>);
 });

@@ -77,8 +77,10 @@ class Channelwood < Sinatra::Base
     release = get_release(params[:cat_no])
     release.artist = params[:artist]
     release.title = params[:title]
+    release.release_type = params[:release_type]
     release.description = params[:description]
     release.cover_art = params[:cover_art]
+    release.hover_art = params[:hover_art]
     release.images = params[:images] || []
     release.release_date = params[:release_date]
     release.published = (params[:published] == 'Published' ? "Published" : "Draft")
