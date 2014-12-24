@@ -131,7 +131,6 @@ class Channelwood < Sinatra::Base
   end
 
   get '/home' do
-    protected!
     @releases = Release.all.to_a
     if !authorized?
       @releases = @releases.select do |release|
@@ -142,21 +141,16 @@ class Channelwood < Sinatra::Base
   end
 
   get '/physical/:cat_no' do
-    protected!
-    release = get_release(params[:cat_no])
+    release = get_release(params[:cat_no].upcase)
+    protected! unless release.published == 'Published'
     background_images = release.images
 
     erb :physical,
         :locals => { :release => release, :background_images => background_images }
   end
 
-  get '/digital/:cat_no' do
-    protected!
-    if params['cat_no'] == 'WIP-001'
-      erb :wip_001, :locals => { :sc_client_id => ENV['SC_CLIENT_ID'] }
-    else
-      "THIS IS THE DIGITAL PAGE 4 #{params['cat_no']}" + (erb :footer)
-    end
+  get '/digital/WIP-001' do
+    erb :wip_001, :locals => { :sc_client_id => ENV['SC_CLIENT_ID'] }
   end
 
   get '/about' do

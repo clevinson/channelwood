@@ -55,7 +55,7 @@
   }
   source = context.createMediaElementSource(audio);
   gainNode = context.createGain();
-  gainNode.gain.value = 1;
+  gainNode.gain.value = 0;
 
   source.connect(gainNode);
   gainNode.connect(context.destination);
@@ -109,8 +109,12 @@ $(function() {
     });
   }
 
-
 });
+
+function fadeAudio(deltaTime) {
+  prevGain = gainNode.gain.value;
+  gainNode.gain.value = Math.min(1,prevGain + deltaTime/10000);
+}
 
 function updateSquiggles() {
   for(var i = 0; i < 7; i++) {
@@ -152,11 +156,12 @@ function drawz() {
 
     t = dt/1000 + (t || 0);
 
+    fadeAudio(dt);
 
     hz1 = 90*Math.sin(10*t);
     hz2 = 90*Math.sin(-10*t);
 
-    bigscale = 0.5 - 0.3*Math.cos(2*Math.PI*t/200);
+    bigscale = 1.5 - 1*Math.cos(2*Math.PI*t/200);
     factor = 30;
     s1 = bigscale+(factor+Math.sin(2*Math.PI*t/12))/factor;
     s2 = bigscale+(factor+Math.cos(2*Math.PI*t/9))/factor;
