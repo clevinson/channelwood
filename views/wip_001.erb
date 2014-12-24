@@ -20,6 +20,9 @@
 <script type='text/javascript'>
   window.AudioContext = window.AudioContext || window.webkitAudioContext;
 
+  const SIDE_A = 1,
+        SIDE_B = 2;
+
   var context = new AudioContext(),
       audio = new Audio(),
       bgd = new Array(),
@@ -27,12 +30,29 @@
       center_y,
       source,
       gain,
-      url = 'http://api.soundcloud.com/tracks/165664593/stream?secret_token=s-Q5i1q' +
+      sideA_url =  'http://api.soundcloud.com/tracks/182612934/stream?secret_token=s-3d7O7' +
+            '&client_id=' + '<%= sc_client_id %>',
+      sideB_url =  'http://api.soundcloud.com/tracks/182612940/stream?secret_token=s-PebIa' +
             '&client_id=' + '<%= sc_client_id %>',
       squiggles = Array(),
-      releaseDuration = 3388372;
+      nowPlaying,
+      sideA_duration = 1680.039184;
+      sideB_duration = 1708.042449;
+      sideA_buckets = [0,357,842,1375];
+      sideB_buckets = [0,560,1590];
+      releaseDuration = sideA_duration + sideB_duration;
 
-  audio.src = url;
+
+  startTime = (Date.now()/1000 % releaseDuration);
+  if(startTime < sideA_duration){
+    audio.src = sideA_url;
+    nowPlaying = SIDE_A;
+    audio.currentTime = startTime;
+  }else{
+    audio.src = sideB_url;
+    nowPlaying = SIDE_B;
+    audio.currentTime = startTime - sideA_duration;
+  }
   source = context.createMediaElementSource(audio);
   gainNode = context.createGain();
   gainNode.gain.value = 1;
@@ -40,13 +60,18 @@
   source.connect(gainNode);
   gainNode.connect(context.destination);
 
-  source.loop = true;
-  source.mediaElement.addEventListener('loadedmetadata', function() {
-    startTime = (Date.now() % releaseDuration) / 1000;
-    source.mediaElement.currentTime = startTime;
-    source.mediaElement.play();
-    //gainNode.gain.linearRampToValueAtTime(1.0, context.currentTime + 5);
-  });
+  audio.autoplay = true;
+
+  audio.onended = function() {
+    if(nowPlaying == SIDE_A){
+      audio.src = sideB_url;
+      nowPlaying = SIDE_B;
+    }else{
+      audio.src = sideA_url;
+      nowPlaying = SIDE_A;
+    }
+  }
+
 $(function() {
   draw = SVG('drawing').size(window.innerWidth, window.innerHeight);
 
@@ -57,12 +82,13 @@ $(function() {
     squiggles[i].size(800, 110);
     var squigMargin = squiggles[i].height()*3/4;
     var squigx = window.innerWidth-3*squiggles[i].width()/6;
-    var squigy =  window.innerHeight-squiggles[i].height()-(squigMargin*i)-20;
+    var squigy =  window.innerHeight-squiggles[i].height()-(squigMargin*i)-40;
     squiggles[i].move(squigx, squigy);
     squiggles[i].attr({ fill: '#fff' });
 
-    var time = (Date.now() % releaseDuration)
-    if((time * i < releaseDuration) && (time * (i+1) > releaseDuration)){
+    if(shouldShowSquig(i, audio.currentTime, nowPlaying)){
+      squiggles[i].opacity(1);
+    }else{
       squiggles[i].opacity(0);
     }
   }
@@ -85,6 +111,32 @@ $(function() {
 
 
 });
+
+function updateSquiggles() {
+  for(var i = 0; i < 7; i++) {
+    if(shouldShowSquig(i, audio.currentTime, nowPlaying)){
+      squiggles[i].opacity(1);
+    }else{
+      squiggles[i].opacity(0);
+    }
+  }
+}
+
+function shouldShowSquig(i, time, which_side){
+  if(which_side == SIDE_A){
+    if(i > 3){
+      return false;
+    }else{
+      return sideA_buckets[i] <= time;
+    }
+  }else if(which_side == SIDE_B){
+    if(i <= 3){
+      return true;
+    }else{
+      return sideB_buckets[i-4] <= time;
+    }
+  }
+}
 
 
 var time,
@@ -125,6 +177,8 @@ function drawz() {
 
     bgd[0].css('webkitTransform', 'translate3d(' + ax + 'px,' + ay + 'px,0px) scale(' + s1 + ')');
     bgd[1].css('webkitTransform', 'translate3d(' + bx + 'px,' + by + 'px,0px) scale(' + s2 + ')');
+
+    updateSquiggles();
 
 }
 requestAnimationFrame(drawz);
