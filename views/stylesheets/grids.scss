@@ -203,6 +203,12 @@ $textbox-width: $width-main/2 - $width-gutter;
 		width: $width-main/2+$width-gutter;
 		li, li .art {
 			height: ($width-main/2+$width-gutter)*.45;
+			&.hover {
+				margin-left: -($width-main/2+$width-gutter)*.45;
+			}
+			img { 
+				width: 100%; 
+			}
 		}
 	}
 	footer nav ul {
@@ -220,6 +226,9 @@ $textbox-width: $width-main/2 - $width-gutter;
 		padding: 0 $width-gutter/8 $height-footer/8;
 		li {
 			margin: $width-gutter/8 0;
+			.art.hover {
+				display:none;
+			}
 		}
 	}
   #the-list li:nth-of-type(n) {
