@@ -1,5 +1,6 @@
 <script src="/js/lib/svg.js"></script>
 <script src="/js/lib/svg.filter.min.js"></script>
+<script src="//w.soundcloud.com/player/api.js"></script>
 <style>
   img {
     position: absolute;
@@ -18,80 +19,30 @@
         C366.7,123,305.2,152,213.1,152z"/></svg>-->
 
 <script type='text/javascript'>
-  window.AudioContext = window.AudioContext || window.webkitAudioContext;
 
-  const SIDE_A = 1,
-        SIDE_B = 2;
+  const SIDE_A = 0,
+        SIDE_B = 1;
 
-  var context = new AudioContext(),
-      audio = new Audio(),
-      bgd = new Array(),
+  var bgd = new Array(),
       center_x,
       center_y,
       source,
       gain,
-      sideA_url =  'http://api.soundcloud.com/tracks/182612934/stream?secret_token=s-3d7O7' +
-            '&client_id=' + '<%= sc_client_id %>',
-      sideB_url =  'http://api.soundcloud.com/tracks/182612940/stream?secret_token=s-PebIa' +
-            '&client_id=' + '<%= sc_client_id %>',
       squiggles = Array(),
       nowPlaying,
-      sideA_duration = 1680.039184;
-      sideB_duration = 1708.042449;
+      sideA_duration = 1680039;
+      sideB_duration = 1708042;
       sideA_buckets = [0,357,842,1375];
       sideB_buckets = [0,560,1590];
       releaseDuration = sideA_duration + sideB_duration;
 
-
-  startTime = (Date.now()/1000 % releaseDuration);
-  if(startTime < sideA_duration){
-    audio.src = sideA_url;
-    nowPlaying = SIDE_A;
-    audio.currentTime = startTime;
-  }else{
-    audio.src = sideB_url;
-    nowPlaying = SIDE_B;
-    audio.currentTime = startTime - sideA_duration;
-  }
-  source = context.createMediaElementSource(audio);
-  gainNode = context.createGain();
-  gainNode.gain.value = 0;
-
-  source.connect(gainNode);
-  gainNode.connect(context.destination);
-
-  audio.autoplay = true;
-
-  audio.onended = function() {
-    if(nowPlaying == SIDE_A){
-      audio.src = sideB_url;
-      nowPlaying = SIDE_B;
-    }else{
-      audio.src = sideA_url;
-      nowPlaying = SIDE_A;
-    }
-  }
 
 $(function() {
   draw = SVG('drawing').size(window.innerWidth, window.innerHeight);
 
   $('body').css('overflow','hidden');
 
-  for (var i = 0; i < 7; i++) {
-    squiggles[i] = draw.path('M213.1,152C121.6,152,60,123,0,90l61.5-28.5c59,32.5,98.6,48.5,151.6,48.5s93.1-16.5,152.1-48.5 C425.2,29,486.8,0,578.8,0c91.6,0,153.1,29,213.1,62l-61,28c-75.5-40.5-110.6-48-152.1-48c-53,0-93.1,16.5-152.1,48.5 C366.7,123,305.2,152,213.1,152z');
-    squiggles[i].size(800, 110);
-    var squigMargin = squiggles[i].height()*3/4;
-    var squigx = window.innerWidth-3*squiggles[i].width()/6;
-    var squigy =  window.innerHeight-squiggles[i].height()-(squigMargin*i)-40;
-    squiggles[i].move(squigx, squigy);
-    squiggles[i].attr({ fill: '#fff' });
 
-    if(shouldShowSquig(i, audio.currentTime, nowPlaying)){
-      squiggles[i].opacity(1);
-    }else{
-      squiggles[i].opacity(0);
-    }
-  }
   // TO DO: make the squiggle tht correspons with track number invisible
 
   for (var i = 0; i < 2; i++) {
@@ -109,16 +60,72 @@ $(function() {
     });
   }
 
+  widgetFrame = $('iframe')[0];
+  widget = SC.Widget(widgetFrame);
+  setWidgetToLoop(widget, sideB_duration);
+
+  widget.bind(SC.Widget.Events.READY, function(){
+    initSquigglesAndAudio(widget);
+    requestAnimationFrame(drawz);
+  });
+
+
 });
 
-function fadeAudio(deltaTime) {
-  prevGain = gainNode.gain.value;
-  gainNode.gain.value = Math.min(1,prevGain + deltaTime/10000);
+function setWidgetToLoop(someWidget, lastTrackDuration){
+  someWidget.bind(SC.Widget.Events.FINISH, function(){
+    someWidget.isPaused(function(paused){
+      if(paused){
+        someWidget.skip(0);
+      }
+    });
+  });
 }
 
-function updateSquiggles() {
+function initSquigglesAndAudio(widget) {
+  releaseStartTime = (Date.now() % releaseDuration);
+
+  if(releaseStartTime < sideA_duration){
+    toPlayIndex = 0;
+    toPlaySeektime = releaseStartTime;
+  }else{
+    toPlayIndex = 1;
+    toPlaySeektime = (releaseStartTime - sideA_duration);
+  }
+
+  widget.bind(SC.Widget.Events.PLAY, function(){
+    widget.seekTo(toPlaySeektime);
+  });
+
+  widget.bind(SC.Widget.Events.SEEK, function(){
+    widget.unbind(SC.Widget.Events.PLAY);
+  });
+
+  widget.skip(toPlayIndex);
+  initSquiggles(toPlaySeektime/1000, toPlayIndex);
+}
+
+function initSquiggles(audioCurrentTime, nowPlayingSide){
+  for (var i = 0; i < 7; i++) {
+    squiggles[i] = draw.path('M213.1,152C121.6,152,60,123,0,90l61.5-28.5c59,32.5,98.6,48.5,151.6,48.5s93.1-16.5,152.1-48.5 C425.2,29,486.8,0,578.8,0c91.6,0,153.1,29,213.1,62l-61,28c-75.5-40.5-110.6-48-152.1-48c-53,0-93.1,16.5-152.1,48.5 C366.7,123,305.2,152,213.1,152z');
+    squiggles[i].size(800, 110);
+    var squigMargin = squiggles[i].height()*3/4;
+    var squigx = window.innerWidth-3*squiggles[i].width()/6;
+    var squigy =  window.innerHeight-squiggles[i].height()-(squigMargin*i)-40;
+    squiggles[i].move(squigx, squigy);
+    squiggles[i].attr({ fill: '#fff' });
+
+    if(shouldShowSquig(i, audioCurrentTime, nowPlayingSide)){
+      squiggles[i].opacity(1);
+    }else{
+      squiggles[i].opacity(0);
+    }
+  }
+}
+
+function updateSquiggles(audioCurrentTime, nowPlayingSide) {
   for(var i = 0; i < 7; i++) {
-    if(shouldShowSquig(i, audio.currentTime, nowPlaying)){
+    if(shouldShowSquig(i, audioCurrentTime, nowPlayingSide)){
       squiggles[i].opacity(1);
     }else{
       squiggles[i].opacity(0);
@@ -156,8 +163,6 @@ function drawz() {
 
     t = dt/1000 + (t || 0);
 
-    fadeAudio(dt);
-
     hz1 = 90*Math.sin(10*t);
     hz2 = 90*Math.sin(-10*t);
 
@@ -179,14 +184,17 @@ function drawz() {
     bx = bigspin*Math.sin(bigspinrate) - spin_x + center_x;
     by = bigspin*Math.cos(bigspinrate) - spin_y + center_y;
 
-
     bgd[0].css('webkitTransform', 'translate3d(' + ax + 'px,' + ay + 'px,0px) scale(' + s1 + ')');
     bgd[1].css('webkitTransform', 'translate3d(' + bx + 'px,' + by + 'px,0px) scale(' + s2 + ')');
+    bgd[0].css('transform', 'translate3d(' + ax + 'px,' + ay + 'px,0px) scale(' + s1 + ')');
+    bgd[1].css('transform', 'translate3d(' + bx + 'px,' + by + 'px,0px) scale(' + s2 + ')');
 
-    updateSquiggles();
-
+    widget.getCurrentSoundIndex(function(soundIndex) {
+      widget.getPosition(function(pos) {
+        updateSquiggles(pos/1000, soundIndex);
+      });
+    });
 }
-requestAnimationFrame(drawz);
 
 // 37 = left, 38 = up, 39 = right, 40 = down
 var keyCode = [];
@@ -227,5 +235,6 @@ $(window).keyup(function(e) {
 });
 </script>
 
+<iframe style='display:none' width="100%" height="300" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/66070489%3Fsecret_token%3Ds-LQW2a&amp;start_track=1&amp;t=50000&amp;hide_related=false&amp;show_comments=false&amp;show_user=false&amp;show_reposts=false&amp;visual=false"></iframe>
 <div id="drawing">
 </div>
