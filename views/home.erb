@@ -2,17 +2,18 @@
   <% @releases.each do |release| %>
     <li class='release-item <%= release.published == 'Draft' ? 'draft' : '' %>'>
       <div class='art cover'>
-        <a href="/physical/<%= release.cat_no %>"><img src='<%= release.cover_art %>' alt='art'></a>
+        <a href="/physical/<%= release.cat_no %>" onclick="ga('send', 'event', 'navigation', 'click-artwork', '<%= release.cat_no %>')"><img src='<%= release.cover_art %>' alt='art'></a>
       </div>
       <div class='art hover'>
-        <a href="/physical/<%= release.cat_no %>"><img src='<%= release.hover_art %>' alt='art'></a>
+        <a href="/physical/<%= release.cat_no %>" onclick="ga('send', 'event', 'navigation', 'click-artwork', '<%= release.cat_no %>')"><img src='<%= release.hover_art %>' alt='art'></a>
       </div>
       <div class='info'>
         <h2 class='artist'><%= release.artist %></h2>
         <h2 class='title'><%= release.title %></h2>
         <p><%= release.cat_no %>
         <time><%= release.release_date %></time>
-        <a href="/digital/<%= release.cat_no %>" target="_blank">listen</a> / <a href="/physical/<%= release.cat_no %>"><%= release.release_type %></a></p>
+        <a href="/digital/<%= release.cat_no %>" onclick="ga('send', 'event', 'navigation', 'click-digital-button', '<%= release.cat_no %>')" target="_blank">listen</a> /
+        <a href="/physical/<%= release.cat_no %>" onclick="ga('send', 'event', 'navigation', 'click-physical-button', '<%= release.cat_no %>')"><%= release.release_type %></a></p>
       </div>
     </li>
   <% end %>

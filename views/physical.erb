@@ -1,3 +1,31 @@
+<script type='text/javascript'>
+  var hasScrolledBefore = false,
+      hasHitBottom = false;
+
+  function atBottom(){
+    return $('#back-images')[0].scrollHeight == $('#back-images').height() + $('#back-images').scrollTop();
+  }
+
+  $(function() {
+    $('#back-images').scroll(function() {
+      if(!hasScrolledBefore){
+        ga('send', 'event', 'interaction', 'scroll-physical-page', '<%= release.cat_no %>');
+        console.log('scrollin!');
+        hasScrolledBefore = true;
+      }
+      if(!hasHitBottom && atBottom()){
+        console.log('hot bottom!');
+        ga('send', 'event', 'interaction', 'scroll-physical-page:hit-bottom', '<%= release.cat_no %>');
+        hasHitBottom = true;
+      }
+    });
+  });
+
+
+
+</script>
+
+
 <div class="info drag textbox">
   <h2 class="artist"><%= release.artist %></h2>
   <h2 class="release"><%= release.title %></h2>
@@ -5,7 +33,7 @@
   <p><%= release.cat_no %></p>
   <pre><%= release.description %></pre>
 
-  <form target="paypal" action="https://www.paypal.com/cgi-bin/webscr" method="post">
+  <form target="paypal" action="https://www.paypal.com/cgi-bin/webscr" method="post" onsubmit="ga('send', 'event', 'paypal', 'add-to-cart', '<%= release.cat_no %>')">
     <input type="hidden" name="business" value="waysinnerpass@gmail.com">
     <input type="hidden" name="cmd" value="_cart">
     <input type="hidden" name="add" value="1">
