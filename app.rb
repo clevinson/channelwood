@@ -154,7 +154,6 @@ class Channelwood < Sinatra::Base
   end
 
   get '/about' do
-    protected!
     erb :about
   end
 
