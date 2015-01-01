@@ -12,7 +12,7 @@
         <h2 class='title'><%= release.title %></h2>
         <p><%= release.cat_no %>
         <time><%= release.release_date %></time>
-        <a href="/digital/<%= release.cat_no %>">listen</a> / <a href="/physical/<%= release.cat_no %>"><%= release.release_type %></a></p>
+        <a href="/digital/<%= release.cat_no %>" target="_blank">listen</a> / <a href="/physical/<%= release.cat_no %>"><%= release.release_type %></a></p>
       </div>
     </li>
   <% end %>

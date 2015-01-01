@@ -74,6 +74,7 @@ $(function() {
   setWidgetToLoop(widget, sideB_duration);
 
   widget.bind(SC.Widget.Events.READY, function(){
+    widget.setVolume(0);
     initSquigglesAndAudio(widget);
     requestAnimationFrame(drawz);
   });
@@ -81,11 +82,18 @@ $(function() {
 
 });
 
-function setWidgetToLoop(someWidget, lastTrackDuration){
-  someWidget.bind(SC.Widget.Events.FINISH, function(){
-    someWidget.isPaused(function(paused){
+function fadeAudioIn(scWidget, dt, fadeTimeMs){
+  scWidget.getVolume(function(prevVol) {
+    deltaVol = 100*dt/fadeTimeMs;
+    scWidget.setVolume(Math.min(100,prevVol + deltaVol));
+  });
+}
+
+function setWidgetToLoop(scWidget, lastTrackDuration){
+  scWidget.bind(SC.Widget.Events.FINISH, function(){
+    scWidget.isPaused(function(paused){
       if(paused){
-        someWidget.skip(0);
+        scWidget.skip(0);
       }
     });
   });
@@ -172,17 +180,19 @@ function drawz() {
 
     t = dt/1000 + (t || 0);
 
+    fadeAudioIn(widget, dt, 10000);
+
     hz1 = 90*Math.sin(10*t);
     hz2 = 90*Math.sin(-10*t);
 
-    bigscale = 1.5 - 1*Math.cos(2*Math.PI*t/200);
+    bigscale = 1.2 - 0.8*Math.cos(2*Math.PI*t/200);
     factor = 30;
     s1 = bigscale+(factor+Math.sin(2*Math.PI*t/12))/factor;
     s2 = bigscale+(factor+Math.cos(2*Math.PI*t/9))/factor;
 
     r = 1.6 - 1.5*Math.cos(2*Math.PI*t/15);
 
-    spinrate = (100 - 90*Math.cos(2*Math.PI*t/1000))/100;
+    spinrate = (100 - 80*Math.cos(2*Math.PI*t/1000))/200;
     spin_x = r*Math.sin(2*Math.PI*t*spinrate);
     spin_y = r*Math.cos(2*Math.PI*t*spinrate);
 
