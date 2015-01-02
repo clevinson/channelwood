@@ -39,6 +39,7 @@
       gain,
       squiggles = Array(),
       nowPlaying,
+      readyToFadeAudio = false;
       sideA_duration = 1680039;
       sideB_duration = 1708042;
       sideA_buckets = [0,357,842,1375];
@@ -47,12 +48,15 @@
 
 
 $(function() {
-  draw = SVG('drawing').size(window.innerWidth, window.innerHeight);
+  draw = SVG('drawing').size(
+    window.innerWidth,
+    window.innerHeight
+  ).style(
+    'right:0px; position:absolute; bottom:0px'
+  );
 
   $('body').css('overflow','hidden');
 
-
-  // TO DO: make the squiggle tht correspons with track number invisible
 
   for (var i = 0; i < 2; i++) {
     bgd[i] = $('<img>', {
@@ -61,7 +65,6 @@ $(function() {
     });
     $('#drawing').append(bgd[i]);
     bgd[i].load(function() {
-
       center_x = window.innerWidth/2 - $(this).width()/2 ;
       center_y = window.innerHeight/2 - $(this).height()/2;
       $(this).css('webkitTransform', 'translate3d(' + center_x + 'px,' + center_y + 'px,0px)');
@@ -83,10 +86,12 @@ $(function() {
 });
 
 function fadeAudioIn(scWidget, dt, fadeTimeMs){
-  scWidget.getVolume(function(prevVol) {
-    deltaVol = 100*dt/fadeTimeMs;
-    scWidget.setVolume(Math.min(100,prevVol + deltaVol));
-  });
+  if(readyToFadeAudio){
+    scWidget.getVolume(function(prevVol) {
+      deltaVol = dt/fadeTimeMs;
+      scWidget.setVolume(Math.min(100,prevVol + deltaVol));
+    });
+  }
 }
 
 function setWidgetToLoop(scWidget, lastTrackDuration){
@@ -103,23 +108,31 @@ function initSquigglesAndAudio(widget) {
   releaseStartTime = (Date.now() % releaseDuration);
 
   if(releaseStartTime < sideA_duration){
-    toPlayIndex = 0;
+    toPlaySide = SIDE_A;
     toPlaySeektime = releaseStartTime;
   }else{
-    toPlayIndex = 1;
+    toPlaySide = SIDE_B;
     toPlaySeektime = (releaseStartTime - sideA_duration);
   }
+  initSquiggles(toPlaySeektime/1000, toPlaySide);
+
 
   widget.bind(SC.Widget.Events.PLAY, function(){
     widget.seekTo(toPlaySeektime);
   });
 
   widget.bind(SC.Widget.Events.SEEK, function(){
+    readyToFadeAudio = true;
     widget.unbind(SC.Widget.Events.PLAY);
   });
 
-  widget.skip(toPlayIndex);
-  initSquiggles(toPlaySeektime/1000, toPlayIndex);
+  widget.bind(SC.Widget.Events.PLAY_PROGRESS, function(sound){
+    widget.getCurrentSoundIndex(function(soundIndex) {
+      updateSquiggles(sound.currentPosition/1000, soundIndex);
+    });
+  });
+
+  widget.skip(toPlaySide);
 }
 
 function initSquiggles(audioCurrentTime, nowPlayingSide){
@@ -185,7 +198,7 @@ function drawz() {
     hz1 = 90*Math.sin(10*t);
     hz2 = 90*Math.sin(-10*t);
 
-    bigscale = 1.2 - 0.8*Math.cos(2*Math.PI*t/200);
+    bigscale = 1.15 - 0.8*Math.cos(2*Math.PI*t/200);
     factor = 30;
     s1 = bigscale+(factor+Math.sin(2*Math.PI*t/12))/factor;
     s2 = bigscale+(factor+Math.cos(2*Math.PI*t/9))/factor;
@@ -207,12 +220,6 @@ function drawz() {
     bgd[1].css('webkitTransform', 'translate3d(' + bx + 'px,' + by + 'px,0px) scale(' + s2 + ')');
     bgd[0].css('transform', 'translate3d(' + ax + 'px,' + ay + 'px,0px) scale(' + s1 + ')');
     bgd[1].css('transform', 'translate3d(' + bx + 'px,' + by + 'px,0px) scale(' + s2 + ')');
-
-    widget.getCurrentSoundIndex(function(soundIndex) {
-      widget.getPosition(function(pos) {
-        updateSquiggles(pos/1000, soundIndex);
-      });
-    });
 }
 
 // 37 = left, 38 = up, 39 = right, 40 = down
