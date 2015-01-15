@@ -249,13 +249,13 @@ $(window).keydown(function(e) {
     if (keyCode[0] == 38 && keyCode[1] == 39 && keyCode[2] == 40 && keyCode[3] == 37) {
       if (threetwenty) {
         ga('send', 'event', 'get-release', 'download:320', 'WIP-001');
-        window.location.href = 'https://s3.amazonaws.com/wip-static/releases/WIP001-DREAMPETER-SNAKESEATINGSNAKES-MP3320.zip';
+        window.location.href = 'http://chocolate.whatbox.ca:63234/wip-001/WIP001-DREAMPETER-SNAKESEATINGSNAKES-MP3320.zip';
       } else if (flac) {
         ga('send', 'event', 'get-release', 'download:flac', 'WIP-001');
-        window.location.href = 'https://s3.amazonaws.com/wip-static/releases/WIP001-DREAMPETER-SNAKESEATINGSNAKES-FLAC.zip';
+        window.location.href = 'http://chocolate.whatbox.ca:63234/wip-001/WIP001-DREAMPETER-SNAKESEATINGSNAKES-FLAC.zip';
       } else {
         ga('send', 'event', 'get-release', 'download:v0', 'WIP-001');
-        window.location.href = 'https://s3.amazonaws.com/wip-static/releases/WIP001-DREAMPETER-SNAKESEATINGSNAKES-MP3V0.zip';
+        window.location.href = 'http://chocolate.whatbox.ca:63234/wip-001/WIP001-DREAMPETER-SNAKESEATINGSNAKES-MP3V0.zip';
       }
       threetwenty = false;
       flac = false;
