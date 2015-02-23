@@ -165,4 +165,8 @@ class Channelwood < Sinatra::Base
     erb :about
   end
 
+  get '/dayparty' do
+    erb :dayparty
+  end
+
 end
