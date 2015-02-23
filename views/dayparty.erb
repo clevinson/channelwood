@@ -1,0 +1,168 @@
+<script type="text/paperscript" canvas="back-sketch">
+var viewWidth = view.viewSize.width;
+var viewHeight  = view.viewSize.height;
+var color = 'blue';
+var strokeWidth = '6';
+var frame = 120;
+var opacity = 0.66;
+
+//
+
+function Piece(sides, fill, radius, rotation, point, destination, destRot, destSize, minRad, maxRad, maxSpin, seed, hier) {
+    this.sides = sides;
+    this.fill = fill;
+    this.radius = radius;
+    this.rotation = rotation;
+    this.point = point;
+    this.destination = destination;
+    this.destRot = destRot;
+    this.destSize = destSize;
+    this.minRad = minRad;
+    this.maxRad = maxRad;
+    this.maxSpin = maxSpin;
+    this.seed = seed;
+    this.hier = hier;
+    this.path = new Path.RegularPolygon(point, sides, radius);
+    if (this.sides >= 5) { this.path.smooth(); }
+    this.path.rotation = this.rotation;
+    this.path.fillColor = color;
+    if (this.fill == 'line') { this.path.fillColor.alpha = 0; }
+    this.path.strokeColor = color;
+    this.path.strokeWidth = strokeWidth;
+    this.path.opacity = opacity;
+    this.path.blendMode = 'screen';
+}
+
+Piece.prototype = {
+    shiftShape: function(count) {
+        if (count % frame != 0) {
+            // position
+            this.path.position += (this.destination-this.path.position)/frame;
+            // rotation
+            this.rotation = this.rotation % 360;
+            this.rotation += (this.destRot - this.rotation)/frame;
+            this.path.rotate((this.destRot - this.rotation)/frame);
+            // scale
+            this.radius += (this.destSize - this.radius)/frame;
+            this.path.scale(1-(1-this.destSize/this.radius)/frame);
+        } else {
+            this.resetDestinations();
+        }
+    },
+    resetDestinations: function() {
+        this.destination = new Point(viewWidth, viewHeight) * Point.random();
+        //this.destRot = (Math.random()*720*this.maxSpin)-360*this.maxSpin;
+        this.destRot = getRandomRot(hi[6][this.seed], hi[5][this.seed][this.hier]);
+        this.destSize = Math.random()*(this.maxRad-this.minRad)+this.minRad;
+    }
+}
+
+var myPoint = new Point(viewWidth/2, viewHeight/2);
+var myDest = new Point(viewWidth/3, viewHeight/3);
+
+// hierarchy tables
+hi = [];
+// line or solid
+hi[0] = [['line', 'line', 'line'], ['line', 'solid', 'line'], ['line', 'solid', 'line'], ['line', 'solid', 'solid']];
+// initial largest size
+hi[1] = [600, 300, 200, 150];
+// initial size ratios
+hi[2] = [[1, 0.66, 0.25], [1, 0.25, 0.03], [1, 0.25, 0.05], [1, 0.75, 0.2]];
+// min size ratios
+hi[3] = [[0.5, 0.75, 0.66], [0.83, 0.66, 1], [0.75, 0.5, 0.5], [0.33, 0.13, 0.66]];
+// max size ratios
+hi[4] = [[1.33, 1, 2], [1.16, 1.5, 4], [1.66, 2, 1.5], [1.33, 5.33, 1.33]];
+// spin
+hi[5] = [[0.25, 0.5, 0.75], [0, 0, 0], [0.5, 2, 5], [0.25, -2, 1]];
+// angles
+hi[6] = [360, 1, 4, 8];
+
+
+pieces = [];
+
+function initializePieces () {
+    resetPieces();
+    
+    var kinds = 4;
+    var seed = Math.floor(Math.random()*kinds);
+    var seed1 = (seed+1) % kinds;
+    var seed2 = (seed+2) % kinds;
+    var seed3 = (seed+3) % kinds;
+
+    pieces.push(new Piece(2, hi[0][seed][0], hi[1][seed]*hi[2][seed][0], getRandomRot(hi[6][seed], hi[5][seed][0]), getRandomPoint(), getRandomPoint(),  0, 0, (hi[1][seed]*hi[2][seed][0])*hi[3][seed][0], (hi[1][seed]*hi[2][seed][0])*hi[4][seed][0], hi[5][seed][0], seed, 0));
+    pieces.push(new Piece(2, hi[0][seed][1], hi[1][seed]*hi[2][seed][1], getRandomRot(hi[6][seed], hi[5][seed][1]), getRandomPoint(), getRandomPoint(),  0, 0, (hi[1][seed]*hi[2][seed][1])*hi[3][seed][1], (hi[1][seed]*hi[2][seed][1])*hi[4][seed][1], hi[5][seed][1], seed, 1));
+    pieces.push(new Piece(2, hi[0][seed][2], hi[1][seed]*hi[2][seed][2], getRandomRot(hi[6][seed], hi[5][seed][2]), getRandomPoint(), getRandomPoint(),  0, 0, (hi[1][seed]*hi[2][seed][2])*hi[3][seed][2], (hi[1][seed]*hi[2][seed][2])*hi[4][seed][2], hi[5][seed][2], seed, 2));
+    
+    pieces.push(new Piece(5, hi[0][seed1][0], hi[1][seed1]*hi[2][seed1][0], getRandomRot(hi[6][seed1], hi[5][seed1][0]), getRandomPoint(), getRandomPoint(), 0, 0, (hi[1][seed1]*hi[2][seed1][0])*hi[3][seed1][0], (hi[1][seed1]*hi[2][seed1][0])*hi[4][seed1][0], hi[5][seed1][0], seed1, 0));
+    pieces.push(new Piece(5, hi[0][seed1][1], hi[1][seed1]*hi[2][seed1][1], getRandomRot(hi[6][seed1], hi[5][seed1][1]), getRandomPoint(), getRandomPoint(), 0, 0, (hi[1][seed1]*hi[2][seed1][1])*hi[3][seed1][1], (hi[1][seed1]*hi[2][seed1][1])*hi[4][seed1][1], hi[5][seed1][1], seed1, 1));
+    pieces.push(new Piece(5, hi[0][seed1][2], hi[1][seed1]*hi[2][seed1][2], getRandomRot(hi[6][seed1], hi[5][seed1][2]), getRandomPoint(), getRandomPoint(), 0, 0, (hi[1][seed1]*hi[2][seed1][2])*hi[3][seed1][2], (hi[1][seed1]*hi[2][seed1][2])*hi[4][seed1][2], hi[5][seed1][2], seed1, 2));
+    
+    pieces.push(new Piece(3, hi[0][seed2][0], hi[1][seed2]*hi[2][seed2][0], getRandomRot(hi[6][seed2], hi[5][seed2][0]), getRandomPoint(), getRandomPoint(), 0, 0, (hi[1][seed2]*hi[2][seed2][0])*hi[3][seed2][0], (hi[1][seed2]*hi[2][seed2][0])*hi[4][seed2][0], hi[5][seed2][0], seed2, 0));
+    pieces.push(new Piece(3, hi[0][seed2][1], hi[1][seed2]*hi[2][seed2][1], getRandomRot(hi[6][seed2], hi[5][seed2][1]), getRandomPoint(), getRandomPoint(), 0, 0, (hi[1][seed2]*hi[2][seed2][1])*hi[3][seed2][1], (hi[1][seed2]*hi[2][seed2][1])*hi[4][seed2][1], hi[5][seed2][1], seed2, 1));
+    pieces.push(new Piece(3, hi[0][seed2][2], hi[1][seed2]*hi[2][seed2][2], getRandomRot(hi[6][seed2], hi[5][seed2][2]), getRandomPoint(), getRandomPoint(), 0, 0, (hi[1][seed2]*hi[2][seed2][2])*hi[3][seed2][2], (hi[1][seed2]*hi[2][seed2][2])*hi[4][seed2][2], hi[5][seed2][2], seed2, 2));
+    
+    pieces.push(new Piece(4, hi[0][seed3][0], hi[1][seed3]*hi[2][seed3][0], getRandomRot(hi[6][seed3], hi[5][seed3][0]), getRandomPoint(), getRandomPoint(), 0, 0, (hi[1][seed3]*hi[2][seed3][0])*hi[3][seed3][0], (hi[1][seed3]*hi[2][seed3][0])*hi[4][seed3][0], hi[5][seed3][0], seed3, 0));
+    pieces.push(new Piece(4, hi[0][seed3][1], hi[1][seed3]*hi[2][seed3][1], getRandomRot(hi[6][seed3], hi[5][seed3][1]), getRandomPoint(), getRandomPoint(), 0, 0, (hi[1][seed3]*hi[2][seed3][1])*hi[3][seed3][1], (hi[1][seed3]*hi[2][seed3][1])*hi[4][seed3][1], hi[5][seed3][1], seed3, 1));
+    pieces.push(new Piece(4, hi[0][seed3][2], hi[1][seed3]*hi[2][seed3][2], getRandomRot(hi[6][seed3], hi[5][seed3][2]), getRandomPoint(), getRandomPoint(), 0, 0, (hi[1][seed3]*hi[2][seed3][2])*hi[3][seed3][2], (hi[1][seed3]*hi[2][seed3][2])*hi[4][seed3][2], hi[5][seed3][2], seed3, 2));
+
+}
+initializePieces ();
+
+function resetPieces () {
+    for (var i =0; i < pieces.length; i++) {
+        pieces[i].path.remove();
+    }
+}
+function getRandomPoint() {
+    return new Point(Math.random()*viewWidth, Math.random()*viewHeight);
+}
+function getRandomRot(divisor, max) {
+    var unit = (360)/divisor;
+    var rand = Math.floor(Math.random()*divisor*(max*2)+max);
+    return unit*rand;
+}
+
+function onFrame (event) {
+    for(var i = 0; i < pieces.length; i++) {
+        pieces[i].shiftShape(event.count);
+    }
+}
+function onMouseDown(event) {
+  initializePieces();
+}
+function onResize() {
+    viewWidth = view.viewSize.width;
+    viewHeight  = view.viewSize.height;
+}
+</script>
+
+<canvas id='back-sketch' resize style=""></canvas>
+
+<style type='text/css'>
+  .container {
+    position: fixed;
+    width: 200px;
+    left: 20px;
+    top: 30px;
+  }
+  span {
+    background-color: blue;
+    color: white;
+  }
+</style>
+
+<div class="container">
+  <div>
+    <h1>WAYS INNER PASS <span>DAYPARTY</span></h1>
+  </div>
+  <div>
+    <p>feat. dj sets from</p>
+    <p class="act">dreampeter (pascäal &amp; llloyd)</p>
+    <p class="act">more tbd</p>
+  </div>
+  <div>
+    <p>2015-03-15</p>
+    <p>409 e. annie st., apt. a<br>
+    austin, tx 78704</p>
+  </div>
+</div>
