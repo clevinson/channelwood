@@ -33,7 +33,7 @@
   <p><%= release.cat_no %></p>
   <pre><%= release.description %></pre>
 
-  <form target="paypal" action="https://www.paypal.com/cgi-bin/webscr" method="post" onsubmit="ga('send', 'event', 'paypal', 'add-to-cart', '<%= release.cat_no %>')">
+  <!--form target="paypal" action="https://www.paypal.com/cgi-bin/webscr" method="post" onsubmit="ga('send', 'event', 'paypal', 'add-to-cart', '<%= release.cat_no %>')">
     <input type="hidden" name="business" value="waysinnerpass@gmail.com">
     <input type="hidden" name="cmd" value="_cart">
     <input type="hidden" name="add" value="1">
@@ -41,7 +41,7 @@
     <input type="hidden" name="item_number" value="<%= release.cat_no %>">
     <input type="hidden" name="amount" value="9.00">
     <input type="submit" value="ORDER" border="0" name="submit">
-  </form>
+  </form -->
 </div>
 
 <div id="back-images">

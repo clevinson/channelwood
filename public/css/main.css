@@ -136,6 +136,13 @@ input[type="submit"] { /*  input[type="submit"] for paypal buttons  */
 .button:last-of-type, input[type="submit"]:last-of-type { /*  input[type="submit"] for paypal buttons  */
   margin: 0;
 }
+.button.soldout { /* temporary sold out button fix */
+  margin-left: 1em;
+  margin-bottom: 1.5em;
+  text-transform: uppercase;
+  color: white;
+  background-color: black;
+}
 
 .button:hover, .button:active, input[type="submit"]:hover, input[type="submit"]:active { /*  input[type="submit"] for paypal buttons  */
   border-color: #fff;

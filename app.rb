@@ -161,6 +161,10 @@ class Channelwood < Sinatra::Base
     erb :wip_001, :locals => { :sc_client_id => ENV['SC_CLIENT_ID'] }
   end
 
+  get '/WIP-002' do
+    erb :wip_002
+  end
+
   get '/about' do
     erb :about
   end
