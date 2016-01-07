@@ -1,0 +1,8 @@
+{
+  "name": "Channelwood",
+  "description": "Ways Inner Pass ~ tools for building perceptual experiences",
+  "image": "heroku/ruby",
+  "addons": [
+    "rediscloud:30"
+  ]
+}
