@@ -56,7 +56,10 @@
   }
   #overlay .text {
     font-family: 'clairvauxregular', serif;
-    font-size: 200px;
+    font-size: 72px;
+    line-height: 1;
+    /**/
+    display: inline-block;
   }
 
 </style>
@@ -65,9 +68,11 @@
 
   <div id="overlay">
     <div class="text">
-      yolo yolo
+      thank you: my family, my friends, and all the lovelies who jam out every day of the week. we're all together in this. much love.
     </div>
   </div>
+
+  <!-- begin: streetview -->
   <div id="street-view"></div>
   <script>
     var panorama;
@@ -84,4 +89,38 @@
   <script async defer
          src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCosJmQ25y_bRrOrPeOTL2j7DQ-3gBQPEs&signed_in=true&callback=initialize">
   </script>
+  <!-- end: streetview -->
+
+  <script>
+
+    // global var
+    var $text = $('#overlay .text');
+
+    // define lyric array
+    var lyrics = ['time stands still', 'true to life', 'on and on', 'it\'s a shadow of a memory and it always breaks my heart'];
+
+    // returns random lyric from array
+    function getRandomLyric() {
+      var rand = Math.floor(Math.random() * (lyrics.length));
+      return lyrics[rand];
+    }
+
+    // start with one random lyric
+    $text.text(getRandomLyric());
+
+    $text.css('font-size', $( window ).width()/16);
+  </script>
 </body>
+
+
+
+
+
+
+
+
+
+
+
+
+
