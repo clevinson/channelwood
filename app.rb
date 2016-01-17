@@ -155,6 +155,9 @@ class Channelwood < Sinatra::Base
     elsif params[:cat_no].upcase == 'WIP-002'
       protected!
       erb :wip_002, :locals => { :sc_client_id => ENV['SC_CLIENT_ID'] }
+    elsif params[:cat_no].upcase == 'WIP-002-V2'
+      protected!
+      erb :wip_002_v2, :locals => { :sc_client_id => ENV['SC_CLIENT_ID'] }
     else
       halt 404, '<h1>Not Found</h1>'
     end
