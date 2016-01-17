@@ -3,4 +3,3 @@ vendor/*
 .env
 .sass-cache/*
 .DS_Store
-
