@@ -53,10 +53,11 @@
     top: 0;
     bottom: 0;
     pointer-events: none;
+    font-size: 72px;
+    padding: 0 0.0833333333em;
   }
   #overlay .text {
     font-family: 'clairvauxregular', serif;
-    font-size: 72px;
     line-height: 1;
     /**/
     display: inline-block;
@@ -93,22 +94,37 @@
 
   <script>
 
-    // global var
+    // VARIABLES
+    // ---------
+    //     global var
     var $text = $('#overlay .text');
-
-    // define lyric array
+    //     define lyric array
     var lyrics = ['time stands still', 'true to life', 'on and on', 'it\'s a shadow of a memory and it always breaks my heart'];
 
-    // returns random lyric from array
+    // FUNCTIONS
+    // ---------
+    //     returns random lyric from array
     function getRandomLyric() {
-      var rand = Math.floor(Math.random() * (lyrics.length));
+      var rand = Math.floor(Math.random() * lyrics.length);
       return lyrics[rand];
+    }
+    //     add lyric (splice)
+    function spliceLyric() {
+      var currLyrics = $text.text();
+      var currLyricSplit = currLyrics.split(" ");
+      var position = Math.floor(Math.random() * currLyricSplit.length);
+      currLyricSplit.splice(position, 0, getRandomLyric());
+      var newLyrics = currLyricSplit.join(' ');
+      $text.text(newLyrics);
     }
 
     // start with one random lyric
     $text.text(getRandomLyric());
 
-    $text.css('font-size', $( window ).width()/16);
+
+    $('body').mousedown(function(){
+      spliceLyric();
+    })
   </script>
 </body>
 
