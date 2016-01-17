@@ -1,0 +1,87 @@
+<style>
+  /* fonts */
+  @font-face {
+    font-family: 'clairvauxregular';
+    src: url('/fonts/Clairvaux.eot');
+    src: url('/fonts/Clairvaux.eot?#iefix') format('embedded-opentype'),
+         url('/fonts/Clairvaux.woff') format('woff'),
+         url('/fonts/Clairvaux.ttf') format('truetype'),
+         url('/fonts/Clairvaux.svg#clairvauxregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+  }
+
+  /* google map default */
+  html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+  #street-view {
+    height: 100%;
+  }
+
+  /* google map, edits */
+
+  .gmnoprint {
+    display: none;
+  }
+  
+  a[title*="Click to see this area on Google Maps"] {
+    display: none !important;
+  }
+  
+  img[src*='https://maps.gstatic.com/mapfiles/api-3/images/sv4.png'] {
+    display: none;
+    pointer-events: none;
+  }
+  .gm-style-cc, .gm-iv-address {
+    display:none !important;
+  }
+
+  /* WIP: global stylez */
+  * { 
+    cursor: crosshair;
+  }
+
+  /* body overlay text */
+  #overlay {
+    position: fixed;
+    z-index: 10000;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    pointer-events: none;
+  }
+  #overlay .text {
+    font-family: 'clairvauxregular', serif;
+    font-size: 200px;
+  }
+
+</style>
+
+<body>
+
+  <div id="overlay">
+    <div class="text">
+      yolo yolo
+    </div>
+  </div>
+  <div id="street-view"></div>
+  <script>
+    var panorama;
+    function initialize() {
+      panorama = new google.maps.StreetViewPanorama(
+          document.getElementById('street-view'),
+          {
+            position: {lat: 34.8792073, lng: 136.055617},
+            pov: {heading: 129.76, pitch: 0},
+            zoom: 1,
+          });
+    }
+  </script>
+  <script async defer
+         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCosJmQ25y_bRrOrPeOTL2j7DQ-3gBQPEs&signed_in=true&callback=initialize">
+  </script>
+</body>
