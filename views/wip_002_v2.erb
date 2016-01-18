@@ -1,4 +1,15 @@
 <style>
+  /* google map default */
+  html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+  #street-view {
+    height: 100%;
+  }
+</style>
+<style>
   /* fonts */
   @font-face {
     font-family: 'clairvauxregular';
@@ -11,27 +22,17 @@
     font-style: normal;
   }
 
-  /* google map default */
-  html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-  }
-  #street-view {
-    height: 100%;
-  }
-
   /* google map, edits */
 
   .gmnoprint {
-    display: none;
+    opacity: 0;
   }
   
   a[title*="Click to see this area on Google Maps"] {
     display: none !important;
   }
   
-  img[src*='https://maps.gstatic.com/mapfiles/api-3/images/sv4.png'] {
+  img[src*='//maps.gstatic.com/mapfiles/'] {
     display: none;
     pointer-events: none;
   }
@@ -53,8 +54,9 @@
     top: 0;
     bottom: 0;
     pointer-events: none;
-    font-size: 72px;
-    padding: 0 0.0833333333em;
+    font-size: 120px;
+    white-space: nowrap;
+    /*padding: 0 0.0833333333em;*/
   }
   #overlay .text {
     font-family: 'clairvauxregular', serif;
@@ -62,12 +64,15 @@
     /**/
     display: inline-block;
   }
+  #overlay[class*=sidescroll] .text {
+    position: relative;
+  }
 
 </style>
 
 <body>
 
-  <div id="overlay">
+  <div id="overlay" class="transition-sidescroll">
     <div class="text">
       thank you: my family, my friends, and all the lovelies who jam out every day of the week. we're all together in this. much love.
     </div>
@@ -76,55 +81,127 @@
   <!-- begin: streetview -->
   <div id="street-view"></div>
   <script>
+
+    // READINESS FLAG
+    var ready = false;
+
+    // CUSTOM PLACES
+    var shigaraki = {lat: 34.8792073, lng: 136.055617, heading: 128, pitch: 0, zoom: 2};
+    var places = [shigaraki];
+    var placeIndex = 0;
+
+    // GOOGLE DEFAULT
     var panorama;
     function initialize() {
       panorama = new google.maps.StreetViewPanorama(
           document.getElementById('street-view'),
           {
-            position: {lat: 34.8792073, lng: 136.055617},
-            pov: {heading: 129.76, pitch: 0},
-            zoom: 1,
+            position: {lat: places[placeIndex].lat, lng: places[placeIndex].lng},
+            pov: {heading: places[placeIndex].heading, pitch: places[placeIndex].pitch},
+            zoom: places[placeIndex].zoom
           });
+
+      ready = true;
+    }
+
+    // RESET
+    window.onkeydown = function (e) {
+      if (e.keyCode == 65 && ready) {
+        //placeIndex = 1;
+        initialize();
+      }
     }
   </script>
-  <script async defer
-         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCosJmQ25y_bRrOrPeOTL2j7DQ-3gBQPEs&signed_in=true&callback=initialize">
-  </script>
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCosJmQ25y_bRrOrPeOTL2j7DQ-3gBQPEs&signed_in=true&callback=initialize"></script>
   <!-- end: streetview -->
 
   <script>
 
     // VARIABLES
     // ---------
-    //     global var
+
+    // global vars & objects
+    var $overlay = $('#overlay');
     var $text = $('#overlay .text');
-    //     define lyric array
+
+    // define lyric array
     var lyrics = ['time stands still', 'true to life', 'on and on', 'it\'s a shadow of a memory and it always breaks my heart'];
 
     // FUNCTIONS
     // ---------
-    //     returns random lyric from array
+
+    // returns random lyric from array
     function getRandomLyric() {
       var rand = Math.floor(Math.random() * lyrics.length);
       return lyrics[rand];
     }
-    //     add lyric (splice)
+
+    // add lyric (splice)
     function spliceLyric() {
       var currLyrics = $text.text();
       var currLyricSplit = currLyrics.split(" ");
       var position = Math.floor(Math.random() * currLyricSplit.length);
       currLyricSplit.splice(position, 0, getRandomLyric());
       var newLyrics = currLyricSplit.join(' ');
-      $text.text(newLyrics);
+      $('#overlay .text').each(function() {
+        $(this).text(newLyrics);
+      })
     }
 
     // start with one random lyric
     $text.text(getRandomLyric());
 
 
-    $('body').mousedown(function(){
-      spliceLyric();
-    })
+    // SPLICE LOGIC
+    // ------------
+    //var mouseClickPosition = {x: null, y: null};
+
+    //$('body').mousedown(function(e){
+    //  mouseClickPosition.x = e.clientX;
+    //  mouseClickPosition.y = e.clientY;
+    //});
+    //$('body').mouseup(function(e){
+    //  var mouseCloseX = (mouseClickPosition.x == e.clientX);
+    //  var mouseCloseY = (mouseClickPosition.y == e.clientY);
+    //  if (mouseCloseX && mouseCloseY) { // if mouse doesn't move
+    //    spliceLyric();
+    //  }
+    //});
+
+    // SCROLL LOGIC
+    // ------------
+    // init
+    var offsetX, offsetY;
+    function initializeText() {
+      offsetX = 1.1;
+      $text.css('left', $(window).outerWidth()*offsetX);
+    }
+    initializeText();
+    // scroll
+    function sideScroll() {
+      var speed = 30;
+      $text.animate({
+        left: '-='+speed
+      }, 200, 'linear', function(){
+        if ($text.offset().left < -$text.outerWidth()*offsetX) {
+          $text.css('left', $(window).outerWidth()*offsetX);
+          spliceLyric();
+        }
+        sideScroll();
+      });
+    }
+    sideScroll();
+    // center vertically
+    function centerText() {
+      var textHeight = $text.outerHeight();
+      var windowHeight = $(window).outerHeight();
+      var offsetY = windowHeight/2 - textHeight/2 - textHeight*0.125;
+      $text.css('top', offsetY);
+    }
+    centerText();
+    $( window ).resize(function() {
+      centerText();
+    });
   </script>
 </body>
 
