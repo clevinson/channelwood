@@ -77,13 +77,27 @@
   }
   #overlay .text {
     font-family: 'clairvauxregular', serif;
-    color: #000;
+    color: #fff;
     line-height: 1;
+    pointer-events:none;
+    letter-spacing: 10px;
     /**/
     display: inline-block;
   }
   #overlay[class*=sidescroll] .text {
     position: relative;
+  }
+  #overlay .text{
+    -webkit-animation: jerkwhole 120s 10s once;
+    position:relative;
+  }
+  @-webkit-keyframes jerkwhole {
+    0% {  }
+    20% { letter-spacing: 10px; font-size: 1em;  -webkit-transform:skew(0,0);}
+    40% { letter-spacing: 20px; font-size: 1.25em;  -webkit-transform:skew(50deg,0);}
+    60% { letter-spacing: 20px; font-size: 1.25em;  -webkit-transform:skew(20deg,0);}
+    80% { letter-spacing: 10px; font-size: 1em;  -webkit-transform:skew(0,0);}
+    100% { }
   }
 
 </style>
@@ -169,22 +183,6 @@
     // start with one random lyric
     $text.text(getRandomLyric());
 
-
-    // SPLICE LOGIC
-    // ------------
-    //var mouseClickPosition = {x: null, y: null};
-
-    //$('body').mousedown(function(e){
-    //  mouseClickPosition.x = e.clientX;
-    //  mouseClickPosition.y = e.clientY;
-    //});
-    //$('body').mouseup(function(e){
-    //  var mouseCloseX = (mouseClickPosition.x == e.clientX);
-    //  var mouseCloseY = (mouseClickPosition.y == e.clientY);
-    //  if (mouseCloseX && mouseCloseY) { // if mouse doesn't move
-    //    spliceLyric();
-    //  }
-    //});
 
     // SCROLL LOGIC
     // ------------
