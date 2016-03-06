@@ -1,5 +1,17 @@
-<style type='text/css'>
-@font-face {
+<style>
+  /* google map default */
+  html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+  #street-view {
+    height: 100%;
+  }
+</style>
+<style>
+  /* fonts */
+  @font-face {
     font-family: 'clairvauxregular';
     src: url('/fonts/Clairvaux.eot');
     src: url('/fonts/Clairvaux.eot?#iefix') format('embedded-opentype'),
@@ -8,152 +20,225 @@
          url('/fonts/Clairvaux.svg#clairvauxregular') format('svg');
     font-weight: normal;
     font-style: normal;
-}
-html {
-  height: 100%;
-  background-color: #222;
-}
-body {
-  font-family: 'clairvauxregular', Times;
-  font-size: 96px;
-  height: 100%;
-}
+  }
 
-#container {
-  position: relative;
-  height: 100%;
-  background-color: #222;
-}
+  /* google map, edits */
+  
+  a[title*="Click to see this area on Google Maps"] {
+    display: none !important;
+  }
+  
+  img[src*='//maps.gstatic.com/mapfiles/'] {
+    display: none;
+    pointer-events: none;
+  }
 
-#content {
-  margin: 50px;
-  position: absolute;
-  bottom: 0;
-}
+  .gm-style-cc, .gm-iv-address {
+    display: none !important;
+  }
 
-.buzz_wrapper{
-  position:relative;
-  width:700px;
-  margin:20px auto;
-  background-color:#fff;
-  overflow:hidden;
-  padding:100px;
-}
-.scanline{
-  width:100%;
-  display:block;
-  background:#fff;
-  height:4px;
-  position:relative;
-  z-index:3;
-  margin-bottom:5px;
-  opacity:0.1;
-}
-.buzz_wrapper span{
-  position:absolute;
-  -webkit-filter: blur(1px);
-}
-.buzz_wrapper span:nth-child(1){
-  color:red;
-  margin-left:-2px;
-  -webkit-filter: blur(2px);
-}
-.buzz_wrapper span:nth-child(2){
-  color:green;
-  margin-left:2px;
-  -webkit-filter: blur(2px);
-}
-.buzz_wrapper span:nth-child(3){
-  color:blue;
-  position:20px 0;
-  -webkit-filter: blur(1px);
-}
-.buzz_wrapper span:nth-child(4){
-  color:#fff;
-  -webkit-filter: blur(1px);
-  text-shadow:0 0 50px rgba(255,255,255,0.4);
-}
-.buzz_wrapper span:nth-child(5){
-  color:rgba(255,255,255,0.4);
-  -webkit-filter: blur(15px);
-}
+  #street-view > div > div {
+    background-color: #000 !important; /* bg color of unloaded view */
+  }
 
-.buzz_wrapper span{
-  -webkit-animation: blur 30ms infinite, jerk 50ms infinite;
-}
+  #street-view > div > div:nth-of-type(6) {
+    display: none;
+  }
 
-@-webkit-keyframes blur {
-  0%   { -webkit-filter: blur(1px); opacity:0.8;}
-  50% { -webkit-filter: blur(1px); opacity:1; }
-  100%{ -webkit-filter: blur(1px); opacity:0.8; }
-}
-@-webkit-keyframes jerk {
-  50% { left:1px; }
-  51% { left:0; }
-}
-@-webkit-keyframes jerkup {
-  50% { top:1px; }
-  51% { top:0; }
-}
+  .gmnoprint {
+    opacity: 0;
+  }
+  @media only screen and (-webkit-min-device-pixel-ratio: 2) {
+    .gmnoprint {
+      opacity: 1;
+    }
+    #street-view > div > div:nth-of-type(7) {
+      display: none;
+    }
+  }
 
-.buzz_wrapper span:nth-child(3){
-  -webkit-animation: jerkblue 1s infinite;
-}
-@-webkit-keyframes jerkblue {
-  0% { left:0; }
-  30% { left:0; }
-  31% { left:10px; }
-  32% { left:0; }
-  98% { left:0; }
-  100% { left:10px; }
-}
-.buzz_wrapper span:nth-child(2){
-  -webkit-animation: jerkgreen 1s infinite;
-}
-@-webkit-keyframes jerkgreen {
-  0% { left:0; }
-  30% { left:0; }
-  31% { left:-10px; }
-  32% { left:0; }
-  98% { left:0; }
-  100% { left:-10px; }
-}
+  /* WIP: global stylez */
+  * { 
+    cursor: crosshair;
+  }
 
-.buzz_wrapper .text{
-  -webkit-animation: jerkwhole 5s infinite;
-  position:relative;
-}
-@-webkit-keyframes jerkwhole {
-  30% {  }
-  40% { opacity:1; top:0; left:0;  -webkit-transform:scale(1,1);  -webkit-transform:skew(0,0);}
-  41% { opacity:0.8; top:0px; left:-100px; -webkit-transform:scale(1,1.2);  -webkit-transform:skew(50deg,0);}
-  42% { opacity:0.8; top:0px; left:100px; -webkit-transform:scale(1,1.2);  -webkit-transform:skew(-80deg,0);}
-  43% { opacity:1; top:0; left:0; -webkit-transform:scale(1,1);  -webkit-transform:skew(0,0);}
-  65% { }
-}
+  /* body overlay text */
+  #overlay {
+    position: fixed;
+    z-index: 10000;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    pointer-events: none;
+    font-size: 120px;
+    white-space: nowrap;
+    /*padding: 0 0.0833333333em;*/
+  }
+  #overlay .text {
+    font-family: 'clairvauxregular', serif;
+    color: #fff;
+    line-height: 1;
+    pointer-events:none;
+    letter-spacing: 10px;
+    /**/
+    display: inline-block;
+  }
+  #overlay[class*=sidescroll] .text {
+    position: relative;
+  }
+  #overlay .text{
+    /*-webkit-animation: jerkwhole 100s 20s normal;*/
+    -webkit-transform:skew(10deg,0);
+    position:relative;
+  }
+  @-webkit-keyframes jerkwhole {
+    0%   { }
+    10%  { -webkit-transform: scale(1,1); -webkit-transform:skew(0,0); }
+    100% { -webkit-transform: scale(2,3); -webkit-transform:skew(70deg,0); }
+  }
+
 </style>
 
 <body>
-  <div class="buzz_wrapper" id='container'>
-    <div class="text" id='content'>
-      <span>
-        stils
-        </br>
-        </br>
-        PASCÄAL
-      </span>
+
+  <div id="overlay" class="transition-sidescroll">
+    <div class="text">
+      thank you: my family, my friends, and all the lovelies who jam out every day of the week. we're all together in this. much love.
     </div>
-    <div class="scanlines"></div>
   </div>
+
+  <!-- begin: streetview -->
+  <div id="street-view"></div>
+  <script>
+
+    // READINESS FLAG
+    var ready = false;
+
+    // CUSTOM PLACES
+    var shigaraki = {lat: 34.8792073, lng: 136.055617, heading: 128, pitch: 0, zoom: 2};
+    var leelanau = {lat: 45.0136288, lng: -85.7625758, heading: 216.29, pitch: 0, zoom: 0.5};
+    var lapaz = {lat: 24.1590588, lng: -110.2931095, heading: 277.01, pitch: 0, zoom: 2};
+    var nordland = {lat: 66.7551416, lng: 13.2614498, heading: 68.52, pitch: 0, zoom: 1};
+    var places = [shigaraki, leelanau, lapaz, nordland];
+    var placeIndex = 0;
+
+    // GOOGLE DEFAULT
+    var panorama;
+    function initialize() {
+      panorama = new google.maps.StreetViewPanorama(
+          document.getElementById('street-view'),
+          {
+            position: {lat: places[placeIndex].lat, lng: places[placeIndex].lng},
+            pov: {heading: places[placeIndex].heading, pitch: places[placeIndex].pitch},
+            zoom: places[placeIndex].zoom
+          });
+
+      ready = true;
+    }
+
+    // RESET
+    window.onkeydown = function (e) {
+      if (e.keyCode == 65 && ready) {
+        placeIndex + 1 < places.length ? placeIndex++ : placeIndex = 0;
+        initialize();
+      }
+    }
+  </script>
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCosJmQ25y_bRrOrPeOTL2j7DQ-3gBQPEs&signed_in=true&callback=initialize"></script>
+  <!-- end: streetview -->
+
+  <script>
+
+    // VARIABLES
+    // ---------
+
+    // global vars & objects
+    var $overlay = $('#overlay');
+    var $text = $('#overlay .text');
+
+    // define lyric array
+    var lyrics = ['time stands still', 'true to life', 'on and on', 'it\'s a shadow of a memory and it always breaks my heart'];
+
+    // FUNCTIONS
+    // ---------
+
+    // returns random lyric from array
+    function getRandomLyric() {
+      var rand = Math.floor(Math.random() * lyrics.length);
+      return lyrics[rand];
+    }
+
+    // add lyric (splice)
+    function spliceLyric() {
+      var currLyrics = $text.text();
+      var currLyricSplit = currLyrics.split(" ");
+      var position = Math.floor(Math.random() * currLyricSplit.length);
+      currLyricSplit.splice(position, 0, getRandomLyric());
+      var newLyrics = currLyricSplit.join(' ');
+      $('#overlay .text').each(function() {
+        $(this).text(newLyrics);
+      })
+    }
+
+    // start with one random lyric
+    $text.text(getRandomLyric());
+
+
+    // SCROLL LOGIC
+    // ------------
+
+    // init
+    var offsetX, offsetY;
+    function initializeText() {
+      offsetX = 1.1;
+      $text.css('left', $(window).outerWidth()*offsetX);
+    }
+    initializeText();
+
+
+    // scroll
+    function sideScroll() {
+      var speed = 30;
+      $text.animate({
+        left: '-='+speed
+      }, 200, 'linear', function(){
+        if ($text.offset().left < -$text.outerWidth()*offsetX) {
+          $text.css('left', $(window).outerWidth()*offsetX);
+          $text.css('-webkit-transform', 'skew(-40deg,0)');
+          $text.css('font-size', '100px');
+          spliceLyric();
+        }
+        sideScroll();
+      });
+    }
+    sideScroll();
+
+
+
+    // center vertically
+    function centerText() {
+      var textHeight = $text.outerHeight();
+      var windowHeight = $(window).outerHeight();
+      var offsetY = windowHeight/2 - textHeight/2 - textHeight*0.125;
+      $text.css('top', offsetY);
+    }
+    centerText();
+    $( window ).resize(function() {
+      centerText();
+    });
+  </script>
 </body>
 
-<script type="text/javascript">
-$(function(){
-  for(i=0;i<4;i++){
-    $('.buzz_wrapper .text span').eq(0).clone().prependTo('.buzz_wrapper .text');
-  }
-  for(i=0;i<10;i++){
-    $('.buzz_wrapper .scanline').eq(0).clone().appendTo('.buzz_wrapper');
-  }
-});
-</script>
+
+
+
+
+
+
+
+
+
+
+
+
