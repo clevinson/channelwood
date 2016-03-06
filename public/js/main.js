@@ -44,12 +44,12 @@ var $listHeight;
 $(function() {
   // gather height of viewport height (window - footer) and list (homepage list of releases)
   $(window).on('resize', function(){
-    $viewHeight = $(window).height() - $('#footer nav').height();
+    $viewHeight = $(window).outerHeight() - $('#footer nav').outerHeight();
     checkListMargin();
   });
   $viewWidth = $(window).width()
-  $viewHeight = $(window).height() - $('#footer nav').height();
-  $listHeight = $('#the-list').height();
+  $viewHeight = $(window).height() - $('#footer nav').outerHeight();
+  $listHeight = $('#the-list').outerHeight();
   checkListMargin();
 });
 // the basic logic:

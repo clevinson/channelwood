@@ -6,7 +6,7 @@
   #{$name}: #{$argument};
 }
 
-$space-vertical: 40px;
+$space-vertical: 80px;
 $width-main: 800px;
 $width-gutter: $width-main*.15;
 $width-logo-footer: $width-gutter/2;
@@ -45,7 +45,10 @@ $height-footer: $width-logo-footer;
 }
 #the-list li {
 	height: $height-image;
-	margin: $space-vertical 0;
+	padding: $space-vertical 0;
+	&:not(.draft) {
+		display: block;
+	}
 	@extend .clear-float;
 	&:after {
   	display: inline-block;
@@ -83,6 +86,10 @@ $height-footer: $width-logo-footer;
 #the-list li:nth-of-type(even) {
 	.art {
 		float: right;
+		&.hover {
+			margin-right: -$height-image;
+			margin-left: 0;
+		}
 	}
 	text-align: left;
 	.info {
@@ -210,6 +217,10 @@ $textbox-width: $width-main/2 - $width-gutter;
 				width: 100%; 
 			}
 		}
+		li:nth-of-type(even) .art.hover {
+			margin-left: 0;
+			margin-right: -($width-main/2+$width-gutter)*.45;
+		}
 	}
 	footer nav ul {
 		width: $width-main/2+$width-gutter;
@@ -226,6 +237,8 @@ $textbox-width: $width-main/2 - $width-gutter;
 		padding: 0 $width-gutter/8 $height-footer/8;
 		li {
 			margin: $width-gutter/8 0;
+			padding-top: 0;
+			padding-bottom: 0;
 			.art.hover {
 				display:none;
 			}
