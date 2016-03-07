@@ -269,6 +269,47 @@
     $( window ).resize(function() {
       centerText();
     });
+
+    $(function() {
+
+      firstSongIndex = Math.floor(5*Math.random());
+
+      widgetFrame = $('iframe')[0];
+      widget = SC.Widget(widgetFrame);
+      setWidgetToLoop(widget);
+
+      widget.bind(SC.Widget.Events.READY, function(){
+        widget.skip(firstSongIndex);
+      });
+
+      // THESE 2 BINDS ARE FOR YOU TO USE IF YOU WANT
+      // IF YOU DONT WANT THEM, DELETE THEM! ;)
+      // YEEE BOIIIII
+      widget.bind(SC.Widget.Events.FINISHED, function() {
+        widget.getCurrentSoundIndex(function(idx) {
+          console.log("Just finished song numero " + (idx+1) + ". That was a real stomper!")
+        })
+      })
+
+      widget.bind(SC.Widget.Events.PLAY, function() {
+        widget.getCurrentSoundIndex(function(idx) {
+          console.log("We droppin' the needle mon! Straight on track numba " + (idx+1) + ", mon!")
+        })
+      })
+
+    });
+
+    function setWidgetToLoop(scWidget){
+      scWidget.bind(SC.Widget.Events.FINISH, function(){
+        scWidget.isPaused(function(paused){
+          if(paused){
+            scWidget.skip(0);
+          }
+        });
+      });
+    }
+
+
   </script>
   <!-- end: text -->
 
