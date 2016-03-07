@@ -50,7 +50,7 @@ class Channelwood < Sinatra::Base
       scss :"stylesheets/#{params[:name]}"
   end
 
-  $s3 = AWS::S3.new
+  $s3 = Aws::S3::Client.new
   Ohm.redis = Redic.new(ENV['REDISCLOUD_URL'] || "redis://127.0.0.1:6379")
 
   get '/admin' do
