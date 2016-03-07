@@ -20,7 +20,7 @@ class Channelwood < Sinatra::Base
     end
 
     def s3_images
-      $s3.buckets['wip-static'].objects.with_prefix('release-artwork/').select do |object|
+      $s3.bucket('wip-static').objects(prefix: 'release-artwork/').select do |object|
         object.key[-1] != '/'
       end.collect do |object|
         object.public_url
@@ -50,7 +50,7 @@ class Channelwood < Sinatra::Base
       scss :"stylesheets/#{params[:name]}"
   end
 
-  $s3 = Aws::S3::Client.new
+  $s3 = Aws::S3::Resource.new
   Ohm.redis = Redic.new(ENV['REDISCLOUD_URL'] || "redis://127.0.0.1:6379")
 
   get '/admin' do
