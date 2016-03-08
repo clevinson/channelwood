@@ -143,6 +143,27 @@ input[type="submit"] { /*  input[type="submit"] for paypal buttons  */
   color: white;
   background-color: black;
 }
+.button.retailers { /* for 'buy from retailers' button */ }
+.retailer-list {
+  display: none;
+  position: relative;
+}
+.retailer-list ul {
+  position: absolute;
+  right: 0;
+  top: -10px;
+  width: 120px;
+  list-style-type: none;
+  box-sizing: border-box;
+  padding: 0;
+  background-color: #fff;
+}
+.retailer-list ul li {
+  padding: 10px;
+  text-align: center;
+  border: 1px solid #000;
+  border-top: 0;
+}
 
 .button:hover, .button:active, input[type="submit"]:hover, input[type="submit"]:active { /*  input[type="submit"] for paypal buttons  */
   border-color: #fff;
