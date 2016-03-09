@@ -33,6 +33,24 @@ function checkTextBoxVisibility() {
 
 /*
 
+  CUSTOM BUTTON ACTION
+
+*/
+/* Retailer flyout button */
+$(function() {
+  var $retailerButton = $('a.button.retailers');
+
+  if ( $retailerButton.length > 0 ) {
+    $retailerButton.click(function(e){
+      e.preventDefault();
+      $(this).toggleClass('clicked');
+      $('.retailer-list').fadeToggle(300);
+    });
+  }
+});
+
+/*
+
   CENTERING
   VERTICALLY
 

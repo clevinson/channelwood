@@ -143,7 +143,16 @@ input[type="submit"] { /*  input[type="submit"] for paypal buttons  */
   color: white;
   background-color: black;
 }
-.button.retailers { /* for 'buy from retailers' button */ }
+.button.retailers:not(:hover) {
+  transition: all 0.3s;
+}
+.button.retailers.clicked, .button.retailers.clicked:hover { /* for 'buy from retailers' button */
+  opacity: 1;
+  color: #fff;
+  background-color: #000;
+  border-color: #000;
+  transition: all 0.3s;
+}
 .retailer-list {
   display: none;
   position: relative;
@@ -159,10 +168,18 @@ input[type="submit"] { /*  input[type="submit"] for paypal buttons  */
   background-color: #fff;
 }
 .retailer-list ul li {
-  padding: 10px;
   text-align: center;
   border: 1px solid #000;
   border-top: 0;
+}
+.retailer-list ul li a {
+  padding: 10px;
+  box-sizing: border-box;
+  display: block;
+  width: 100%;
+}
+.retailer-list ul li a:hover {
+  text-decoration: none;
 }
 
 .button:hover, .button:active, input[type="submit"]:hover, input[type="submit"]:active { /*  input[type="submit"] for paypal buttons  */
