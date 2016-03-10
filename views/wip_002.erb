@@ -161,6 +161,7 @@
       panorama = new google.maps.StreetViewPanorama(
           document.getElementById('street-view'),
           {
+            disableDefaultUI: true,
             position: {lat: places[placeIndex].lat, lng: places[placeIndex].lng},
             pov: {heading: places[placeIndex].heading, pitch: places[placeIndex].pitch},
             zoom: 0.5// places[placeIndex].zoom
@@ -171,7 +172,7 @@
 
     // fade in
     $('<div id="fade"></div>').appendTo('body');
-    
+
     function fade_in(){
       $('#fade').delay(2000).fadeOut(8000, function(){
         $(this).remove();
