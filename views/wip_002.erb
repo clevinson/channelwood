@@ -279,7 +279,7 @@
       widget.bind(SC.Widget.Events.PLAY_PROGRESS, function(track) {
         panorama.setPov({
           pitch: panorama.getPov().pitch,
-          heading: panorama.getPov().heading +(500 * Math.pow(track.relativePosition,2))
+          heading: panorama.getPov().heading - (500 * Math.pow(track.relativePosition,2))
         });
       })
 
