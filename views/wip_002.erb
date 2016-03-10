@@ -169,8 +169,9 @@
       fade_in();
     }
 
-
-
+    // fade in
+    $('<div id="fade"></div>').appendTo('body');
+    
     function fade_in(){
       $('#fade').delay(2000).fadeOut(8000, function(){
         $(this).remove();
