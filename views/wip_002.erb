@@ -87,7 +87,7 @@
     top: 0;
     bottom: 0;
     pointer-events: none;
-    font-size: 120px;
+    font-size: 69px;
     white-space: nowrap;
     /*padding: 0 0.0833333333em;*/
   }
@@ -105,7 +105,7 @@
   }
   #overlay .text{
     /*-webkit-animation: jerkwhole 100s 20s normal;*/
-    -webkit-transform:skew(10deg,0);
+    /*-webkit-transform:skew(10deg,0);*/
     position:relative;
   }
 
@@ -238,8 +238,6 @@
       }, 200, 'linear', function(){
         if ($text.offset().left < -$text.outerWidth()*offsetX) {
           $text.css('left', $(window).outerWidth()*offsetX);
-          $text.css('-webkit-transform', 'skew(-40deg,0)');
-          $text.css('font-size', '100px');
           spliceLyric();
         }
         sideScroll();
@@ -308,7 +306,7 @@
         keyCode.splice(0, 1);
       }
       if (keyCode[0] == 38 && keyCode[1] == 39 && keyCode[2] == 40 && keyCode[3] == 37) {
-          window.location.href = 'http://bit.ly/WIP-002_P_S';
+        window.location.href = 'http://bit.ly/WIP-002_P_S';
       }
   }
 
