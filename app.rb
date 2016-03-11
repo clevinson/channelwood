@@ -37,6 +37,15 @@ class Channelwood < Sinatra::Base
     @auth.credentials == [ENV['CHANNELWOOD_USERNAME'],ENV['CHANNELWOOD_PASSWORD']]
   end
 
+    # do the Auth!
+  def authorized?
+    @auth ||=  Rack::Auth::Basic::Request.new(request.env)
+    @auth.provided? &&
+    @auth.basic? &&
+    @auth.credentials &&
+    @auth.credentials == [ENV['CHANNELWOOD_USERNAME'],ENV['CHANNELWOOD_PASSWORD']]
+  end
+
   def protected!
     unless authorized?
       response['WWW-Authenticate'] = %(Basic realm=":syas revres ehT")
@@ -131,7 +140,7 @@ class Channelwood < Sinatra::Base
   end
 
   get '/home' do
-    @releases = Release.all.to_a
+    @releases = Release.all.to_a.sort_by {|release| release.release_date }.reverse
     if !authorized?
       @releases = @releases.select do |release|
         release.published == 'Published'
@@ -153,11 +162,7 @@ class Channelwood < Sinatra::Base
     if params[:cat_no].upcase == 'WIP-001'
       erb :wip_001, :locals => { :sc_client_id => ENV['SC_CLIENT_ID'] }
     elsif params[:cat_no].upcase == 'WIP-002'
-      protected!
       erb :wip_002, :locals => { :sc_client_id => ENV['SC_CLIENT_ID'] }
-    elsif params[:cat_no].upcase == 'WIP-002-V2'
-      protected!
-      erb :wip_002_v2, :locals => { :sc_client_id => ENV['SC_CLIENT_ID'] }
     else
       halt 404, '<h1>Not Found</h1>'
     end
