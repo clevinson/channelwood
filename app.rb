@@ -1,9 +1,7 @@
 require 'aws-sdk'
 require 'compass'
 require 'sinatra/base'
-require 'ohm'
-require 'ohm/contrib'
-require './channelwood-models'
+require './models/release'
 
 class Channelwood < Sinatra::Base
 
@@ -12,7 +10,7 @@ class Channelwood < Sinatra::Base
 
   helpers do
     def get_release(cat_no)
-      Release.with(:cat_no, cat_no)
+      Release.find(:cat_no => cat_no)
     end
 
     def h(text)
@@ -60,7 +58,7 @@ class Channelwood < Sinatra::Base
   end
 
   $s3 = Aws::S3::Resource.new
-  Ohm.redis = Redic.new(ENV['REDISCLOUD_URL'] || "redis://127.0.0.1:6379")
+
 
   get '/admin' do
     protected!
@@ -92,7 +90,7 @@ class Channelwood < Sinatra::Base
     release.hover_art = params[:hover_art]
     release.images = params[:images] || []
     release.release_date = params[:release_date]
-    release.published = (params[:published] == 'Published' ? "Published" : "Draft")
+    release.published = (params[:published] == 'Published')
     release.save
     redirect('/admin')
   end
@@ -116,7 +114,7 @@ class Channelwood < Sinatra::Base
         :cover_art => params[:cover_art],
         :images => params[:images] || [],
         :release_date => params[:release_date],
-        :published => (params[:published] == 'on' ? "Published" : "Draft")
+        :published => (params[:published] == 'on')
       )
 
       logger.info("Created new release!")
@@ -140,18 +138,16 @@ class Channelwood < Sinatra::Base
   end
 
   get '/home' do
-    @releases = Release.all.to_a.sort_by {|release| release.release_date }.reverse
+    @releases = Release.all.sort_by {|release| release.release_date }.reverse
     if !authorized?
-      @releases = @releases.select do |release|
-        release.published == 'Published'
-      end
+      @releases = @releases.select { |r| r.published }
     end
     erb :home
   end
 
   get '/physical/:cat_no' do
     release = get_release(params[:cat_no].upcase)
-    protected! unless release.published == 'Published'
+    protected! unless release.published
     background_images = release.images
 
     erb :physical,
