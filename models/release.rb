@@ -1,6 +1,6 @@
 require "sequel"
 
-DB = Sequel.connect(ENV['POSTGRES_CONN'])
+DB = Sequel.connect(ENV['DATABASE_URL'])
 
 Sequel::Model.plugin :timestamps
 
