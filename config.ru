@@ -1,3 +1,3 @@
-requre './app'
+require './app'
 
 run Channelwood
