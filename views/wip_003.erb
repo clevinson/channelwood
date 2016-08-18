@@ -1,0 +1,85 @@
+<script src="/js/lib/svg.min.js"></script>
+<script src="/js/lib/svg.filter.min.js"></script>
+<script src="/js/lib/svg.foreignobject.js"></script>
+<script src="https://www.youtube.com/iframe_api"></script>
+<style>
+
+#player {
+  padding-left: 25px;
+  padding-top: 120px;
+
+
+}
+</style>
+
+<script type='text/javascript'>
+
+
+  var rect, fobj;
+  $(function() {
+    draw = SVG('drawing').size(
+      window.innerWidth,
+      window.innerHeight
+    ).style(
+      'right:0px; position:absolute; bottom:0px'
+    );
+
+    $(window).resize(function() {
+      $('#drawing').css('height', window.innerHeight)
+    })
+
+    var rectLength = 500;
+
+    var diff = 20;
+
+    var screenCornerY = (draw.height() - rectLength)/3;
+    var screenCornerX = 100;
+
+    draw.rect(screenCornerX + diff,rectLength*2).fill('white');
+    draw.rect(screenCornerX + diff,rectLength*2).move(rectLength + screenCornerX + diff, 0).fill('white');
+    draw.rect(rectLength,rectLength).move(screenCornerX + diff, screenCornerY + diff).stroke({ width: 3 }).fill('none');
+    draw.rect(rectLength,rectLength).move(screenCornerX - diff, screenCornerY - diff).stroke({ width: 3 }).fill('none');
+
+    //var ellipse = draw.ellipse(600, 300).move(10, 10);
+
+    //rect.clipWith(ellipse);
+
+    //fobj = draw.foreignObject(500,700);
+    //fobj.appendChild("div", {id: 'player'});
+
+
+  });
+
+  // 3. This function creates an <iframe> (and YouTube player)
+  //    after the API code downloads.
+  var player;
+  function onYouTubeIframeAPIReady() {
+    player = new YT.Player('player', {
+      height: '500',
+      width: '700',
+      videoId: 'nlcthavJ008',
+      playerVars: {
+        'controls': 0,
+        'frameborder': 0,
+        'modestbranding': 0,
+        'rel': 0,
+        'showinfo': 0
+      },
+      events: {
+        'onReady': onPlayerReady
+      }
+    });
+  }
+
+  function onPlayerReady(event) {
+    event.target.playVideo();
+  }
+
+
+
+</script>
+
+<div id="drawing"></div>
+<div id="player-container">
+  <div id="player"></div>
+</div>
