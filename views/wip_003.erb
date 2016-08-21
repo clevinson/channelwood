@@ -6,27 +6,45 @@
 
 #player {
   padding-left: 25px;
-  padding-top: 120px;
+  padding-top: 50px;
+}
 
+body {
+  background-color: white;
+}
+
+#notes {
+  padding: 100px;
+  right: 0;
+  top: 0;
+  position: absolute;
+  width: 600px;
+  font-size:12pt;
 
 }
+
 </style>
 
 <script type='text/javascript'>
 
 
-  var rect, fobj;
+  var time;
+
+
+
+  var draw, boxGroup, shadowBox;
+
   $(function() {
     draw = SVG('drawing').size(
-      window.innerWidth,
+      800,
       window.innerHeight
     ).style(
-      'right:0px; position:absolute; bottom:0px'
+      'top:0px; position:absolute; left:0px'
     );
 
-    $(window).resize(function() {
-      $('#drawing').css('height', window.innerHeight)
-    })
+    //$(window).resize(function() {
+    //  $('#drawing').css('height', window.innerHeight)
+    //})
 
     var rectLength = 500;
 
@@ -34,18 +52,23 @@
 
     var screenCornerY = (draw.height() - rectLength)/3;
     var screenCornerX = 100;
+    var marginWidth = 200;
 
-    draw.rect(screenCornerX + diff,rectLength*2).fill('white');
-    draw.rect(screenCornerX + diff,rectLength*2).move(rectLength + screenCornerX + diff, 0).fill('white');
-    draw.rect(rectLength,rectLength).move(screenCornerX + diff, screenCornerY + diff).stroke({ width: 3 }).fill('none');
-    draw.rect(rectLength,rectLength).move(screenCornerX - diff, screenCornerY - diff).stroke({ width: 3 }).fill('none');
+    var leftMargin = draw.rect(marginWidth, rectLength+2*marginWidth).move(screenCornerX - marginWidth, screenCornerY - marginWidth).fill('white');
+    var rightMargin = draw.rect(marginWidth, rectLength+2*marginWidth).move(screenCornerX + rectLength, screenCornerY - marginWidth).fill('white');
+    var topMargin = draw.rect(rectLength, marginWidth).move(screenCornerX, screenCornerY - marginWidth).fill('white');
+    var bottomMargin = draw.rect(rectLength, marginWidth).move(screenCornerX, screenCornerY + rectLength).fill('white');
 
-    //var ellipse = draw.ellipse(600, 300).move(10, 10);
+    var cutBox = draw.rect(rectLength,rectLength).move(screenCornerX, screenCornerY).stroke({ width: 2}).fill('none').front();
 
-    //rect.clipWith(ellipse);
+    boxGroup = draw.group().add(leftMargin).add(rightMargin).add(topMargin).add(bottomMargin).add(cutBox);
+    shadowBox = draw.rect(rectLength,rectLength).move(screenCornerX - diff, screenCornerY - diff).stroke({ width: 2 }).fill('none');
 
-    //fobj = draw.foreignObject(500,700);
-    //fobj.appendChild("div", {id: 'player'});
+    boxGroup.animate(10000, '<>').move(0,20).loop(0,true);
+    shadowBox.animate(10000, '<>').move(screenCornerX - diff, screenCornerY + diff/2).loop(0,true);
+
+
+    drawPlayControls();
 
 
   });
@@ -55,26 +78,95 @@
   var player;
   function onYouTubeIframeAPIReady() {
     player = new YT.Player('player', {
-      height: '500',
+      height: '600',
       width: '700',
-      videoId: 'nlcthavJ008',
       playerVars: {
         'controls': 0,
         'frameborder': 0,
         'modestbranding': 0,
         'rel': 0,
-        'showinfo': 0
-      },
-      events: {
-        'onReady': onPlayerReady
+        'showinfo': 0,
+        'autohide': 1,
+        'listType': 'playlist',
+        'list': 'PLEInGAMNjiZ-L2VSNZZ0RfGxHKzujubyO',
+        'autoplay': 1,
+        'loop': 1
       }
     });
   }
 
-  function onPlayerReady(event) {
-    event.target.playVideo();
-  }
 
+  function drawPlayControls() {
+
+    var pcWidth = window.innerWidth;
+    var pcHeight = 80;
+
+    var bHeight = 40;
+    var bWidth = 40;
+    var buttonSpace = 150;
+
+    var buttonFill = {
+      color: '#fff',
+      opacity: 0
+    }
+
+    var pcDividerMargin = 60;
+
+    var playControls = SVG('play-controls').size(
+      pcWidth,
+      pcHeight
+    ).style(
+      'bottom:0px; position:absolute; left:0px'
+    );
+
+    var prevX = pcWidth/2 - 1.5*buttonSpace
+      , pauseX = pcWidth/2 - buttonSpace/2
+      , playX = pcWidth/2 + buttonSpace/2
+      , nextX = pcWidth/2 + 1.5*buttonSpace;
+
+    var prevY = pauseY = playY = nextY = (pcHeight/2 - bHeight/2);
+
+    var line = playControls.polyline([[0 + pcDividerMargin, pcHeight/2], [pcWidth - pcDividerMargin, pcHeight/2]]).stroke({width: 2});
+
+    var playButton = playControls.polygon([[0,0], [0,40], [40,20]]).move(playX,playY).fill(buttonFill).stroke({width: 2});
+    var pauseButton = playControls.group().add(
+          playControls.rect(10,bHeight).fill(buttonFill).stroke({width: 2}).move(15,0)
+        ).add(
+          playControls.rect(10,bHeight).fill(buttonFill).stroke({width: 2})
+        ).move(pauseX,pauseY);
+
+    var nextButton = playControls.group().add(
+          playControls.polygon([[0,0], [0,bHeight], [bWidth,bHeight/2]]).fill(buttonFill).stroke({width: 2}).move(20,0)
+        ).add(
+          playControls.polygon([[0,0], [0,bHeight], [bWidth,bHeight/2]]).fill(buttonFill).stroke({width: 2})
+        ).move(nextX,nextY);
+
+    var prevButton = playControls.group().add(
+          playControls.polygon([[0,bHeight/2], [bWidth,bHeight], [bWidth,0]]).fill(buttonFill).stroke({width: 2})
+        ).add(
+          playControls.polygon([[0,bHeight/2], [bWidth,bHeight], [bWidth,0]]).fill(buttonFill).stroke({width: 2}).move(20,0)
+        ).move(prevX,prevY);
+
+
+
+
+    // add event handlers for play controls!!
+    playButton.click(function() {
+      player.playVideo();
+    });
+
+    pauseButton.click(function() {
+      player.pauseVideo();
+    });
+
+    prevButton.click(function() {
+      player.previousVideo();
+    });
+
+    nextButton.click(function() {
+      player.nextVideo();
+    });
+  }
 
 
 </script>
@@ -83,3 +175,10 @@
 <div id="player-container">
   <div id="player"></div>
 </div>
+<div id="notes">
+  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</br></br></br>
+  <b>Tracklist:</b></br></br>
+  1. 134</br></br>
+  2. dootldydoo</br></br>
+</div>
+<div id="play-controls"></div>
