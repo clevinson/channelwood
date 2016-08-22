@@ -171,6 +171,11 @@ class Channelwood < Sinatra::Base
     erb :about
   end
 
+  get '/about2' do
+    protected!
+    erb :about2
+  end
+
   get '/dayparty' do
     erb :dayparty
   end
