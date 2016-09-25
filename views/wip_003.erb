@@ -2,42 +2,56 @@
 <script src="/js/lib/svg.filter.min.js"></script>
 <script src="/js/lib/svg.foreignobject.js"></script>
 <script src="https://www.youtube.com/iframe_api"></script>
-<style>
 
+<style>
 #player {
-  padding-left: 25px;
   padding-top: 50px;
 }
 
-body {
-  background-color: white;
+#container {
+  position: absolute;
+  height: 700px;
+  width: 1500px;
+  left: 50%;
+  margin-left: -750px;
+  top: 50%;
+  margin-top: -375px;
 }
 
-#notes {
-  padding: 100px;
-  right: 0;
-  top: 0;
+#info-container {
+  top: 0px;
+  left: 750px;
+  padding-top: 160px;
+  padding-left: 50px;
   position: absolute;
-  width: 600px;
+  box-sizing: border-box;
   font-size:12pt;
+}
 
+#info-container li {
+  margin: 0.4em 0;
+  cursor: pointer;
+}
+
+.np-indicator {
+  position: absolute;
+  left: 25px;
+  color: #4c9900;
+  cursor: default;
 }
 
 </style>
 
 <script type='text/javascript'>
 
-
   var time;
-
-
 
   var draw, boxGroup, shadowBox;
 
   $(function() {
     draw = SVG('drawing').size(
-      800,
-      window.innerHeight
+      850,
+      850
     ).style(
       'top:0px; position:absolute; left:0px'
     );
@@ -46,13 +60,13 @@ body {
     //  $('#drawing').css('height', window.innerHeight)
     //})
 
-    var rectLength = 500;
+    var rectLength = 575;
 
     var diff = 20;
 
-    var screenCornerY = (draw.height() - rectLength)/3;
-    var screenCornerX = 100;
-    var marginWidth = 200;
+    var screenCornerY = 50;
+    var screenCornerX = 125;
+    var marginWidth = 150;
 
     var leftMargin = draw.rect(marginWidth, rectLength+2*marginWidth).move(screenCornerX - marginWidth, screenCornerY - marginWidth).fill('white');
     var rightMargin = draw.rect(marginWidth, rectLength+2*marginWidth).move(screenCornerX + rectLength, screenCornerY - marginWidth).fill('white');
@@ -64,14 +78,28 @@ body {
     boxGroup = draw.group().add(leftMargin).add(rightMargin).add(topMargin).add(bottomMargin).add(cutBox);
     shadowBox = draw.rect(rectLength,rectLength).move(screenCornerX - diff, screenCornerY - diff).stroke({ width: 2 }).fill('none');
 
-    boxGroup.animate(10000, '<>').move(0,20).loop(0,true);
+    var divider = draw.line(750,100,750,600).stroke({ width: 2 });
+
+    boxGroup.animate(10000, '<>').move(0,25).loop(0,true);
     shadowBox.animate(10000, '<>').move(screenCornerX - diff, screenCornerY + diff/2).loop(0,true);
 
-
     drawPlayControls();
-
-
   });
+
+  function onPlayerStateChange(YTEvent) {
+    if(YTEvent.data == YT.PlayerState.PLAYING || YTEvent.data == YT.PlayerState.PAUSED) {
+      drawNpIndicator(player.getPlaylistIndex());
+    }
+  }
+
+  function clearNpIndicator(){
+    $('.np-indicator').empty() 
+  }
+
+  function drawNpIndicator(idx) {
+    clearNpIndicator();
+    $('#info-container li:eq(' + idx + ') .np-indicator').html(">>");
+  }
 
   // 3. This function creates an <iframe> (and YouTube player)
   //    after the API code downloads.
@@ -79,7 +107,7 @@ body {
   function onYouTubeIframeAPIReady() {
     player = new YT.Player('player', {
       height: '600',
-      width: '700',
+      width: '800',
       playerVars: {
         'controls': 0,
         'frameborder': 0,
@@ -91,13 +119,14 @@ body {
         'list': 'PLbfcwV846cnVtgJgyYQ6sEnxxfj3p4Qtm',
         'autoplay': 1,
         'loop': 1
+      },
+      events: {
+        'onStateChange': onPlayerStateChange
       }
     });
   }
 
-
   function drawPlayControls() {
-
     var pcWidth = window.innerWidth;
     var pcHeight = 80;
 
@@ -116,7 +145,7 @@ body {
       pcWidth,
       pcHeight
     ).style(
-      'bottom:0px; position:absolute; left:0px'
+      'bottom:0px; position:absolute; left:50%; margin-left: ' + -pcWidth/2 + 'px;'
     );
 
     var prevX = pcWidth/2 - 1.5*buttonSpace
@@ -147,9 +176,6 @@ body {
           playControls.polygon([[0,bHeight/2], [bWidth,bHeight], [bWidth,0]]).fill(buttonFill).stroke({width: 2}).move(20,0)
         ).move(prevX,prevY);
 
-
-
-
     // add event handlers for play controls!!
     playButton.click(function() {
       player.playVideo();
@@ -168,17 +194,35 @@ body {
     });
   }
 
-
+  function playTrack(index) {
+    player.playVideoAt(index)
+  }
 </script>
 
-<div id="drawing"></div>
-<div id="player-container">
+<div id="container">
+  <div id="drawing"></div>
   <div id="player"></div>
-</div>
-<div id="notes">
-  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</br></br></br>
-  <b>Tracklist:</b></br></br>
-  1. 134</br></br>
-  2. dootldydoo</br></br>
+  <div id="info-container">
+    // Side A //
+    <ol>
+      <li onclick="playTrack(0)"><span class='np-indicator'></span>|**</li>
+      <li onclick="playTrack(1)"><span class='np-indicator'></span>occupant</li>
+      <li onclick="playTrack(2)"><span class='np-indicator'></span>terrarium</li>
+      <li onclick="playTrack(3)"><span class='np-indicator'></span>prime meridians</li>
+      <li onclick="playTrack(4)"><span class='np-indicator'></span>walls doors and windows</li>
+      <li onclick="playTrack(5)"><span class='np-indicator'></span>gloved hand</li>
+      <li onclick="playTrack(6)"><span class='np-indicator'></span>reflex</li>
+    </ol>
+    </br>
+    // Side B //
+    <ol>
+      <li onclick="playTrack(7)"><span class='np-indicator'></span>-1</li>
+      <li onclick="playTrack(8)"><span class='np-indicator'></span>long leash</li>
+      <li onclick="playTrack(9)"><span class='np-indicator'></span>syrena</li>
+      <li onclick="playTrack(10)"><span class='np-indicator'></span>terminal </li>
+      <li onclick="playTrack(11)"><span class='np-indicator'></span>one large rooms</li>
+      <li onclick="playTrack(12)"><span class='np-indicator'></span>***|</li>
+    </ol>
+  </div>
 </div>
 <div id="play-controls"></div>
