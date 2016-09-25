@@ -87,9 +87,7 @@
   });
 
   function onPlayerStateChange(YTEvent) {
-    if(YTEvent.data == YT.PlayerState.PLAYING || YTEvent.data == YT.PlayerState.PAUSED) {
-      drawNpIndicator(player.getPlaylistIndex());
-    }
+    drawNpIndicator(player.getPlaylistIndex());
   }
 
   function clearNpIndicator(){
