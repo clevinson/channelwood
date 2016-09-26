@@ -21,22 +21,23 @@
 #info-container {
   top: 0px;
   left: 750px;
-  padding-top: 160px;
-  padding-left: 50px;
+  padding-top: 140px;
+  padding-left: 10px;
   position: absolute;
   box-sizing: border-box;
   font-size:12pt;
 }
 
 #info-container li {
-  margin: 0.4em 0;
+  margin: 1em 0;
   cursor: pointer;
+  list-style-type: none;
 }
 
 .np-indicator {
   position: absolute;
-  left: 25px;
-  color: #4c9900;
+  left: 20px;
+  color: #666;
   cursor: default;
 }
 
@@ -201,8 +202,7 @@
   <div id="drawing"></div>
   <div id="player"></div>
   <div id="info-container">
-    // Side A //
-    <ol>
+    <ul>
       <li onclick="playTrack(0)"><span class='np-indicator'></span>|**</li>
       <li onclick="playTrack(1)"><span class='np-indicator'></span>occupant</li>
       <li onclick="playTrack(2)"><span class='np-indicator'></span>terrarium</li>
@@ -210,17 +210,13 @@
       <li onclick="playTrack(4)"><span class='np-indicator'></span>walls doors and windows</li>
       <li onclick="playTrack(5)"><span class='np-indicator'></span>gloved hand</li>
       <li onclick="playTrack(6)"><span class='np-indicator'></span>reflex</li>
-    </ol>
-    </br>
-    // Side B //
-    <ol>
       <li onclick="playTrack(7)"><span class='np-indicator'></span>-1</li>
       <li onclick="playTrack(8)"><span class='np-indicator'></span>long leash</li>
       <li onclick="playTrack(9)"><span class='np-indicator'></span>syrena</li>
       <li onclick="playTrack(10)"><span class='np-indicator'></span>terminal </li>
       <li onclick="playTrack(11)"><span class='np-indicator'></span>one large rooms</li>
       <li onclick="playTrack(12)"><span class='np-indicator'></span>***|</li>
-    </ol>
+    </ul>
   </div>
 </div>
 <div id="play-controls"></div>
