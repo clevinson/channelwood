@@ -167,6 +167,18 @@ class Channelwood < Sinatra::Base
     end
   end
 
+  get '/digital/:cat_no/s-e0e2047a' do
+    if params[:cat_no].upcase == 'WIP-001'
+      erb :wip_001, :locals => { :sc_client_id => ENV['SC_CLIENT_ID'] }
+    elsif params[:cat_no].upcase == 'WIP-002'
+      erb :wip_002, :locals => { :sc_client_id => ENV['SC_CLIENT_ID'] }
+    elsif params[:cat_no].upcase == 'WIP-003'
+      erb :wip_003, :locals => { :sc_client_id => ENV['SC_CLIENT_ID'] }
+    else
+      halt 404, '<h1>Not Found</h1>'
+    end
+  end
+
   get '/about' do
     erb :about
   end
