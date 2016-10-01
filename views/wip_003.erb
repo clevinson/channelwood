@@ -4,34 +4,129 @@
 <script src="https://www.youtube.com/iframe_api"></script>
 
 <style>
-#player {
-  padding-top: 50px;
+
+/* font */
+@font-face {
+  font-family: 'Nazareth Roman';
+  src: url('/fonts/NazarethRoman-Medium.eot');
+  src: url('/fonts/NazarethRoman-Medium.eot?#iefix') format('embedded-opentype'),
+    url('/fonts/NazarethRoman-Medium.woff') format('woff'),
+    url('/fonts/NazarethRoman-Medium.ttf') format('truetype'),
+    url('/fonts/NazarethRoman-Medium.svg#NazarethRoman-Medium') format('svg');
+  font-weight: 500;
+  font-style: normal;
 }
 
 #container {
   position: absolute;
-  height: 700px;
-  width: 1500px;
-  left: 50%;
-  margin-left: -750px;
-  top: 50%;
-  margin-top: -375px;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(44deg, #ffffff, #ffffff, #ffffff, #ffffff, #ffffff, #ffffff, #d1d1d1, #ffffff, #ffffff, #ffffff, #ffffff, #ffffff, #ffffff);
+  background-size: 1000% 1000%;
+  -webkit-animation: AnimationName 15s ease infinite;
+  -moz-animation: AnimationName 15s ease infinite;
+  -o-animation: AnimationName 15s ease infinite;
+  animation: AnimationName 15s ease infinite;
+}
+@-webkit-keyframes AnimationName {
+  0%{background-position:10% 100%}
+  10%{background-position:10% 100%}
+  20%{background-position:91% 0%}
+  100%{background-position:91% 0%}
+}
+@-moz-keyframes AnimationName {
+  0%{background-position:10% 100%}
+  10%{background-position:10% 100%}
+  20%{background-position:91% 0%}  
+  100%{background-position:91% 0%}   
+}
+@-o-keyframes AnimationName {
+  0%{background-position:10% 100%}
+  10%{background-position:10% 100%}
+  20%{background-position:91% 0%}
+  100%{background-position:91% 0%}
+}
+@keyframes AnimationName {
+  0%{background-position:10% 100%}
+  10%{background-position:10% 100%}
+  20%{background-position:91% 0%}
+  100%{background-position:91% 0%}
 }
 
-#info-container {
-  top: 0px;
-  left: 750px;
-  padding-top: 140px;
-  padding-left: 10px;
-  position: absolute;
-  box-sizing: border-box;
-  font-size:12pt;
+.info-container ul {
+  padding: 0;
+  margin: 0;
 }
 
-#info-container li {
-  margin: 1em 0;
+.info-container li {
   cursor: pointer;
   list-style-type: none;
+  font-family: 'Nazareth Roman', serif;
+  font-size: 18px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-align: center;
+  padding-bottom: 12px;
+}
+
+.info-container li span {
+  display: inline-block;
+  padding: 0.25em 0.25em 0
+}
+
+.info-container li.shade span {
+  background-color: #000;
+  color: #fff;
+}
+
+.info-container {
+  position: absolute;
+  top: 50%;
+  margin-top: -130px;
+  width: 33%;
+}
+
+.info-container.left {
+  left: 5%;
+}
+
+.info-container.right {
+  right: 5%;
+}
+
+.info-container.right ul li {
+    padding-bottom: 20px;
+}
+
+#player {
+  margin-left: -125px;
+}
+
+#border {
+  width: 300px;
+  height: 400px;
+  border: 2px solid #00a651;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -200px;
+  margin-left: -150px;
+}
+
+#player-holder {
+  overflow: hidden;
+}
+
+#border:after {
+  content: "";
+  position: absolute;
+  top: -14px;
+  bottom: 10px;
+  left: -14px;
+  right: 10px;
+  border: 2px solid #00a651;
 }
 
 .np-indicator {
@@ -41,7 +136,53 @@
   cursor: default;
 }
 
+#prevButton, #nextButton {
+  width: 30px;
+  height: 26px;
+  position: absolute;
+  top: 50%;
+  margin-top: -16px;
+}
+#prevButton {
+  left: 10px;
+}
+#nextButton {
+  right: 10px;
+}
+
 </style>
+
+<div id="container">
+  <div id="drawing"></div>
+  <div id="border">
+    <div id="player-holder">
+      <div id="player"></div>
+    </div>
+  </div>
+  <div class="info-container left">
+    <ul>
+      <li onclick="playTrack(0)" id="no_0"><span>|**</span></li>
+      <li onclick="playTrack(1)" id="no_1"><span>occupant</span></li>
+      <li onclick="playTrack(2)" id="no_2"><span>terrarium</span></li>
+      <li onclick="playTrack(3)" id="no_3"><span>prime meridians</span></li>
+      <li onclick="playTrack(4)" id="no_4"><span>walls doors and windows</span></li>
+      <li onclick="playTrack(5)" id="no_5"><span>gloved hand</span></li>
+      <li onclick="playTrack(6)" id="no_6"><span>reflex</span></li>
+    </ul>
+  </div>
+  <div class="info-container right">
+    <ul>
+      <li onclick="playTrack(7)"  id="no_7"><span>-1</span></li>
+      <li onclick="playTrack(8)"  id="no_8"><span>long leash</span></li>
+      <li onclick="playTrack(9)"  id="no_9"><span>syrena</span></li>
+      <li onclick="playTrack(10)" id="no_10"><span>terminal</span></li>
+      <li onclick="playTrack(11)" id="no_11"><span>one large rooms</span></li>
+      <li onclick="playTrack(12)" id="no_12"><span>***|</span></li>
+    </ul>
+  </div>
+</div>
+<div id="prevButton"><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 20 17" style="enable-background:new 0 0 20 17;" xml:space="preserve"><style type="text/css"> .st0{fill:none;stroke:#00A651;stroke-miterlimit:10;}</style><g><polygon class="st0" points="12.905,1.232 12.905,15.768 1.286,8.5  "/><polygon class="st0" points="18.714,1.232 18.714,15.768 7.095,8.5  "/></g></svg></div>
+<div id="nextButton"><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 20 17" style="enable-background:new 0 0 20 17;" xml:space="preserve"><style type="text/css">.st0{fill:none;stroke:#00A651;stroke-miterlimit:10;}</style><g><polygon class="st0" points="7.095,15.768 7.095,1.232 18.714,8.5   "/><polygon class="st0" points="1.286,15.768 1.286,1.232 12.905,8.5   "/></g></svg></div>
 
 <script type='text/javascript'>
 
@@ -50,18 +191,18 @@
   var draw, boxGroup, shadowBox;
 
   $(function() {
-    draw = SVG('drawing').size(
+    /*draw = SVG('drawing').size(
       850,
       850
     ).style(
       'top:0px; position:absolute; left:0px'
-    );
+    );*/
 
     //$(window).resize(function() {
     //  $('#drawing').css('height', window.innerHeight)
     //})
 
-    var rectLength = 575;
+    /*var rectLength = 575;
 
     var diff = 20;
 
@@ -82,7 +223,7 @@
     var divider = draw.line(750,100,750,600).stroke({ width: 2 });
 
     boxGroup.animate(10000, '<>').move(0,25).loop(0,true);
-    shadowBox.animate(10000, '<>').move(screenCornerX - diff, screenCornerY + diff/2).loop(0,true);
+    shadowBox.animate(10000, '<>').move(screenCornerX - diff, screenCornerY + diff/2).loop(0,true);*/
 
     drawPlayControls();
   });
@@ -92,12 +233,12 @@
   }
 
   function clearNpIndicator(){
-    $('.np-indicator').empty() 
+    $('.info-container li').removeClass('shade'); 
   }
 
   function drawNpIndicator(idx) {
     clearNpIndicator();
-    $('#info-container li:eq(' + idx + ') .np-indicator').html(">>");
+    $('.info-container li#no_' + idx ).addClass('shade');
   }
 
   // 3. This function creates an <iframe> (and YouTube player)
@@ -105,8 +246,8 @@
   var player;
   function onYouTubeIframeAPIReady() {
     player = new YT.Player('player', {
-      height: '600',
-      width: '800',
+      height: '400',
+      width: '533',
       playerVars: {
         'controls': 0,
         'frameborder': 0,
@@ -126,25 +267,25 @@
   }
 
   function drawPlayControls() {
-    var pcWidth = window.innerWidth;
-    var pcHeight = 80;
+    /*var pcWidth = window.innerWidth;
+    var pcHeight = 40;
 
-    var bHeight = 40;
-    var bWidth = 40;
-    var buttonSpace = 150;
+    var bHeight = 20;
+    var bWidth = 20;
+    var buttonSpace = 0;
 
     var buttonFill = {
       color: '#fff',
       opacity: 0
     }
 
-    var pcDividerMargin = 60;
+    var pcDividerMargin = 0;
 
     var playControls = SVG('play-controls').size(
       pcWidth,
       pcHeight
     ).style(
-      'bottom:0px; position:absolute; left:50%; margin-left: ' + -pcWidth/2 + 'px;'
+      'position: absolute; left:0; right: 0;'
     );
 
     var prevX = pcWidth/2 - 1.5*buttonSpace
@@ -163,26 +304,31 @@
           playControls.rect(10,bHeight).fill(buttonFill).stroke({width: 2})
         ).move(pauseX,pauseY);
 
-    var nextButton = playControls.group().add(
-          playControls.polygon([[0,0], [0,bHeight], [bWidth,bHeight/2]]).fill(buttonFill).stroke({width: 2}).move(20,0)
+    var prevControlSVG = SVG('prevControlSVG').size(bWidth*1.5, bHeight);
+
+    var nextButton = prevControlSVG.group().add(
+          prevControlSVG.polygon([[0,0], [0,bHeight], [bWidth,bHeight/2]]).fill(buttonFill).stroke({width: 2}).move(10,0)
         ).add(
-          playControls.polygon([[0,0], [0,bHeight], [bWidth,bHeight/2]]).fill(buttonFill).stroke({width: 2})
+          prevControlSVG.polygon([[0,0], [0,bHeight], [bWidth,bHeight/2]]).fill(buttonFill).stroke({width: 2})
         ).move(nextX,nextY);
 
     var prevButton = playControls.group().add(
           playControls.polygon([[0,bHeight/2], [bWidth,bHeight], [bWidth,0]]).fill(buttonFill).stroke({width: 2})
         ).add(
-          playControls.polygon([[0,bHeight/2], [bWidth,bHeight], [bWidth,0]]).fill(buttonFill).stroke({width: 2}).move(20,0)
-        ).move(prevX,prevY);
+          playControls.polygon([[0,bHeight/2], [bWidth,bHeight], [bWidth,0]]).fill(buttonFill).stroke({width: 2}).move(10,0)
+        ).move(prevX,prevY);*/
 
     // add event handlers for play controls!!
-    playButton.click(function() {
+    /*playButton.click(function() {
       player.playVideo();
     });
 
     pauseButton.click(function() {
       player.pauseVideo();
-    });
+    });*/
+
+    var prevButton = $('#prevButton');
+    var nextButton = $('#nextButton');
 
     prevButton.click(function() {
       player.previousVideo();
@@ -197,26 +343,3 @@
     player.playVideoAt(index)
   }
 </script>
-
-<div id="container">
-  <div id="drawing"></div>
-  <div id="player"></div>
-  <div id="info-container">
-    <ul>
-      <li onclick="playTrack(0)"><span class='np-indicator'></span>|**</li>
-      <li onclick="playTrack(1)"><span class='np-indicator'></span>occupant</li>
-      <li onclick="playTrack(2)"><span class='np-indicator'></span>terrarium</li>
-      <li onclick="playTrack(3)"><span class='np-indicator'></span>prime meridians</li>
-      <li onclick="playTrack(4)"><span class='np-indicator'></span>walls doors and windows</li>
-      <li onclick="playTrack(5)"><span class='np-indicator'></span>gloved hand</li>
-      <li onclick="playTrack(6)"><span class='np-indicator'></span>reflex</li>
-      <li onclick="playTrack(7)"><span class='np-indicator'></span>-1</li>
-      <li onclick="playTrack(8)"><span class='np-indicator'></span>long leash</li>
-      <li onclick="playTrack(9)"><span class='np-indicator'></span>syrena</li>
-      <li onclick="playTrack(10)"><span class='np-indicator'></span>terminal </li>
-      <li onclick="playTrack(11)"><span class='np-indicator'></span>one large rooms</li>
-      <li onclick="playTrack(12)"><span class='np-indicator'></span>***|</li>
-    </ul>
-  </div>
-</div>
-<div id="play-controls"></div>
