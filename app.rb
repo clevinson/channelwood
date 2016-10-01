@@ -166,6 +166,9 @@ class Channelwood < Sinatra::Base
     elsif params[:cat_no].upcase == 'WIP-003'
       soft_protected!(params[:s])
       erb :wip_003
+    elsif params[:cat_no].upcase == 'WIP-003B'
+      soft_protected!(params[:s])
+      erb :wip_003b
     else
       halt 404, '<h1>Not Found</h1>'
     end
