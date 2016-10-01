@@ -51,6 +51,10 @@ class Channelwood < Sinatra::Base
     end
   end
 
+  def soft_protected! key
+    (key == ENV['CHANNELWOOD_SOFTKEY']) || protected!
+  end
+
   #handle all the SASS files and convert to css on the fly
   get '/css/:name.css' do
       content_type 'text/css', :charset => 'utf-8'
@@ -147,7 +151,7 @@ class Channelwood < Sinatra::Base
 
   get '/physical/:cat_no' do
     release = get_release(params[:cat_no].upcase)
-    protected! unless release.published
+    soft_protected!(params[:s]) unless release.published
     background_images = release.images
 
     erb :physical,
@@ -160,19 +164,20 @@ class Channelwood < Sinatra::Base
     elsif params[:cat_no].upcase == 'WIP-002'
       erb :wip_002, :locals => { :sc_client_id => ENV['SC_CLIENT_ID'] }
     elsif params[:cat_no].upcase == 'WIP-003'
-      protected!
-      erb :wip_003, :locals => { :sc_client_id => ENV['SC_CLIENT_ID'] }
+      soft_protected!(params[:s])
+      erb :wip_003
     else
       halt 404, '<h1>Not Found</h1>'
     end
   end
 
-  get '/digital/:cat_no/s-e0e2047a' do
+  get '/digital/:cat_no' do
     if params[:cat_no].upcase == 'WIP-001'
       erb :wip_001, :locals => { :sc_client_id => ENV['SC_CLIENT_ID'] }
     elsif params[:cat_no].upcase == 'WIP-002'
       erb :wip_002, :locals => { :sc_client_id => ENV['SC_CLIENT_ID'] }
     elsif params[:cat_no].upcase == 'WIP-003'
+      soft_protected!
       erb :wip_003, :locals => { :sc_client_id => ENV['SC_CLIENT_ID'] }
     else
       halt 404, '<h1>Not Found</h1>'
