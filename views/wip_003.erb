@@ -119,7 +119,7 @@
   overflow: hidden;
 }
 
-#border:after {
+#border-orbit {
   content: "";
   position: absolute;
   top: -14px;
@@ -153,11 +153,11 @@
 </style>
 
 <div id="container">
-  <div id="drawing"></div>
   <div id="border">
     <div id="player-holder">
       <div id="player"></div>
     </div>
+    <div id="border-orbit"></div>
   </div>
   <div class="info-container left">
     <ul>
@@ -191,40 +191,6 @@
   var draw, boxGroup, shadowBox;
 
   $(function() {
-    /*draw = SVG('drawing').size(
-      850,
-      850
-    ).style(
-      'top:0px; position:absolute; left:0px'
-    );*/
-
-    //$(window).resize(function() {
-    //  $('#drawing').css('height', window.innerHeight)
-    //})
-
-    /*var rectLength = 575;
-
-    var diff = 20;
-
-    var screenCornerY = 50;
-    var screenCornerX = 125;
-    var marginWidth = 150;
-
-    var leftMargin = draw.rect(marginWidth, rectLength+2*marginWidth).move(screenCornerX - marginWidth, screenCornerY - marginWidth).fill('white');
-    var rightMargin = draw.rect(marginWidth, rectLength+2*marginWidth).move(screenCornerX + rectLength, screenCornerY - marginWidth).fill('white');
-    var topMargin = draw.rect(rectLength, marginWidth).move(screenCornerX, screenCornerY - marginWidth).fill('white');
-    var bottomMargin = draw.rect(rectLength, marginWidth).move(screenCornerX, screenCornerY + rectLength).fill('white');
-
-    var cutBox = draw.rect(rectLength,rectLength).move(screenCornerX, screenCornerY).stroke({ width: 2}).fill('none').front();
-
-    boxGroup = draw.group().add(leftMargin).add(rightMargin).add(topMargin).add(bottomMargin).add(cutBox);
-    shadowBox = draw.rect(rectLength,rectLength).move(screenCornerX - diff, screenCornerY - diff).stroke({ width: 2 }).fill('none');
-
-    var divider = draw.line(750,100,750,600).stroke({ width: 2 });
-
-    boxGroup.animate(10000, '<>').move(0,25).loop(0,true);
-    shadowBox.animate(10000, '<>').move(screenCornerX - diff, screenCornerY + diff/2).loop(0,true);*/
-
     drawPlayControls();
   });
 
@@ -267,65 +233,6 @@
   }
 
   function drawPlayControls() {
-    /*var pcWidth = window.innerWidth;
-    var pcHeight = 40;
-
-    var bHeight = 20;
-    var bWidth = 20;
-    var buttonSpace = 0;
-
-    var buttonFill = {
-      color: '#fff',
-      opacity: 0
-    }
-
-    var pcDividerMargin = 0;
-
-    var playControls = SVG('play-controls').size(
-      pcWidth,
-      pcHeight
-    ).style(
-      'position: absolute; left:0; right: 0;'
-    );
-
-    var prevX = pcWidth/2 - 1.5*buttonSpace
-      , pauseX = pcWidth/2 - buttonSpace/2
-      , playX = pcWidth/2 + buttonSpace/2
-      , nextX = pcWidth/2 + 1.5*buttonSpace;
-
-    var prevY = pauseY = playY = nextY = (pcHeight/2 - bHeight/2);
-
-    var line = playControls.polyline([[0 + pcDividerMargin, pcHeight/2], [pcWidth - pcDividerMargin, pcHeight/2]]).stroke({width: 2});
-
-    var playButton = playControls.polygon([[0,0], [0,40], [40,20]]).move(playX,playY).fill(buttonFill).stroke({width: 2});
-    var pauseButton = playControls.group().add(
-          playControls.rect(10,bHeight).fill(buttonFill).stroke({width: 2}).move(15,0)
-        ).add(
-          playControls.rect(10,bHeight).fill(buttonFill).stroke({width: 2})
-        ).move(pauseX,pauseY);
-
-    var prevControlSVG = SVG('prevControlSVG').size(bWidth*1.5, bHeight);
-
-    var nextButton = prevControlSVG.group().add(
-          prevControlSVG.polygon([[0,0], [0,bHeight], [bWidth,bHeight/2]]).fill(buttonFill).stroke({width: 2}).move(10,0)
-        ).add(
-          prevControlSVG.polygon([[0,0], [0,bHeight], [bWidth,bHeight/2]]).fill(buttonFill).stroke({width: 2})
-        ).move(nextX,nextY);
-
-    var prevButton = playControls.group().add(
-          playControls.polygon([[0,bHeight/2], [bWidth,bHeight], [bWidth,0]]).fill(buttonFill).stroke({width: 2})
-        ).add(
-          playControls.polygon([[0,bHeight/2], [bWidth,bHeight], [bWidth,0]]).fill(buttonFill).stroke({width: 2}).move(10,0)
-        ).move(prevX,prevY);*/
-
-    // add event handlers for play controls!!
-    /*playButton.click(function() {
-      player.playVideo();
-    });
-
-    pauseButton.click(function() {
-      player.pauseVideo();
-    });*/
 
     var prevButton = $('#prevButton');
     var nextButton = $('#nextButton');
@@ -342,4 +249,7 @@
   function playTrack(index) {
     player.playVideoAt(index)
   }
+
+  // to write: function that moves border-orbit along x-y plane in sinusoidal-ish patter
+  
 </script>
