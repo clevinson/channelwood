@@ -250,6 +250,33 @@
     player.playVideoAt(index)
   }
 
-  // to write: function that moves border-orbit along x-y plane in sinusoidal-ish patter
-  
+  // Script that moves border-orbit along x-y plane in sinusoidal-ish pattern
+  var n = 225;
+  var wave_x, wave_y;
+  var interval = 0.1;
+  var framerate = 10;
+  var bound = 20;
+  var border = 2;
+
+  function orbit(orb, bound) {
+    var $orb = orb;
+    var $bound = bound;
+
+    n += interval;
+    wave_x = Math.sin(n*(Math.PI/180));
+    wave_y = Math.cos(n*(Math.PI/180));
+
+    $orb.animate({
+      left: Math.round($bound*wave_x),
+      right: Math.round($bound*wave_x*-1)-border*2,
+      top: Math.round($bound*wave_y),
+      bottom: Math.round($bound*wave_y*-1)-border*2
+    }, framerate, 'linear');
+    
+  }
+
+  setInterval(function(){
+    orbit($('#border-orbit'), bound);
+  }, framerate);
+
 </script>
