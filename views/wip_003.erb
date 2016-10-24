@@ -109,14 +109,25 @@
   height: 400px;
   border: 2px solid #00a651;
   position: absolute;
-  top: 50%;
+  /*top: 50%;
   left: 50%;
   margin-top: -200px;
-  margin-left: -150px;
+  margin-left: -150px;*/
 }
 
 #player-holder {
   overflow: hidden;
+}
+
+#all-holder {
+  width: 300px;
+  height: 400px;
+  /*border: 2px solid #00a651;*/
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -200px;
+  margin-left: -150px;
 }
 
 #border-orbit {
@@ -153,9 +164,11 @@
 </style>
 
 <div id="container">
-  <div id="border">
-    <div id="player-holder">
-      <div id="player"></div>
+  <div id="all-holder">
+    <div id="border">
+      <div id="player-holder">
+        <div id="player"></div>
+      </div>
     </div>
     <div id="border-orbit"></div>
   </div>
@@ -254,17 +267,17 @@
   var n = 225;
   var wave_x, wave_y;
   var interval = 0.1;
-  var framerate = 10;
+  var framerate = 1;
   var bound = 20;
   var border = 2;
 
-  function orbit(orb, bound) {
+  function orbit(orb, bound, pos) {
     var $orb = orb;
     var $bound = bound;
 
     n += interval;
-    wave_x = Math.sin(n*(Math.PI/180));
-    wave_y = Math.cos(n*(Math.PI/180));
+    wave_x = Math.sin((n+pos)*(Math.PI/180));
+    wave_y = Math.cos((n+pos)*(Math.PI/180));
 
     $orb.animate({
       left: Math.round($bound*wave_x),
@@ -276,7 +289,8 @@
   }
 
   setInterval(function(){
-    orbit($('#border-orbit'), bound);
+    orbit($('#border-orbit'), bound, 0);
+    orbit($('#border'), bound, 180);
   }, framerate);
 
 </script>
