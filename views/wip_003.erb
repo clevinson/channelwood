@@ -267,7 +267,7 @@
 
   var time;
 
-  var pbXOffset, pbYOffset;
+  var pbXOffset, pbYOffset, pboXOffset, pboYOffset;
 
   function updatePlayerBorders() {
     requestAnimationFrame(updatePlayerBorders);
@@ -277,13 +277,20 @@
 
     time = now;
 
-    var borderSkew = 0.1;
+    pbXOffset = updateCoordWithMax(pbXOffset, relativeMouseX, dt);
+    pbYOffset = updateCoordWithMax(pbYOffset, relativeMouseY, dt);
 
-    pbXOffset = (pbXOffset || 0) + relativeMouseX*dt;
-    pbYOffset = (pbYOffset || 0) + relativeMouseY*dt;
+    pboXOffset = updateCoordWithMax(pboXOffset, 1.6*relativeMouseX, dt);
+    pboYOffset = updateCoordWithMax(pboYOffset, 2*relativeMouseY, dt);
+
   
-    $('#player-border').css({left: borderSkew*pbXOffset, top: borderSkew*pbYOffset});
-    $('#all-holder').css({transform: "translate(" + pbXOffset + "px," + pbYOffset + "px)"});
+    $('#player-border').css({transform: "translate(" + pboXOffset + "em," + pboYOffset + "em)"});
+    $('#all-holder').css({transform: "translate(" + pbXOffset + "em," + pbYOffset + "em)"});
+  }
+
+  function updateCoordWithMax(position, max, dt) {
+    position = (position || 0);
+    return position + (max - position)*Math.atan(dt/1000)/Math.PI;
   }
 
 </script>
