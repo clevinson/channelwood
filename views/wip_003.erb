@@ -24,34 +24,13 @@
   left: 0;
   right: 0;
   background: linear-gradient(44deg, #ffffff, #ffffff, #ffffff, #ffffff, #ffffff, #ffffff, #d1d1d1, #ffffff, #ffffff, #ffffff, #ffffff, #ffffff, #ffffff);
-  background-size: 1000% 1000%;
-  -webkit-animation: AnimationName 15s ease infinite;
-  -moz-animation: AnimationName 15s ease infinite;
-  -o-animation: AnimationName 15s ease infinite;
-  animation: AnimationName 15s ease infinite;
+  background-size: 1500% 1000%;
+  animation: backgroundFlash 40s ease infinite;
 }
-@-webkit-keyframes AnimationName {
+@keyframes backgroundFlash {
   0%{background-position:10% 100%}
-  10%{background-position:10% 100%}
-  20%{background-position:91% 0%}
-  100%{background-position:91% 0%}
-}
-@-moz-keyframes AnimationName {
-  0%{background-position:10% 100%}
-  10%{background-position:10% 100%}
-  20%{background-position:91% 0%}  
-  100%{background-position:91% 0%}   
-}
-@-o-keyframes AnimationName {
-  0%{background-position:10% 100%}
-  10%{background-position:10% 100%}
-  20%{background-position:91% 0%}
-  100%{background-position:91% 0%}
-}
-@keyframes AnimationName {
-  0%{background-position:10% 100%}
-  10%{background-position:10% 100%}
-  20%{background-position:91% 0%}
+  30%{background-position:10% 100%}
+  35%{background-position:91% 0%}
   100%{background-position:91% 0%}
 }
 
@@ -104,17 +83,6 @@
   margin-left: -125px;
 }
 
-#border {
-  width: 300px;
-  height: 400px;
-  border: 2px solid #00a651;
-  position: absolute;
-  /*top: 50%;
-  left: 50%;
-  margin-top: -200px;
-  margin-left: -150px;*/
-}
-
 #player-holder {
   overflow: hidden;
 }
@@ -122,7 +90,6 @@
 #all-holder {
   width: 300px;
   height: 400px;
-  /*border: 2px solid #00a651;*/
   position: absolute;
   top: 50%;
   left: 50%;
@@ -130,14 +97,42 @@
   margin-left: -150px;
 }
 
-#border-orbit {
+#player-border {
+  width: 300px;
+  height: 400px;
+  border: 2px solid #000;
+  position: absolute;
+  animation-duration: 9s;
+  animation-name: pbBounce;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+  animation-direction: alternate;
+}
+@keyframes pbBounce {
+  to {
+    transform: translate(0,3.25em);
+  }
+}
+
+
+#player-border-offset {
   content: "";
   position: absolute;
   top: -14px;
   bottom: 10px;
   left: -14px;
   right: 10px;
-  border: 2px solid #00a651;
+  border: 2px solid #000;
+  animation-duration: 9s;
+  animation-name: pboBounce;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+  animation-direction: alternate;
+}
+@keyframes pboBounce {
+  to {
+    transform: translate(0,3.5em);
+  }
 }
 
 .np-indicator {
@@ -165,12 +160,12 @@
 
 <div id="container">
   <div id="all-holder">
-    <div id="border">
+    <div id="player-border">
       <div id="player-holder">
         <div id="player"></div>
       </div>
     </div>
-    <div id="border-orbit"></div>
+    <div id="player-border-offset"></div>
   </div>
   <div class="info-container left">
     <ul>
@@ -194,17 +189,15 @@
     </ul>
   </div>
 </div>
-<div id="prevButton"><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 20 17" style="enable-background:new 0 0 20 17;" xml:space="preserve"><style type="text/css"> .st0{fill:none;stroke:#00A651;stroke-miterlimit:10;}</style><g><polygon class="st0" points="12.905,1.232 12.905,15.768 1.286,8.5  "/><polygon class="st0" points="18.714,1.232 18.714,15.768 7.095,8.5  "/></g></svg></div>
-<div id="nextButton"><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 20 17" style="enable-background:new 0 0 20 17;" xml:space="preserve"><style type="text/css">.st0{fill:none;stroke:#00A651;stroke-miterlimit:10;}</style><g><polygon class="st0" points="7.095,15.768 7.095,1.232 18.714,8.5   "/><polygon class="st0" points="1.286,15.768 1.286,1.232 12.905,8.5   "/></g></svg></div>
+<div id="prevButton"><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 20 17" style="enable-background:new 0 0 20 17;" xml:space="preserve"><style type="text/css"> .st0{fill:none;stroke:#000;stroke-miterlimit:10;}</style><g><polygon class="st0" points="12.905,1.232 12.905,15.768 1.286,8.5  "/><polygon class="st0" points="18.714,1.232 18.714,15.768 7.095,8.5  "/></g></svg></div>
+<div id="nextButton"><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 20 17" style="enable-background:new 0 0 20 17;" xml:space="preserve"><style type="text/css">.st0{fill:none;stroke:#000;stroke-miterlimit:10;}</style><g><polygon class="st0" points="7.095,15.768 7.095,1.232 18.714,8.5   "/><polygon class="st0" points="1.286,15.768 1.286,1.232 12.905,8.5   "/></g></svg></div>
 
 <script type='text/javascript'>
 
-  var time;
-
-  var draw, boxGroup, shadowBox;
-
   $(function() {
     drawPlayControls();
+
+    requestAnimationFrame(updatePlayerBorders);
   });
 
   function onPlayerStateChange(YTEvent) {
@@ -263,34 +256,34 @@
     player.playVideoAt(index)
   }
 
-  // Script that moves border-orbit along x-y plane in sinusoidal-ish pattern
-  var n = 225;
-  var wave_x, wave_y;
-  var interval = 0.1;
-  var framerate = 1;
-  var bound = 20;
-  var border = 2;
+  var relativeMouseX, relativeMouseY;
 
-  function orbit(orb, bound, pos) {
-    var $orb = orb;
-    var $bound = bound;
-
-    n += interval;
-    wave_x = Math.sin((n+pos)*(Math.PI/180));
-    wave_y = Math.cos((n+pos)*(Math.PI/180));
-
-    $orb.animate({
-      left: Math.round($bound*wave_x),
-      right: Math.round($bound*wave_x*-1)-border*2,
-      top: Math.round($bound*wave_y),
-      bottom: Math.round($bound*wave_y*-1)-border*2
-    }, framerate, 'linear');
-    
+  function setRelativeMouseVars(event) {
+    relativeMouseX = 2*(event.pageX/$(document).width() - 0.5);
+    relativeMouseY = 2*(event.pageY/$(document).height() - 0.5);
   }
 
-  setInterval(function(){
-    orbit($('#border-orbit'), bound, 0);
-    orbit($('#border'), bound, 180);
-  }, framerate);
+  $(document).on("mousemove", setRelativeMouseVars);
+
+  var time;
+
+  var pbXOffset, pbYOffset;
+
+  function updatePlayerBorders() {
+    requestAnimationFrame(updatePlayerBorders);
+
+    var now = new Date().getTime(),
+        dt = now - (time || now);
+
+    time = now;
+
+    var borderSkew = 0.1;
+
+    pbXOffset = (pbXOffset || 0) + relativeMouseX*dt;
+    pbYOffset = (pbYOffset || 0) + relativeMouseY*dt;
+  
+    $('#player-border').css({left: borderSkew*pbXOffset, top: borderSkew*pbYOffset});
+    $('#all-holder').css({transform: "translate(" + pbXOffset + "px," + pbYOffset + "px)"});
+  }
 
 </script>
