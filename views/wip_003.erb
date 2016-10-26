@@ -110,7 +110,7 @@
 }
 @keyframes pbBounce {
   to {
-    transform: translate(0,3.25em);
+    transform: translate(0,2.75em);
   }
 }
 
@@ -131,7 +131,7 @@
 }
 @keyframes pboBounce {
   to {
-    transform: translate(0,3.5em);
+    transform: translate(0,2.5em);
   }
 }
 
@@ -277,20 +277,20 @@
 
     time = now;
 
-    pbXOffset = updateCoordWithMax(pbXOffset, relativeMouseX, dt);
-    pbYOffset = updateCoordWithMax(pbYOffset, relativeMouseY, dt);
+    pbXOffset = updateCoordWithMax(pbXOffset, 3*relativeMouseX, dt);
+    pbYOffset = updateCoordWithMax(pbYOffset, 3*relativeMouseY, dt);
 
-    pboXOffset = updateCoordWithMax(pboXOffset, 1.6*relativeMouseX, dt);
-    pboYOffset = updateCoordWithMax(pboYOffset, 2*relativeMouseY, dt);
+    pboXOffset = updateCoordWithMax(pboXOffset, 2*relativeMouseX, dt);
+    pboYOffset = updateCoordWithMax(pboYOffset, 3*relativeMouseY, dt);
 
   
-    $('#player-border').css({transform: "translate(" + pboXOffset + "em," + pboYOffset + "em)"});
-    $('#all-holder').css({transform: "translate(" + pbXOffset + "em," + pbYOffset + "em)"});
+    $('#player-border').css({transform: "translate(" + pbXOffset + "em," + pbYOffset + "em)"});
+    $('#all-holder').css({transform: "translate(" + pboXOffset + "em," + pboYOffset + "em)"});
   }
 
   function updateCoordWithMax(position, max, dt) {
     position = (position || 0);
-    return position + (max - position)*Math.atan(dt/1000)/Math.PI;
+    return position + (max - position)*Math.atan(dt/2000)/Math.PI;
   }
 
 </script>
