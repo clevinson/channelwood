@@ -1,0 +1,23 @@
+<div id='container' style='padding-left: 10px'>
+
+  <h1> ways inner pass</h1>
+
+  <p class="lead">Here's our emailz lists. all the people who want to hear form uz</p>
+
+  <table class="table table-striped" style='width: 1200px;'>
+    <thead>
+      <tr>
+        <th>Email</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @emails.each do |email| %>
+        <tr>
+          <td><%= email.email %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+</div>
+

@@ -2,6 +2,8 @@ require 'aws-sdk'
 require 'compass'
 require 'sinatra/base'
 require './models/release'
+require './models/email'
+
 
 class Channelwood < Sinatra::Base
 
@@ -70,6 +72,12 @@ class Channelwood < Sinatra::Base
     erb :releases, :layout => :admin_layout
   end
 
+    get '/admin/newsletter' do
+    protected!
+    @emails = Email.all.to_a
+    erb :newsletter, :layout => :admin_layout
+  end
+
   get '/release/new' do
     protected!
     erb :release_new, :layout => :admin_layout, :locals => { :images => s3_images }
@@ -100,6 +108,7 @@ class Channelwood < Sinatra::Base
   end
 
 
+
   delete '/release/:id' do
     protected!
     release = Release[params[:id]]
@@ -110,7 +119,7 @@ class Channelwood < Sinatra::Base
     protected!
     logger.info("Found params: #{params}")
     begin
-      release = Release.create(
+      Release.create(
         :cat_no => params[:cat_no],
         :artist => params[:artist],
         :title => params[:title],
@@ -121,20 +130,16 @@ class Channelwood < Sinatra::Base
         :published => (params[:published] == 'on')
       )
 
-      logger.info("Created new release!")
-      logger.info("   Id: " + release.id.to_s)
-      logger.info("   Cat No: " + release.cat_no.to_s)
-      logger.info("   Artist: " + release.artist.to_s)
-      logger.info("   Title: " + release.title.to_s)
-      logger.info("   Description: " + release.description.to_s)
-      logger.info("   Release Date: " + release.release_date.to_s)
-      logger.info("   Published: " + release.published.to_s)
-
       redirect '/admin'
     rescue Exception => e
       logger.error(e.message)
       redirect '/admin'
     end
+  end
+
+  post '/newsletter' do
+    Email.create(:email => params[:email])
+    redirect '/home'
   end
 
   get '/' do
