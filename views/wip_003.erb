@@ -293,4 +293,19 @@
     return position + (max - position)*Math.atan(dt/2000)/Math.PI;
   }
 
+  // download code
+// 37 = left, 38 = up, 39 = right, 40 = down
+var keyCode = [];
+$(window).keydown(function(e) {
+    var key = e.which;
+    keyCode.push(key);
+    if (keyCode.length > 4) {
+      keyCode.splice(0, 1);
+    }
+    if (keyCode[0] == 38 && keyCode[1] == 39 && keyCode[2] == 40 && keyCode[3] == 37) {
+      ga('send', 'event', 'get-release', 'download:320', 'WIP-003');
+      window.location.href = 'https://s3.amazonaws.com/wip-static/releases/WIP003-LLLOYD-MYTHOFINTENTS-MP3320.zip';
+    }
+});
+
 </script>
