@@ -173,7 +173,7 @@ $textbox-width: $width-main/2 - $width-gutter;
 	background-color: #fff;
 	position: absolute;
 	left: $space-vertical;
-	top: $space-vertical;
+	top: $space-vertical/2;
 	&.collapsed { /* this is probably temporary */
 		position: relative;
 		top: 0;
