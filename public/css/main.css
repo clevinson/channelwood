@@ -201,7 +201,7 @@ input[type="submit"] { /*  input[type="submit"] for paypal buttons  */
   SPECIFIC
 
 */
-#wip003-order-button {
+#wip003-order-button, #wip004-order-button {
     top: -10px;
     left: 1em;
     border: 1px solid;
@@ -211,7 +211,7 @@ input[type="submit"] { /*  input[type="submit"] for paypal buttons  */
     text-align: center;
     margin-bottom: 0.5em;
 }
-#wip003-order-button:after {
+#wip003-order-button:after, #wip004-order-button:after {
     content: "Order";
     text-transform: uppercase;
     position: absolute;
@@ -220,12 +220,15 @@ input[type="submit"] { /*  input[type="submit"] for paypal buttons  */
     right: 0;
     padding-top: 10px;
 }
-#wip003-order-button:hover {
+#wip004-order-button:after {
+    content: "Pre-Order";
+}
+#wip003-order-button:hover, #wip004-order-button:hover {
     cursor: pointer;
     color: #fff;
     transition: all 5s linear 1ms;
 }
-#wip003-order-button input[type*=image] {
+#wip003-order-button input[type*=image], #wip004-order-button input[type*=image] {
     height: 100%;
     max-width: 100%;
     position: absolute;
