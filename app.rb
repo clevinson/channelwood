@@ -61,7 +61,7 @@ class Channelwood < Sinatra::Base
       scss :"stylesheets/#{params[:name]}"
   end
 
-  $s3 = Aws::S3::Resource.new
+  $s3 = Aws::S3::Resource.new(:region => 'us-east-1')
 
 
   get '/admin' do
