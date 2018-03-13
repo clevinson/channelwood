@@ -96,7 +96,7 @@ $(function() {
 function fadeAudioIn(scWidget, dt, fadeTimeMs){
   if(readyToFadeAudio){
     scWidget.getVolume(function(prevVol) {
-      deltaVol = dt/fadeTimeMs;
+      deltaVol = 100*dt/fadeTimeMs;
       scWidget.setVolume(Math.min(100,prevVol + deltaVol));
     });
   }
@@ -249,13 +249,13 @@ $(window).keydown(function(e) {
     if (keyCode[0] == 38 && keyCode[1] == 39 && keyCode[2] == 40 && keyCode[3] == 37) {
       if (threetwenty) {
         ga('send', 'event', 'get-release', 'download:320', 'WIP-001');
-        window.location.href = 'http://chocolate.whatbox.ca:63234/wip-001/WIP001-DREAMPETER-SNAKESEATINGSNAKES-MP3320.zip';
+        window.location.href = 'http://waysinnerpass.com/stash/wip-001/WIP001-DREAMPETER-SNAKESEATINGSNAKES-MP3320.zip';
       } else if (flac) {
         ga('send', 'event', 'get-release', 'download:flac', 'WIP-001');
-        window.location.href = 'http://chocolate.whatbox.ca:63234/wip-001/WIP001-DREAMPETER-SNAKESEATINGSNAKES-FLAC.zip';
+        window.location.href = 'http://waysinnerpass.com/stash/wip-001/WIP001-DREAMPETER-SNAKESEATINGSNAKES-FLAC.zip';
       } else {
         ga('send', 'event', 'get-release', 'download:v0', 'WIP-001');
-        window.location.href = 'http://chocolate.whatbox.ca:63234/wip-001/WIP001-DREAMPETER-SNAKESEATINGSNAKES-MP3V0.zip';
+        window.location.href = 'http://waysinnerpass.com/stash/wip-001/WIP001-DREAMPETER-SNAKESEATINGSNAKES-MP3V0.zip';
       }
       threetwenty = false;
       flac = false;
@@ -272,6 +272,6 @@ $(window).keyup(function(e) {
 });
 </script>
 
-<iframe style='display:none' width="100%" height="300" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/66070489%3Fsecret_token%3Ds-LQW2a&amp;start_track=1&amp;t=50000&amp;hide_related=false&amp;show_comments=false&amp;show_user=false&amp;show_reposts=false&amp;visual=false"></iframe>
+<iframe style='visibility:hidden; position: absolute' width="100%" height="300" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/66070489%3Fsecret_token%3Ds-LQW2a&amp;start_track=1&amp;t=50000&amp;hide_related=false&amp;show_comments=false&amp;show_user=false&amp;show_reposts=false&amp;visual=false"></iframe>
 <div id="drawing">
 </div>
