@@ -14,19 +14,19 @@
 <footer id='footer'>
   <nav>
     <ul>
-
-      <li class='flank'><%= authorized? ? "<p class='admin-status'>logged-in as admin - <a href='/home'>log out</a></p>" : '' %>
+      <li class='flank'><form action="/newsletter" method="post"><input type="text" name="email"><input type="submit" value="Submit"></form></li>
         <!-- <form target="paypal" action="https://www.paypal.com/cgi-bin/webscr" method="post">
           <input type="hidden" name="business" value="waysinnerpass@gmail.com">
           <input type="hidden" name="cmd" value="_cart">
           <input type="hidden" name="display" value="1">
           <input type="submit" name="submit" border="0" value="VIEW CART">
         </form> -->
-      <li id='logo'><a href='/home'><img src='/img/waysinnerpass-logo.svg' alt="WIP"></a>
+      <li id='logo'><a href='/home'><img src='/img/waysinnerpass-logo.svg' alt="WIP"></a></li>
       <li class='flank right'>
         <a href='/about' onclick="ga('send', 'event', 'navigation', 'click-internal', 'about')">about</a>
         <a href='https://twitter.com/waysinnerpass' onclick="ga('send', 'event', 'navigation', 'click-external', 'twitter')" target='_blank'>twitter</a>
-        <a href='https://soundcloud.com/waysinnerpass' onclick="ga('send', 'event', 'navigation', 'click-external', 'soundcloud')" target='_blank'>soundcloud</a>
+        <a href='https://soundcloud.com/waysinnerpass' onclick="ga('send', 'event', 'navigation', 'click-external', 'soundcloud')" target='_blank'>soundcloud</a></li>
+
     </ul>
   </nav>
 </footer>

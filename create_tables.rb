@@ -1,6 +1,6 @@
 require 'sequel'
 
-DB = Sequel.connect(ENV['DATABASE_URL])
+DB = Sequel.connect(ENV['DATABASE_URL'])
 
 DB.create_table :releases do
   primary_key :id
@@ -16,4 +16,10 @@ DB.create_table :releases do
   Timestamp :created_at
   Timestamp :updated_at
   String :images
+end
+
+DB.create_table :emails do
+  primary_key :id
+  String :email
+  Timestamp :created_at
 end
